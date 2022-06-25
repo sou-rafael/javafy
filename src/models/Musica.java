@@ -1,22 +1,20 @@
 package models;
 
+import java.util.Objects;
+
 public class Musica {
 
     private String id;
-    // Add artista
+    Artista artista;
     private Integer avaliacao;
     private Double duracao;
     private Integer curtidas;
 
-    public Musica(){
-        avaliacao = 0;
-        duracao = 0.0;
-        curtidas = 0;
+    public Musica() {}
 
-    }
-
-    public Musica(String id, Integer avaliacao, Double duracao, Integer curtidas) {
+    public Musica(String id, Artista artista, Integer avaliacao, Double duracao, Integer curtidas) {
         this.id = id;
+        this.artista = artista;
         this.avaliacao = avaliacao;
         this.duracao = duracao;
         this.curtidas = curtidas;
@@ -27,7 +25,9 @@ public class Musica {
     }
 
     public void setId(String id) {
-        this.id = id;
+        if(id != null){
+            this.id = id;
+        }
     }
 
     public Integer getAvaliacao() {
@@ -35,7 +35,9 @@ public class Musica {
     }
 
     public void setAvaliacao(Integer avaliacao) {
-        this.avaliacao = avaliacao;
+        if(avaliacao != null){
+            this.avaliacao = avaliacao;
+        }
     }
 
     public Double getDuracao() {
@@ -43,7 +45,9 @@ public class Musica {
     }
 
     public void setDuracao(Double duracao) {
-        this.duracao = duracao;
+        if(duracao != null){
+            this.duracao = duracao;
+        }
     }
 
     public Integer getCurtidas() {
@@ -51,7 +55,22 @@ public class Musica {
     }
 
     public void setCurtidas(Integer curtidas) {
-        this.curtidas = curtidas;
+        if(curtidas != null) {
+            this.curtidas = curtidas;
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Musica musica = (Musica) o;
+        return id.equals(musica.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

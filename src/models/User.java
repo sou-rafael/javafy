@@ -2,19 +2,31 @@ package models;
 
 import abstracts.Conta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class User extends Conta {
-    private List<Conta> seguidores;
-    private List<Conta> seguindo;
+
+    private List<Conta> seguidores = new ArrayList<>();
+    private List<Conta> seguindo = new ArrayList<>();
     private boolean premium;
+
+    public User(){}
+
+    public User(String nome, Integer id, String dataDeNascimento,
+                String genero, boolean premium) {
+        super(nome, id, dataDeNascimento, genero);
+        this.premium = premium;
+    }
 
     public List<Conta> getSeguidores() {
         return seguidores;
     }
 
     public void setSeguidores(List<Conta> seguidores) {
-        this.seguidores = seguidores;
+        if(seguidores != null){
+            this.seguidores = seguidores;
+        }
     }
 
     public List<Conta> getSeguindo() {
@@ -22,7 +34,9 @@ public class User extends Conta {
     }
 
     public void setSeguindo(List<Conta> seguindo) {
-        this.seguindo = seguindo;
+        if(seguindo != null){
+            this.seguindo = seguindo;
+        }
     }
 
     public boolean isPremium() {
@@ -36,7 +50,7 @@ public class User extends Conta {
     // colocar um if para colocar "premium ou gratuito" no lugar de booleano de premium
     @Override
     public String toString() {
-        if (this.premium == true) {
+        if (premium) {
             return "User{" +
                     "seguidores=" + seguidores +
                     ", seguindo=" + seguindo +

@@ -1,11 +1,21 @@
 package models;
 
+import interfaces.Admin;
+
 import java.util.List;
 
-public class Artista extends User{
+public class Artista extends User implements Admin {
+
     private String bio;
     private Integer avaliacao;
     private List<Album> albuns;
+
+    public Artista(String nome, Integer id, String dataDeNascimento, String genero,
+                   boolean premium, String bio, Integer avaliacao) {
+        super(nome, id, dataDeNascimento, genero, premium);
+        this.bio = bio;
+        this.avaliacao = avaliacao;
+    }
 
     public String getBio() {
         return bio;
@@ -28,7 +38,9 @@ public class Artista extends User{
     }
 
     public void setAlbuns(List<Album> albuns) {
-        this.albuns = albuns;
+        if(albuns != null){
+            this.albuns = albuns;
+        }
     }
 
     @Override

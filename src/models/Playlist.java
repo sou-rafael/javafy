@@ -12,47 +12,46 @@ public class Playlist implements CrudPlaylist {
     private String id;
     private Conta propietario;
 
+    public Playlist(){}
+
+    public Playlist(String nomePlaylist,  String id, Conta propietario) {
+        this.nomePlaylist = nomePlaylist;
+        this.id = id;
+        this.propietario = propietario;
+    }
+
     @Override
-    public boolean atualizar(Musica musica) {
-        listaMusicas.add(musica);
-        return listaMusicas.contains(musica);
+    public boolean atualizarNomePlayList(String novoNome) {
+        if(novoNome != null){
+            nomePlaylist = novoNome;
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean deletarPlayList() {
-
-        listaMusicas.clear();
-        return listaMusicas.isEmpty();
+        return true;
     }
 
     @Override
-    public boolean removerMusica(Musica musica) {
-
-        return listaMusicas.remove(musica);
+    public boolean removerMusica(Musica musica, Conta userPlayList ) {
+        if(propietario.equals(userPlayList)){
+            return listaMusicas.remove(musica);
+        }
+        return false;
     }
 
     @Override
-    public void adicionar(Musica musica) {
-
-        listaMusicas.add(musica);
-
+    public void adicionar(ArrayList<Musica> musicas) {
+        setListaMusicas(musicas);
     }
 
     @Override
     public void listar() {
-
         if(listaMusicas != null){
-            listaMusicas.stream()
-                    .forEach(System.out::println);
+            listaMusicas.forEach(System.out::println);
         }
-
-    }
-
-    public Playlist(String nomePlaylist, ArrayList<Musica> listaMusicas, String id, Conta propietario) {
-        this.nomePlaylist = nomePlaylist;
-        this.listaMusicas = listaMusicas;
-        this.id = id;
-        this.propietario = propietario;
     }
 
     public String getNomePlaylist() {
@@ -60,7 +59,9 @@ public class Playlist implements CrudPlaylist {
     }
 
     public void setNomePlaylist(String nomePlaylist) {
-        this.nomePlaylist = nomePlaylist;
+        if(nomePlaylist != null){
+            this.nomePlaylist = nomePlaylist;
+        }
     }
 
     public ArrayList<Musica> getListaMusicas() {
@@ -68,7 +69,9 @@ public class Playlist implements CrudPlaylist {
     }
 
     public void setListaMusicas(ArrayList<Musica> listaMusicas) {
-        this.listaMusicas = listaMusicas;
+        if(listaMusicas != null){
+            this.listaMusicas = listaMusicas;
+        }
     }
 
     public String getId() {
@@ -84,16 +87,17 @@ public class Playlist implements CrudPlaylist {
     }
 
     public void setPropietario(Conta propietario) {
-        this.propietario = propietario;
+        if(this.propietario == null && propietario != null){
+            this.propietario = propietario;
+        }
     }
 
     @Override
     public String toString() {
-        return "Playlist{" +
-                "nomePlaylist='" + nomePlaylist + '\'' +
-                ", id='" + id + '\'' +
+        return "Playlist{ nomePlaylist='" + nomePlaylist +
                 ", propietario=" + propietario.getNome() +
-                '}';
+                ", quantidade de musicas: " + getListaMusicas().size() +
+                "}";
 
     }
 }

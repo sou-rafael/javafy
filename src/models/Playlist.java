@@ -1,21 +1,22 @@
 package models;
 
 import abstracts.Conta;
-import interfaces.CrudPlaylist;
+import abstracts.User;
+import interfaces.CrudPlayList;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Playlist implements CrudPlaylist {
+public class Playlist implements CrudPlayList {
 
     private String nomePlaylist;
     private ArrayList <Musica> listaMusicas = new ArrayList<>();
     private String id;
-    private Conta propietario;
+    private User propietario;
 
     public Playlist(){}
 
-    public Playlist(String nomePlaylist,  String id, Conta propietario) {
+    public Playlist(String nomePlaylist,  String id, User propietario) {
         this.nomePlaylist = nomePlaylist;
         this.id = id;
         this.propietario = propietario;
@@ -36,8 +37,8 @@ public class Playlist implements CrudPlaylist {
     }
 
     @Override
-    public boolean removerMusica(Musica musica, Conta userPlayList ) {
-        if(propietario.equals(userPlayList)){
+    public boolean removerMusica(Musica musica, User userPlayList ) {
+        if(propietario.getId().equals(userPlayList.getId())){
             return listaMusicas.remove(musica);
         }
         return false;
@@ -83,11 +84,11 @@ public class Playlist implements CrudPlaylist {
         this.id = id;
     }
 
-    public Conta getPropietario() {
+    public User getPropietario() {
         return propietario;
     }
 
-    public void setPropietario(Conta propietario) {
+    public void setPropietario(User propietario) {
         if(this.propietario == null && propietario != null){
             this.propietario = propietario;
         }
@@ -98,12 +99,12 @@ public class Playlist implements CrudPlaylist {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Playlist playlist = (Playlist) o;
-        return Objects.equals(id, playlist.id);
+        return Objects.equals(nomePlaylist, playlist.nomePlaylist) && Objects.equals(id, playlist.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(nomePlaylist, id);
     }
 
     @Override

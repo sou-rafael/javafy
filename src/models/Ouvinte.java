@@ -9,14 +9,14 @@ import java.util.List;
 
 public class Ouvinte extends User {
 
-    private ArrayList<Playlist> playlists = new ArrayList<>();
+    private ArrayList<String> playlists = new ArrayList<>();
 
     public Ouvinte(String nome, Integer id, String dataDeNascimento, String genero,
                    boolean premium) {
         super(nome, id, dataDeNascimento, genero, premium);
     }
 
-    public List<Playlist> getPlaylists() {
+    public List<String> getPlaylists() {
         return playlists;
     }
 
@@ -29,13 +29,13 @@ public class Ouvinte extends User {
 
     public boolean removerPlayList(Playlist playlist){
         if( playlist != null ){
-            return playlists.remove(playlist);
+            return playlists.remove(playlist.getId());
         } return false;
     }
 
     public boolean deletarPlaylist(Playlist playlist){
         if(playlist != null && getId().equals(playlist.getPropietario().getId())){
-            boolean b = playlists.remove(playlist);
+            boolean b = playlists.remove(playlist.getId());
             return true;
         }
         return false;
@@ -44,7 +44,7 @@ public class Ouvinte extends User {
 
     public boolean criarPlayList(Playlist playlist) {
         if(playlist != null && isPremium() && ehProprietarioDaPlaylist(playlist)) {
-            playlists.add(playlist);
+            playlists.add(playlist.getId());
             return true;
         }
         return false;

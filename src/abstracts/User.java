@@ -5,35 +5,72 @@ import abstracts.Conta;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class User extends Conta {
+public abstract class User {
 
-    private List<Conta> seguidores = new ArrayList<>();
-    private List<Conta> seguindo = new ArrayList<>();
+    private String nome;
+    private Integer id;
+    private String dataDeNascimento;
+    private String genero;
+
+    private ArrayList<User> seguidores = new ArrayList<>();
+    private ArrayList<User> seguindo = new ArrayList<>();
     private boolean premium;
 
-    public User(){}
-
-    public User(String nome, Integer id, String dataDeNascimento,
-                String genero, boolean premium) {
-        super(nome, id, dataDeNascimento, genero);
+    public User(String nome, Integer id, String dataDeNascimento, String genero, boolean premium) {
+        this.nome = nome;
+        this.id = id;
+        this.dataDeNascimento = dataDeNascimento;
+        this.genero = genero;
         this.premium = premium;
     }
 
-    public List<Conta> getSeguidores() {
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getDataDeNascimento() {
+        return dataDeNascimento;
+    }
+
+    public void setDataDeNascimento(String dataDeNascimento) {
+        this.dataDeNascimento = dataDeNascimento;
+    }
+
+    public String getGenero() {
+        return genero;
+    }
+
+    public void setGenero(String genero) {
+        this.genero = genero;
+    }
+
+    public ArrayList<User> getSeguidores() {
         return seguidores;
     }
 
-    public void setSeguidores(List<Conta> seguidores) {
+    public void setSeguidores(ArrayList<User> seguidores) {
         if(seguidores != null){
             this.seguidores = seguidores;
         }
     }
 
-    public List<Conta> getSeguindo() {
+    public ArrayList<User> getSeguindo() {
         return seguindo;
     }
 
-    public void setSeguindo(List<Conta> seguindo) {
+    public void setSeguindo(ArrayList<User> seguindo) {
         if(seguindo != null){
             this.seguindo = seguindo;
         }

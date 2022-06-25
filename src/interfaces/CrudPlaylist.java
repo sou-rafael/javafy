@@ -1,11 +1,13 @@
 package interfaces;
 
+import models.Musica;
+
 public interface CrudPlaylist {
 
-    boolean atualizar (String musica);
+    boolean atualizar (Musica musica);
     boolean deletarPlayList ();
-    boolean removerMusica (String musica);
-    void adicionar (String musica);
+    boolean removerMusica (Musica musica);
+    void adicionar (Musica musica);
     void listar ();
 
 }

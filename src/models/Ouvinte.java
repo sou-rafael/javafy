@@ -22,7 +22,7 @@ public class Ouvinte extends User{
                 '}';
     }
 
-    public boolean criarPlayList(PlayList playList) {
-        return;
+    public boolean criarPlayList(Playlist playList) {
+        return false;
     }
 }

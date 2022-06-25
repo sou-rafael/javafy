@@ -1,5 +1,6 @@
 package models;
 
+import abstracts.User;
 import interfaces.Admin;
 
 import java.util.List;

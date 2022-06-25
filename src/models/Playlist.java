@@ -4,6 +4,7 @@ import abstracts.Conta;
 import interfaces.CrudPlaylist;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Playlist implements CrudPlaylist {
 
@@ -90,6 +91,19 @@ public class Playlist implements CrudPlaylist {
         if(this.propietario == null && propietario != null){
             this.propietario = propietario;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Playlist playlist = (Playlist) o;
+        return Objects.equals(id, playlist.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

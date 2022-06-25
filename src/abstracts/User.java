@@ -1,11 +1,11 @@
-package models;
+package abstracts;
 
 import abstracts.Conta;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class User extends Conta {
+public abstract class User extends Conta {
 
     private List<Conta> seguidores = new ArrayList<>();
     private List<Conta> seguindo = new ArrayList<>();

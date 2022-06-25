@@ -2,8 +2,10 @@ package models;
 
 import abstracts.Conta;
 
+import java.util.List;
+
 public class Ouvinte extends User{
-    private List<Conta> playlists;
+    private List <Conta> playlists;
 
     public List<Conta> getPlaylists() {
         return playlists;
@@ -20,7 +22,7 @@ public class Ouvinte extends User{
                 '}';
     }
 
-    public boolean criarPlayList(PlayList) {
+    public boolean criarPlayList(PlayList playList) {
         return;
     }
 }

@@ -84,8 +84,8 @@ public class Musica {
 
     @Override
     public String toString() {
-        return "Nome da musica: " + getNomeDaMusica() +
+        return "{ Nome da musica: " + getNomeDaMusica() +
                 ", Artista: " + getArtista().getNome() +
-                ", Curtidas: " + getCurtidas();
+                ", Curtidas: " + getCurtidas()+" } ";
     }
 }

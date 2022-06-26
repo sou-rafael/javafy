@@ -183,6 +183,21 @@ public class Menus {
         }
         return musicas;
     }
+    public static void buscarMusica(){
+        ArrayList<Musica> musicas = getListMusica();
+        for(Musica musica: musicas){
+            System.out.println("Musica: " + musica.getNomeDaMusica()+ ", curtidas: " + musica.getCurtidas());
+        }
+        System.out.print("Entre com nome da musica: ");
+        String busca = Menus.scanner.nextLine();
+        ArrayList<Musica> listaFiltrada = (ArrayList<Musica>) musicas.stream()
+                .filter(musica -> musica.getNomeDaMusica().toLowerCase().contains(busca.toLowerCase()))
+                .collect(Collectors.toList());
+        System.out.println("\n\n");
+        for(Musica filtrada: listaFiltrada){
+            System.out.println("Musica: " + filtrada.getNomeDaMusica()+ ", curtidas: " + filtrada.getCurtidas());
+        }
+    }
 
     public static void menuCriarPlayList(Ouvinte ouvinte){
         UUID uuid = UUID.randomUUID();

@@ -33,7 +33,7 @@ public class Main {
     }
 
     public static Playlist getPlaylist(Ouvinte ouvinte) {
-        return new Playlist("Raqs music", "01", ouvinte);
+        return new Playlist("Raqs music", 1, ouvinte);
     }
 }
 

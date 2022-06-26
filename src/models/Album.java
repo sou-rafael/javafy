@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class Album extends Playlist{
     private Integer avaliacao;
 
-    public Album(String nomePlaylist, String id, User propietario) {
+    public Album(String nomePlaylist, Integer id, User propietario) {
         super(nomePlaylist, id, propietario);
     }
 

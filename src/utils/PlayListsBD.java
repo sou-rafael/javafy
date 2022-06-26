@@ -18,7 +18,7 @@ public class PlayListsBD implements PlayListBD {
         if(ehNulo || !validarSeEProprietario(playlist, user) || !user.isPremium()){
            return false;
         }
-        playlistMap.put(playlist.getId(), playlist);
+        playlistMap.put(String.valueOf(playlist.getId()), playlist);
         return true;
     };
 

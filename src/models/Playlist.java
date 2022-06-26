@@ -1,21 +1,21 @@
 package models;
 
 import abstracts.User;
-import interfaces.CrudPlayList;
+import interfaces.CrudPlaylist;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Playlist implements CrudPlayList {
+public class Playlist implements CrudPlaylist {
 
     private String nomePlaylist;
     private ArrayList <Musica> listaMusicas = new ArrayList<>();
-    private String id;
+    private Integer id;
     private User propietario;
 
     public Playlist(){}
 
-    public Playlist(String nomePlaylist,  String id, User propietario) {
+    public Playlist(String nomePlaylist,  Integer id, User propietario) {
         this.nomePlaylist = nomePlaylist;
         this.id = id;
         this.propietario = propietario;
@@ -75,11 +75,11 @@ public class Playlist implements CrudPlayList {
         }
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

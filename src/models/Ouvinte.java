@@ -38,7 +38,7 @@ public class Ouvinte extends User {
 
     public boolean criarPlayList(Playlist playlist) {
         if(playlist != null && isPremium() && ehProprietarioDaPlaylist(playlist)) {
-            playlists.add(playlist.getId());
+            playlists.add(String.valueOf(playlist.getId()));
             return true;
         }
         return false;

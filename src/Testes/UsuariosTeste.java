@@ -15,7 +15,7 @@ public class UsuariosTeste {
         Ouvinte ouvinte = new Ouvinte("Cleber", 1,
                 "13-10-1994", "Ma", true);
 
-        Playlist playlist = new Playlist("Raqs music", "01", ouvinte);
+        Playlist playlist = new Playlist("Raqs music", 1, ouvinte);
         ouvinte.criarPlayList(playlist);
 
         Ouvinte ouvinte2 = new Ouvinte("JULIANA", 2,

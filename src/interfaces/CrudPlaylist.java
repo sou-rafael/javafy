@@ -5,7 +5,7 @@ import models.Musica;
 
 import java.util.ArrayList;
 
-public interface CrudPlayList {
+public interface CrudPlaylist {
 
     boolean atualizarNomePlayList (String novoNome);
     boolean deletarPlayList ();

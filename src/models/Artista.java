@@ -11,7 +11,7 @@ public class Artista extends User implements Admin {
     private Integer avaliacao;
     private List<Album> albuns;
 
-    public Artista(String nome, Integer id, String dataDeNascimento, String genero,
+    public Artista(String nome, String id, String dataDeNascimento, String genero,
                    boolean premium, String bio, Integer avaliacao) {
         super(nome, id, dataDeNascimento, genero, premium);
         this.bio = bio;

@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class PlayListsBD implements PlayListBD {
 
-    Map<String, Playlist> playlistMap = new HashMap<>();
+    Map<String, PlayListUtils> playlistMap = new HashMap<>();
 
 
     @Override
@@ -19,7 +19,7 @@ public class PlayListsBD implements PlayListBD {
         if(ehNulo || !validarSeEProprietario(playlist, user) || !user.isPremium()){
            return false;
         }
-        playlistMap.put(playlist.getId(), playlist);
+        //playlistMap.put(playlist.getId(), playlist);
         return true;
     };
 

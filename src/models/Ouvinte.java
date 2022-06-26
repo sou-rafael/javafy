@@ -10,7 +10,7 @@ public class Ouvinte extends User {
 
     private ArrayList<String> playlists = new ArrayList<>();
 
-    public Ouvinte(String nome, Integer id, String dataDeNascimento, String genero,
+    public Ouvinte(String nome, String id, String dataDeNascimento, String genero,
                    boolean premium) {
         super(nome, id, dataDeNascimento, genero, premium);
     }
@@ -48,10 +48,5 @@ public class Ouvinte extends User {
         return playlist.getPropietario().getId().equals(getId());
     }
 
-    @Override
-    public String toString() {
-        return "Ouvinte{" +
-                "playlists=" + playlists +
-                '}';
-    }
+
 }

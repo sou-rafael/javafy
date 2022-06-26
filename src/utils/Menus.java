@@ -2,6 +2,7 @@ package utils;
 
 import abstracts.PlayListAbstract;
 import abstracts.User;
+import models.Artista;
 import models.Musica;
 import models.Ouvinte;
 import models.Playlist;
@@ -13,6 +14,7 @@ import java.awt.*;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Menus {
     public static Scanner scanner = new Scanner(System.in);
@@ -23,11 +25,55 @@ public class Menus {
     public static void  menuEscolha(){
         System.out.println("-------------------------------------------");
         System.out.println("[1] - Atualizar Perfil  [2] - Buscar Musicas");
-        System.out.println("[3] - Buscar Artistas   [4] - Ver seguidores");
+        System.out.println("[3] - Listar Artistas   [4] - Ver seguidores");
         System.out.println("[5] - Ver seguindo      [6] - Biblioteca    ");
         System.out.println("[7] - Suas informações  [8] - Sair          ");
         System.out.println("-------------------------------------------");
         System.out.print("Escolha: ");
+    }
+
+    public static void listarArtistas (Ouvinte ouvinte) {
+        System.out.println("-------------------------------------------");
+        System.out.println("Listando artistas : ");
+        ArrayList <User> listaArtistas= albunsListaBD.listar();
+        for (int i = 0; i < listaArtistas.size(); i++){
+            System.out.println("id - "+i +" artista: "+ listaArtistas.get(i).getNome());
+        }
+
+        System.out.println("[1] - Seguir artista     Digite qualquer coisa para voltar: : ");
+        String escolha = Menus.scanner.nextLine();
+        switch (escolha){
+            case "1" -> {
+                System.out.print("Digite o id do artista: ");
+              Integer numero =  Menus.scanner.nextInt();
+              Menus.scanner.nextLine();
+              if(numero >= 0 && numero < listaArtistas.size()){
+                  User artista = listaArtistas.get(numero);
+                 if(ouvinte.getSeguindo().contains(artista)) {
+                     System.out.println("O usuario já segue este artista");
+                     System.out.println("[1] - Para deixar de seguir  [Qualquer coisa] - Sair ");
+                     escolha = scanner.nextLine();
+                     switch (escolha){
+                         case "1" -> {
+                             ouvinte.getSeguindo().remove(artista);
+                             System.out.println("Você deixou de seguir "+artista.getNome());
+                         }
+                         default -> {
+
+                         }
+                     }
+
+                 }else{
+                     ouvinte.getSeguindo().add(artista);
+                 }
+
+              }else{
+                  System.out.println("Artista não encontrado !");
+              }
+
+            }
+        }
+        System.out.println("-------------------------------------------");
     }
 
     public static void menuAtualizacoesPerfil(){
@@ -43,6 +89,7 @@ public class Menus {
         System.out.println(ouvinte);
         Boolean voltarMenuPrincipal = false;
         System.out.print("Digite qualquer coisa para voltar: : ");
+
         String escolha = Menus.scanner.nextLine();
     }
 

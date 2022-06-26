@@ -49,9 +49,9 @@ public class UsuariosTeste {
         Musica mscPe1 = new Musica(UUID.randomUUID().toString(), "Areia Movediça",artistaPericles,
                 4.5, 33);
         Musica mscPe2 = new Musica(UUID.randomUUID().toString(), "Constumes Iguais", artistaPericles,
-                 4.8, 525);
+                4.8, 525);
         Musica mscPe3 = new Musica(UUID.randomUUID().toString(), "Trinta graus", artistaPericles,
-                 3.7, 1214);
+                3.7, 1214);
         ArrayList<Musica> musicasPericles = new ArrayList<>(Arrays.asList(mscPe1, mscPe2, mscPe3));
 
         albumPericles.getListaMusicas().addAll(musicasPericles);
@@ -105,6 +105,7 @@ public class UsuariosTeste {
                     Menus.buscarMusica();
                     break;
                 case "3":
+                    Menus.listarArtistas(ouvinte);
                     break;
                 case "4":
                     Menus.verSeguidores(ouvinte);

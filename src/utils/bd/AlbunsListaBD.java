@@ -4,6 +4,7 @@ import abstracts.PlayListAbstract;
 import abstracts.User;
 import interfaces.PlayListCrud;
 import models.Album;
+import models.Artista;
 import models.Musica;
 import utils.models.AlbunsListUtils;
 import utils.models.PlayListUtils;
@@ -11,6 +12,7 @@ import utils.models.PlayListUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class AlbunsListaBD implements PlayListCrud<Album> {
 
@@ -47,7 +49,18 @@ public class AlbunsListaBD implements PlayListCrud<Album> {
 
     @Override
     public PlayListUtils read(String id) {
+
         return null;
+    }
+
+    public ArrayList<User> listar () {
+
+        ArrayList <User> artistas = (ArrayList) albunsListMap.values().stream().map(albunsListUtils -> albunsListUtils.getPlaylist().getPropietario()).collect(Collectors.toList());
+
+
+       return artistas;
+
+
     }
 
     @Override

@@ -12,6 +12,7 @@ public class PlayListsBD implements PlayListBD {
 
     Map<String, Playlist> playlistMap = new HashMap<>();
 
+
     @Override
     public boolean criar(Playlist playlist, User user){
         boolean ehNulo = validarNull(playlist, user);

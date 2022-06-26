@@ -11,17 +11,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        Ouvinte ouvinte = getOuvinte();
-//        Playlist playlist = getPlaylist(ouvinte);
-
-        ArrayList<Pessoa> pessoas = new ArrayList<>();
-        Pessoa p1 = new Pessoa("Cleber");
-        Pessoa p2 = new Pessoa("Rafael");
-        pessoas.add(p1);
-        pessoas.add(p2);
-
-        p1 = null;
-        System.out.println(pessoas);
 
 
 

@@ -15,37 +15,8 @@ public class Ouvinte extends User {
         super(nome, id, dataDeNascimento, genero, premium);
     }
 
-    public List<String> getPlaylists() {
+    public ArrayList<String> getPlaylists() {
         return playlists;
-    }
-
-
-
-    public boolean removerPlayList(Playlist playlist){
-        if( playlist != null ){
-            return playlists.remove(playlist.getId());
-        } return false;
-    }
-
-    public boolean deletarPlaylist(Playlist playlist){
-        if(playlist != null && getId().equals(playlist.getPropietario().getId())){
-            boolean b = playlists.remove(playlist.getId());
-            return true;
-        }
-        return false;
-    }
-
-
-    public boolean criarPlayList(Playlist playlist) {
-        if(playlist != null && isPremium() && ehProprietarioDaPlaylist(playlist)) {
-            playlists.add(playlist.getId());
-            return true;
-        }
-        return false;
-    }
-
-    boolean ehProprietarioDaPlaylist(Playlist playlist){
-        return playlist.getPropietario().getId().equals(getId());
     }
 
 

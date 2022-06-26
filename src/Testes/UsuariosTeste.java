@@ -1,11 +1,8 @@
 package Testes;
 
-import models.Artista;
 import models.Ouvinte;
-import models.Playlist;
 import utils.Menus;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.*;
 
@@ -39,16 +36,21 @@ public class UsuariosTeste {
         return new Ouvinte(nome, uuid.toString(), dataNascimento, genero, isPremium);
     }
 
+    public static void inicializarMusicasArtistas(){
+
+    }
+
 
 
     public static void main(String[] args) throws IOException {
+        // Iniciando objetos importantes
         //Ouvinte ouvinte = createOuvinte();
         UUID uuid = UUID.randomUUID();
         Ouvinte ouvinte = new Ouvinte("Cleber", uuid.toString(),
-                "13101994", "Ma", true );
+                "13101994", "Ma", false );
 
-        Ouvinte ouvinte2 = new Ouvinte("Cleber", uuid.toString(),
-                "13101994", "Ma", true );
+        Ouvinte ouvinte2 = new Ouvinte("Juliana", uuid.toString(),
+                "22051998", "Ma", true );
 
         ouvinte2.seguirUser(ouvinte);
 
@@ -71,6 +73,7 @@ public class UsuariosTeste {
                 case "5":
                     break;
                 case "6":
+                    Menus.bibliotecaEscolha(ouvinte);
                     break;
                 case "7":
                     Menus.suasInformacoes(ouvinte);

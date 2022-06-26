@@ -1,25 +1,22 @@
-package utils;
-
-import models.Playlist;
+package abstracts;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class PlayListUtils {
+public abstract class PlayListAbstract<T> {
 
-    private Playlist playlist;
-    private ArrayList users;
+    private T playlist;
+    private ArrayList users = new ArrayList<>();
 
-    public PlayListUtils(Playlist playlist, ArrayList users) {
+    public PlayListAbstract(T playlist) {
         this.playlist = playlist;
-        this.users = users;
     }
 
-    public Playlist getPlaylist() {
+    public T getPlaylist() {
         return playlist;
     }
 
-    public void setPlaylist(Playlist playlist) {
+    public void setPlaylist(T playlist) {
         this.playlist = playlist;
     }
 
@@ -31,11 +28,12 @@ public class PlayListUtils {
         this.users = users;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PlayListUtils that = (PlayListUtils) o;
+        PlayListAbstract<?> that = (PlayListAbstract<?>) o;
         return Objects.equals(playlist, that.playlist);
     }
 

@@ -1,10 +1,15 @@
 package abstracts;
 
 
+import interfaces.CrudPlayList;
+import interfaces.Informacoes;
+import models.Musica;
+import models.Playlist;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class User {
+public abstract class User implements Informacoes {
 
     private String nome;
     private String id;

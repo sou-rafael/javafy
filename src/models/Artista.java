@@ -1,11 +1,10 @@
 package models;
 
 import abstracts.User;
-import interfaces.Admin;
 
 import java.util.List;
 
-public class Artista extends User implements Admin {
+public class Artista extends User {
 
     private String bio;
     private Integer avaliacao;
@@ -52,4 +51,5 @@ public class Artista extends User implements Admin {
                 ", albuns=" + albuns +
                 '}';
     }
+
 }

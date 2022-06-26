@@ -1,30 +1,32 @@
-package utils;
+package utils.bd;
 
 import abstracts.User;
-import interfaces.PlayListBD;
+import interfaces.PlayListCrud;
 import models.Playlist;
+import utils.models.PlayListUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PlayListsBD implements PlayListBD {
+public class PlayListsBD implements PlayListCrud<Playlist> {
 
     Map<String, PlayListUtils> playlistMap = new HashMap<>();
 
 
     @Override
-    public boolean criar(Playlist playlist, User user){
-        boolean ehNulo = validarNull(playlist, user);
-        if(ehNulo || !validarSeEProprietario(playlist, user) || !user.isPremium()){
+    public boolean criar(Playlist playlist){
+        if(!playlist.getPropietario().isPremium()){
            return false;
         }
-        //playlistMap.put(playlist.getId(), playlist);
+        PlayListUtils playListUtils = new PlayListUtils(playlist);
+        playListUtils.getUsers().add(playlist.getPropietario());
+        playlistMap.put(playlist.getId(), playListUtils);
         return true;
     };
 
     @Override
-    public boolean atualizar(Object object) {
+    public boolean atualizar(User user, String id) {
         return false;
     }
 
@@ -34,8 +36,16 @@ public class PlayListsBD implements PlayListBD {
     }
 
     @Override
-    public Playlist read(String id) {
+    public PlayListUtils read(String id) {
+        if(playlistMap.containsKey(id)){
+            return playlistMap.get(id);
+        }
         return null;
+    }
+
+    @Override
+    public boolean adicionarMusicas(User user, String id, ArrayList musicas) {
+        return false;
     }
 
     boolean validarSeEProprietario(Playlist playlist, User user){

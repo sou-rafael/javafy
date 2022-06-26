@@ -2,15 +2,15 @@ package interfaces;
 
 import abstracts.User;
 import models.Musica;
+import models.Playlist;
 
 import java.util.ArrayList;
 
-public interface CrudPlayList {
+public interface CrudPlayList<T> {
 
-    boolean atualizarNomePlayList (String novoNome);
-    boolean deletarPlayList ();
-    boolean removerMusica (Musica musica, User userPlayList);
-    void adicionar (ArrayList<Musica> musicas);
-    void listar ();
-
+    public boolean atualizarPlayList (T playlist);
+    public boolean deletarPlayList (User user, T playlist);
+    public boolean removerMusicaPlayList (Musica musica, User user, T playlist);
+    public boolean criarPlayList ();
+    public void readPlayList();
 }

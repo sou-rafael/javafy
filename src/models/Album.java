@@ -36,9 +36,8 @@ public class Album extends Playlist{
 
     @Override
     public void setListaMusicas(ArrayList<Musica> listaMusicas) {
-
         if(listaMusicas != null){
-            Integer tamanho = listaMusicas.size();
+            int tamanho = listaMusicas.size();
             if(tamanho < 3){
                 System.out.println("Opa. A lista deve ter no mínimo 3 musicas.");
             } else{

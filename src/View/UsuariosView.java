@@ -1,4 +1,4 @@
-package Testes;
+package View;
 
 import models.Album;
 import models.Artista;
@@ -6,10 +6,9 @@ import models.Musica;
 import models.Ouvinte;
 import utils.Menus;
 
-import java.io.IOException;
 import java.util.*;
 
-public class UsuariosTeste {
+public class UsuariosView {
 
     public static Ouvinte createOuvinte(){
         Scanner scanner = new Scanner(System.in);
@@ -49,9 +48,9 @@ public class UsuariosTeste {
         Musica mscPe1 = new Musica(UUID.randomUUID().toString(), "Areia Movediça",artistaPericles,
                 4.5, 33);
         Musica mscPe2 = new Musica(UUID.randomUUID().toString(), "Constumes Iguais", artistaPericles,
-                 4.8, 525);
+                4.8, 525);
         Musica mscPe3 = new Musica(UUID.randomUUID().toString(), "Trinta graus", artistaPericles,
-                 3.7, 1214);
+                3.7, 1214);
         ArrayList<Musica> musicasPericles = new ArrayList<>(Arrays.asList(mscPe1, mscPe2, mscPe3));
 
         albumPericles.getListaMusicas().addAll(musicasPericles);
@@ -77,26 +76,34 @@ public class UsuariosTeste {
 
     }
 
-
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         // Iniciando objetos importantes
         //Ouvinte ouvinte = createOuvinte();
         inicializarMusicasArtistas();
         UUID uuid = UUID.randomUUID();
         Ouvinte ouvinte = new Ouvinte("Cleber", uuid.toString(),
-                "13101994", "Ma", false );
+                "13101994", "M", false );
 
         Ouvinte ouvinte2 = new Ouvinte("Juliana", uuid.toString(),
-                "22051998", "Ma", true );
+                "22051998", "F", true );
+
+        Ouvinte ouvinte3 = new Ouvinte("Rafael", uuid.toString(),
+                "77766687", "M", false );
+
+        Ouvinte ouvinte4 = new Ouvinte("Rodrigo", uuid.toString(),
+                "444555666", "M", true );
 
         ouvinte2.seguirUser(ouvinte);
+        ouvinte3.seguirUser(ouvinte);
+
+        //adicionando pessoas na lista de seguindo
+        ouvinte4.userSeguindo(ouvinte);
+
 
         boolean finalizarAplicacao = false;
-        do{
+        do {
             Menus.menuEscolha();
             String escolha = Menus.scanner.nextLine();
-
             switch (escolha) {
                 case "1":
                     Menus.atualizarInformacoes(ouvinte);
@@ -105,11 +112,13 @@ public class UsuariosTeste {
                     Menus.buscarMusica();
                     break;
                 case "3":
+                    Menus.listarArtistas(ouvinte);
                     break;
                 case "4":
                     Menus.verSeguidores(ouvinte);
                     break;
                 case "5":
+                    Menus.verSeguindo(ouvinte);
                     break;
                 case "6":
                     Menus.bibliotecaEscolha(ouvinte);
@@ -126,7 +135,5 @@ public class UsuariosTeste {
             }
 
         }while (!finalizarAplicacao);
-
-
     }
 }

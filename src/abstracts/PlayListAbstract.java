@@ -6,7 +6,7 @@ import java.util.Objects;
 public abstract class PlayListAbstract<T> {
 
     private T playlist;
-    private ArrayList users = new ArrayList<>();
+    private ArrayList<User> users = new ArrayList<>();
 
     public PlayListAbstract(T playlist) {
         this.playlist = playlist;
@@ -20,11 +20,11 @@ public abstract class PlayListAbstract<T> {
         this.playlist = playlist;
     }
 
-    public ArrayList getUsers() {
+    public ArrayList<User> getUsers() {
         return users;
     }
 
-    public void setUsers(ArrayList users) {
+    public void setUsers(ArrayList<User> users) {
         this.users = users;
     }
 

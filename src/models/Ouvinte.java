@@ -19,5 +19,9 @@ public class Ouvinte extends User {
         return playlists;
     }
 
-
+    public void setPlaylists(ArrayList<String> playlists) {
+        if(playlists != null) {
+            this.playlists = playlists;
+        }
+    }
 }

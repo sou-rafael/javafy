@@ -2,17 +2,18 @@ package interfaces;
 
 import abstracts.User;
 import models.Musica;
+import models.Playlist;
 import utils.models.PlayListUtils;
-
-import java.util.ArrayList;
 
 public interface PlayListCrud<T> {
 
     boolean criar(T playlist);
 
-    boolean atualizar(User user, String id);
+    void atualizar(User user, String id, String nome);
 
-    boolean deletar(Object object);
+    boolean remover(User user, String idMusica, String idPlaylist);
+
+    void deletar(Playlist playlist);
 
     PlayListUtils read(String id);
 

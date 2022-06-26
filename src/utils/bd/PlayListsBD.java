@@ -6,7 +6,6 @@ import models.Musica;
 import models.Playlist;
 import utils.models.PlayListUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,14 +33,27 @@ public class PlayListsBD implements PlayListCrud<Playlist> {
     };
 
     @Override
-    public boolean atualizar(User user, String id) {
+    public void atualizar(User user, String id, String nome) {
+        if(playlistMap.containsKey(id)){
+            playlistMap.get(id).getPlaylist().setNomePlaylist(nome);
+        }
+    }
+
+    @Override
+    public boolean remover(User user, String idMusica, String idPlaylist) {
+        if(playlistMap.containsKey(idPlaylist)) {
+            playlistMap.get(idPlaylist).getPlaylist().getListaMusicas()
+                    .removeIf(musica -> musica.getId().equals(idMusica));
+            return true;
+        }
         return false;
     }
 
     @Override
-    public boolean deletar(Object object) {
-        return false;
+    public void deletar(Playlist playlist) {
+        playlistMap.remove(playlist.getId());
     }
+
 
     @Override
     public PlayListUtils read(String id) {
@@ -56,6 +68,9 @@ public class PlayListsBD implements PlayListCrud<Playlist> {
         if(!playlistMap.containsKey(id) ){
             return false;
         }
+        if(playlistMap.get(id).getPlaylist().getListaMusicas().contains(musicas)){
+            return false;
+        }
         playlistMap.get(id).getPlaylist().getListaMusicas().add(musicas);
         return true;
     }
@@ -65,10 +80,7 @@ public class PlayListsBD implements PlayListCrud<Playlist> {
     }
 
     boolean validarNull(Playlist playlist, User user){
-        if(playlist == null || user == null){
-            return true;
-        }
-        return false;
+        return playlist == null || user == null;
     }
 
 }

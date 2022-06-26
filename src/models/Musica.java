@@ -8,12 +8,11 @@ public class Musica {
 
     private String id;
     private String nomeDaMusica;
-    Artista artista;
+    private Artista artista;
     private Double duracao;
     private Integer curtidas;
 
     public Musica() {}
-
 
     public Musica(String id, String nomeDaMusica, Artista artista, Double duracao, Integer curtidas) {
         this.id = id;
@@ -38,7 +37,9 @@ public class Musica {
     }
 
     public void setNomeDaMusica(String nomeDaMusica) {
-        this.nomeDaMusica = nomeDaMusica;
+        if(nomeDaMusica != null) {
+            this.nomeDaMusica = nomeDaMusica;
+        }
     }
 
     public Artista getArtista() {
@@ -46,7 +47,9 @@ public class Musica {
     }
 
     public void setArtista(Artista artista) {
-        this.artista = artista;
+        if(artista != null) {
+            this.artista = artista;
+        }
     }
 
     public Double getDuracao() {

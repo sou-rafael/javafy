@@ -1,7 +1,6 @@
 package models;
 
 import abstracts.User;
-import interfaces.CrudPlayList;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -46,7 +45,9 @@ public class Playlist {
     }
 
     public void setId(String id) {
-        this.id = id;
+        if(id != null) {
+            this.id = id;
+        }
     }
 
     public User getPropietario() {

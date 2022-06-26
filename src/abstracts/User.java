@@ -1,7 +1,6 @@
 package abstracts;
 
 
-import interfaces.CrudPlayList;
 import interfaces.Informacoes;
 import models.Musica;
 import models.Playlist;
@@ -33,7 +32,9 @@ public abstract class User implements Informacoes {
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        if(nome != null) {
+            this.nome = nome;
+        }
     }
 
     public String getId() {
@@ -41,7 +42,9 @@ public abstract class User implements Informacoes {
     }
 
     public void setId(String id) {
-        this.id = id;
+        if(id != null) {
+            this.id = id;
+        }
     }
 
     public String getDataDeNascimento() {
@@ -49,7 +52,9 @@ public abstract class User implements Informacoes {
     }
 
     public void setDataDeNascimento(String dataDeNascimento) {
-        this.dataDeNascimento = dataDeNascimento;
+        if(dataDeNascimento != null) {
+            this.dataDeNascimento = dataDeNascimento;
+        }
     }
 
     public String getGenero() {
@@ -57,7 +62,9 @@ public abstract class User implements Informacoes {
     }
 
     public void setGenero(String genero) {
-        this.genero = genero;
+        if(genero != null) {
+            this.genero = genero;
+        }
     }
 
     public ArrayList<User> getSeguidores() {

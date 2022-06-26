@@ -1,4 +1,4 @@
-package Testes;
+package View;
 
 import models.Album;
 import models.Artista;
@@ -6,10 +6,9 @@ import models.Musica;
 import models.Ouvinte;
 import utils.Menus;
 
-import java.io.IOException;
 import java.util.*;
 
-public class UsuariosTeste {
+public class UsuariosView {
 
     public static Ouvinte createOuvinte(){
         Scanner scanner = new Scanner(System.in);
@@ -77,9 +76,7 @@ public class UsuariosTeste {
 
     }
 
-
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         // Iniciando objetos importantes
         //Ouvinte ouvinte = createOuvinte();
         inicializarMusicasArtistas();
@@ -93,10 +90,9 @@ public class UsuariosTeste {
         ouvinte2.seguirUser(ouvinte);
 
         boolean finalizarAplicacao = false;
-        do{
+        do {
             Menus.menuEscolha();
             String escolha = Menus.scanner.nextLine();
-
             switch (escolha) {
                 case "1":
                     Menus.atualizarInformacoes(ouvinte);
@@ -127,7 +123,5 @@ public class UsuariosTeste {
             }
 
         }while (!finalizarAplicacao);
-
-
     }
 }

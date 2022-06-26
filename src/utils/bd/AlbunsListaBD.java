@@ -1,11 +1,10 @@
 package utils.bd;
 
-import abstracts.PlayListAbstract;
 import abstracts.User;
 import interfaces.PlayListCrud;
 import models.Album;
-import models.Artista;
 import models.Musica;
+import models.Playlist;
 import utils.models.AlbunsListUtils;
 import utils.models.PlayListUtils;
 
@@ -13,6 +12,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+/*
+    Nem todos os métodos foram implementados porque não foi usado o Artista como principal
+ */
 
 public class AlbunsListaBD implements PlayListCrud<Album> {
 
@@ -38,29 +41,32 @@ public class AlbunsListaBD implements PlayListCrud<Album> {
     }
 
     @Override
-    public boolean atualizar(User user, String id) {
+    public void atualizar(User user, String id, String nome) {
+        // Não implementado porque não foi feito a lógica para artista
+    }
+
+    @Override
+    public boolean remover(User user, String idMusica, String idPlaylist) {
+        // Não implementado porque não foi feito a lógica para artista
         return false;
     }
 
     @Override
-    public boolean deletar(Object object) {
-        return false;
+    public void deletar(Playlist playlist) {
+        // Não implementado porque não foi feito a lógica para artista
     }
+
 
     @Override
     public PlayListUtils read(String id) {
-
+        // Não implementado porque não foi feito a lógica para artista
         return null;
     }
 
     public ArrayList<User> listar () {
-
-        ArrayList <User> artistas = (ArrayList) albunsListMap.values().stream().map(albunsListUtils -> albunsListUtils.getPlaylist().getPropietario()).collect(Collectors.toList());
-
-
-       return artistas;
-
-
+        return (ArrayList<User>) (ArrayList) albunsListMap.values().stream()
+                .map(albunsListUtils -> albunsListUtils.getPlaylist().getPropietario())
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -46,7 +46,7 @@ public class PlayListsBD implements PlayListCrud<Playlist> {
     @Override
     public PlayListUtils read(String id) {
         if(playlistMap.containsKey(id)){
-            return playlistMap.get(id);
+            System.out.println(playlistMap.get(id));
         }
         return null;
     }

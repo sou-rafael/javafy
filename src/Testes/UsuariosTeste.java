@@ -101,6 +101,7 @@ public class UsuariosTeste {
                 case "2":
                     break;
                 case "3":
+                    Menus.listarArtistas(ouvinte);
                     break;
                 case "4":
                     Menus.verSeguidores(ouvinte);

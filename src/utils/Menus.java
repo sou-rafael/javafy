@@ -47,14 +47,12 @@ public class Menus {
     }
 
     public static void verSeguidores(Ouvinte ouvinte){
-        for (User ovt:
-             ouvinte.getSeguidores()) {
+        for (User ovt:ouvinte.getSeguidores()) {
             ovt.informacoesMinimas();
         }
         System.out.print("Digite qualquer coisa para voltar: ");
         String escolha = Menus.scanner.nextLine();
     }
-
 
     public static void atualizarInformacoes(Ouvinte ouvinte){
         boolean voltarParaMenuPrincipal = false;
@@ -186,7 +184,6 @@ public class Menus {
 
     public static void menuCriarPlayList(Ouvinte ouvinte){
         UUID uuid = UUID.randomUUID();
-
         System.out.println("-----------------------------------------------");
         System.out.print("Nome da playlist: ");
         String nomePlayList = Menus.scanner.nextLine();

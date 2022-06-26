@@ -1,13 +1,18 @@
 package abstracts;
 
 
+import interfaces.CrudPlayList;
+import interfaces.Informacoes;
+import models.Musica;
+import models.Playlist;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class User {
+public abstract class User implements Informacoes {
 
     private String nome;
-    private Integer id;
+    private String id;
     private String dataDeNascimento;
     private String genero;
 
@@ -15,7 +20,7 @@ public abstract class User {
     private ArrayList<User> seguindo = new ArrayList<>();
     private boolean premium;
 
-    public User(String nome, Integer id, String dataDeNascimento, String genero, boolean premium) {
+    public User(String nome, String id, String dataDeNascimento, String genero, boolean premium) {
         this.nome = nome;
         this.id = id;
         this.dataDeNascimento = dataDeNascimento;
@@ -31,11 +36,11 @@ public abstract class User {
         this.nome = nome;
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -75,6 +80,14 @@ public abstract class User {
         }
     }
 
+    public void seguirUser(User user){
+        if(user != null){
+            this.seguindo.add(user);
+            user.getSeguidores().add(this);
+        }
+
+    }
+
     public boolean isPremium() {
         return premium;
     }
@@ -83,20 +96,24 @@ public abstract class User {
         this.premium = premium;
     }
 
-    // colocar um if para colocar "premium ou gratuito" no lugar de booleano de premium
+    public Integer getQuantidadeSeguidores(){return getSeguidores().size();}
+
+    public Integer getQuantidadeSeguindo(){return getSeguindo().size();}
+
+    public void informacoesMinimas(){
+        System.out.println("Nome: " + getNome() + ", Genêro: " + getGenero() +
+                ", Qtd seguidores: " + getQuantidadeSeguidores() +
+                ", Qtd seguindo: " + getQuantidadeSeguindo());
+    }
+
     @Override
     public String toString() {
-        if (premium) {
-            return "User{" +
-                    "seguidores=" + seguidores +
-                    ", seguindo=" + seguindo +
-                    ", tipo de usuario= Premium" + '}';
-        } else {
-            return "User{" +
-                    "seguidores=" + seguidores +
-                    ", seguindo=" + seguindo +
-                    ", tipo de usuario= Gratuito" +
-                    '}';
-        }
+        String ehPremiun = isPremium() ? "Premium" : "Normal";
+        return "-----------------Informações do ouvinte---------------\n" +
+                "Nome: " + getNome() + "\nGenêro: " + getGenero() +
+                "\nPlano: " + ehPremiun + "\nData Nascimento: " + getDataDeNascimento() +
+                "\nQtd seguidores: " + getQuantidadeSeguidores()
+                + "\nQtd seguindo: " + getQuantidadeSeguindo() +
+                "\n-----------------------------------------------------";
     }
 }

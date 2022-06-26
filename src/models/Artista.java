@@ -1,18 +1,19 @@
 package models;
 
 import abstracts.User;
-import interfaces.Admin;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class Artista extends User implements Admin {
+public class Artista extends User {
 
     private String bio;
-    private Integer avaliacao;
-    private List<Album> albuns;
+    private Double avaliacao;
+    private ArrayList<Album> albuns;
 
-    public Artista(String nome, Integer id, String dataDeNascimento, String genero,
-                   boolean premium, String bio, Integer avaliacao) {
+
+    public Artista(String nome, String id, String dataDeNascimento, String genero,
+                   boolean premium, String bio, Double avaliacao) {
         super(nome, id, dataDeNascimento, genero, premium);
         this.bio = bio;
         this.avaliacao = avaliacao;
@@ -26,11 +27,11 @@ public class Artista extends User implements Admin {
         this.bio = bio;
     }
 
-    public Integer getAvaliacao() {
+    public Double getAvaliacao() {
         return avaliacao;
     }
 
-    public void setAvaliacao(Integer avaliacao) {
+    public void setAvaliacao(Double avaliacao) {
         this.avaliacao = avaliacao;
     }
 
@@ -38,7 +39,7 @@ public class Artista extends User implements Admin {
         return albuns;
     }
 
-    public void setAlbuns(List<Album> albuns) {
+    public void setAlbuns(ArrayList<Album> albuns) {
         if(albuns != null){
             this.albuns = albuns;
         }
@@ -52,4 +53,5 @@ public class Artista extends User implements Admin {
                 ", albuns=" + albuns +
                 '}';
     }
+
 }

@@ -1,4 +1,4 @@
-package utils;
+package utils.bd;
 
 import abstracts.User;
 import interfaces.PlayListCrud;
@@ -25,7 +25,7 @@ public class PlayListsBD implements PlayListCrud<Playlist> {
     @Override
     public boolean criar(Playlist playlist){
         if(!playlist.getPropietario().isPremium()){
-            return false;
+           return false;
         }
         PlayListUtils playListUtils = new PlayListUtils(playlist);
         playListUtils.getUsers().add(playlist.getPropietario());

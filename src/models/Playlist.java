@@ -1,58 +1,24 @@
 package models;
 
 import abstracts.User;
-import interfaces.CrudPlaylist;
+import interfaces.CrudPlayList;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Playlist implements CrudPlaylist {
+public class Playlist {
 
     private String nomePlaylist;
     private ArrayList <Musica> listaMusicas = new ArrayList<>();
-    private Integer id;
+    private String id;
     private User propietario;
 
     public Playlist(){}
 
-    public Playlist(String nomePlaylist,  Integer id, User propietario) {
+    public Playlist(String nomePlaylist,  String id, User propietario) {
         this.nomePlaylist = nomePlaylist;
         this.id = id;
         this.propietario = propietario;
-    }
-
-    @Override
-    public boolean atualizarNomePlayList(String novoNome) {
-        if(novoNome != null){
-            nomePlaylist = novoNome;
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean deletarPlayList() {
-        return true;
-    }
-
-    @Override
-    public boolean removerMusica(Musica musica, User userPlayList ) {
-        if(propietario.getId().equals(userPlayList.getId())){
-            return listaMusicas.remove(musica);
-        }
-        return false;
-    }
-
-    @Override
-    public void adicionar(ArrayList<Musica> musicas) {
-        setListaMusicas(musicas);
-    }
-
-    @Override
-    public void listar() {
-        if(listaMusicas != null){
-            listaMusicas.forEach(System.out::println);
-        }
     }
 
     public String getNomePlaylist() {
@@ -75,11 +41,11 @@ public class Playlist implements CrudPlaylist {
         }
     }
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 

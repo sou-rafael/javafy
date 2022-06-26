@@ -267,6 +267,7 @@ public class Menus {
                 } else {
                     Playlist playlist = playlists.get(escolhaId);
                     playListsBD.deletar(playlist);
+                    ouvinte.getPlaylists().removeIf(s -> s.equals(playlist.getId()));
                 }
                 break;
         }

@@ -3,8 +3,6 @@ package models;
 import abstracts.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class Ouvinte extends User {
 
@@ -23,5 +21,12 @@ public class Ouvinte extends User {
         if(playlists != null) {
             this.playlists = playlists;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Ouvinte{" +
+                "playlists=" + playlists +
+                '}';
     }
 }

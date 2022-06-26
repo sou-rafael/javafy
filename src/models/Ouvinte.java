@@ -19,5 +19,4 @@ public class Ouvinte extends User {
         return playlists;
     }
 
-
 }

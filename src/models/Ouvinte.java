@@ -1,6 +1,5 @@
 package models;
 
-import abstracts.Conta;
 import abstracts.User;
 
 import java.util.ArrayList;
@@ -20,12 +19,7 @@ public class Ouvinte extends User {
         return playlists;
     }
 
-    @Override
-    public String toString() {
-        return "Ouvinte{" +
-                "playlists=" + playlists +
-                '}';
-    }
+
 
     public boolean removerPlayList(Playlist playlist){
         if( playlist != null ){
@@ -52,5 +46,12 @@ public class Ouvinte extends User {
 
     boolean ehProprietarioDaPlaylist(Playlist playlist){
         return playlist.getPropietario().getId().equals(getId());
+    }
+
+    @Override
+    public String toString() {
+        return "Ouvinte{" +
+                "playlists=" + playlists +
+                '}';
     }
 }

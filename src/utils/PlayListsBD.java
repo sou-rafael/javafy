@@ -5,10 +5,12 @@ import interfaces.PlayListBD;
 import models.Playlist;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlayListsBD implements PlayListBD {
 
-    ArrayList<Playlist> playlists = new ArrayList<>();
+    Map<String, Playlist> playlistMap = new HashMap<>();
 
     @Override
     public boolean criar(Playlist playlist, User user){
@@ -16,7 +18,7 @@ public class PlayListsBD implements PlayListBD {
         if(ehNulo || !validarSeEProprietario(playlist, user) || !user.isPremium()){
            return false;
         }
-        playlists.add(playlist);
+        playlistMap.put(playlist.getId(), playlist);
         return true;
     };
 

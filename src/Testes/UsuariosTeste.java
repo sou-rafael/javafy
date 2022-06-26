@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UsuariosTeste {
+
     public static void main(String[] args) {
 
         Ouvinte ouvinte = new Ouvinte("Cleber", 1,

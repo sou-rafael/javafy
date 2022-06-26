@@ -1,6 +1,5 @@
 package abstracts;
 
-import abstracts.Conta;
 
 import java.util.ArrayList;
 import java.util.List;

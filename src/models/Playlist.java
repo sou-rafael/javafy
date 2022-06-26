@@ -1,6 +1,5 @@
 package models;
 
-import abstracts.Conta;
 import abstracts.User;
 import interfaces.CrudPlayList;
 

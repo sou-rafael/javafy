@@ -82,10 +82,19 @@ public abstract class User implements Informacoes {
 
     public void seguirUser(User user){
         if(user != null){
+            //aqui nao seria na lista seguidores?
             this.seguindo.add(user);
             user.getSeguidores().add(this);
         }
 
+    }
+
+    public void userSeguindo(User user){
+        if(user != null){
+            //aqui seria na lista seguindo?
+            this.seguidores.add(user);
+            user.getSeguindo().add(this);
+        }
     }
 
     public boolean isPremium() {

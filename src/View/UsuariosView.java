@@ -82,12 +82,23 @@ public class UsuariosView {
         inicializarMusicasArtistas();
         UUID uuid = UUID.randomUUID();
         Ouvinte ouvinte = new Ouvinte("Cleber", uuid.toString(),
-                "13101994", "Ma", false );
+                "13101994", "M", false );
 
         Ouvinte ouvinte2 = new Ouvinte("Juliana", uuid.toString(),
-                "22051998", "Ma", true );
+                "22051998", "F", true );
+
+        Ouvinte ouvinte3 = new Ouvinte("Rafael", uuid.toString(),
+                "77766687", "M", false );
+
+        Ouvinte ouvinte4 = new Ouvinte("Rodrigo", uuid.toString(),
+                "444555666", "M", true );
 
         ouvinte2.seguirUser(ouvinte);
+        ouvinte3.seguirUser(ouvinte);
+
+        //adicionando pessoas na lista de seguindo
+        ouvinte4.userSeguindo(ouvinte);
+
 
         boolean finalizarAplicacao = false;
         do {
@@ -107,6 +118,7 @@ public class UsuariosView {
                     Menus.verSeguidores(ouvinte);
                     break;
                 case "5":
+                    Menus.verSeguindo(ouvinte);
                     break;
                 case "6":
                     Menus.bibliotecaEscolha(ouvinte);

@@ -93,6 +93,27 @@ public class Menus {
                     }
                     break;
                 case "5":
+                    System.out.println("Alterando todos os campos:");
+                    System.out.print("Novo nome: ");
+                    ouvinte.setNome(Menus.scanner.nextLine());
+                    //------------
+                    System.out.print("Data de nascimento: ");
+                    ouvinte.setDataDeNascimento(Menus.scanner.nextLine());
+                    //-------------
+                    System.out.print("Gênero: ");
+                    ouvinte.setGenero(Menus.scanner.nextLine());
+                    //-------------
+                    System.out.print("Novo plano:\nPlano: 1 - Premium  2 - Normal: ");
+                    int novoPlano = Menus.scanner.nextInt();
+                    Menus.scanner.nextLine();
+                    if(novoPlano < 1 || novoPlano > 2){
+                        System.out.println("OPS! Opção inválida, tente novamente.");
+                    } else {
+                        ouvinte.setPremium(novoPlano == 1);
+                        System.out.println("Editado com sucesso!!! \n");
+                        break;
+                    }
+
                     break;
                 case "6":
                     voltarParaMenuPrincipal = true;

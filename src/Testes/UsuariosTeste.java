@@ -1,5 +1,8 @@
 package Testes;
 
+import models.Album;
+import models.Artista;
+import models.Musica;
 import models.Ouvinte;
 import utils.Menus;
 
@@ -37,6 +40,37 @@ public class UsuariosTeste {
     }
 
     public static void inicializarMusicasArtistas(){
+        String bio = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s";
+
+        Artista artistaPericles = new Artista("Pericles", UUID.randomUUID().toString(),
+                "22-06-1969", "Ma", true, bio, 4.0);
+        Album albumPericles = new Album("Deserto de ilusões",
+                UUID.randomUUID().toString(), artistaPericles, 4.5, "Pagode");
+        Musica mscPe1 = new Musica(UUID.randomUUID().toString(), "Areia Movediça",artistaPericles,
+                4.5, 33);
+        Musica mscPe2 = new Musica(UUID.randomUUID().toString(), "Constumes Iguais", artistaPericles,
+                 4.8, 525);
+        Musica mscPe3 = new Musica(UUID.randomUUID().toString(), "Trinta graus", artistaPericles,
+                 3.7, 1214);
+        ArrayList<Musica> musicasPericles = new ArrayList<>(Arrays.asList(mscPe1, mscPe2, mscPe3));
+
+        albumPericles.getListaMusicas().addAll(musicasPericles);
+
+
+        Artista artistaMarisa = new Artista("Marisa Monte", UUID.randomUUID().toString(),
+                "1-07-1967", "Fe", true, bio, 4.5);
+        Album albumMarisa = new Album("MM",
+                UUID.randomUUID().toString(), artistaMarisa, 4.5, "MPB");
+        Musica mscM1 = new Musica(UUID.randomUUID().toString(), "Bem que se quis",artistaMarisa, 2.5, 555);
+        Musica mscM2 = new Musica(UUID.randomUUID().toString(), "Depois", artistaMarisa,
+                2.3, 1122);
+        Musica mscM3 = new Musica(UUID.randomUUID().toString(), "Vilareijo", artistaMarisa,
+                3.3, 144);
+        ArrayList<Musica> musicasMarisa = new ArrayList<>(Arrays.asList(mscM1, mscM2, mscM3));
+        albumMarisa.getListaMusicas().addAll(musicasMarisa);
+
+        Menus.albunsListaBD.criar(albumPericles);
+        Menus.albunsListaBD.criar(albumMarisa);
 
     }
 
@@ -45,6 +79,7 @@ public class UsuariosTeste {
     public static void main(String[] args) throws IOException {
         // Iniciando objetos importantes
         //Ouvinte ouvinte = createOuvinte();
+        inicializarMusicasArtistas();
         UUID uuid = UUID.randomUUID();
         Ouvinte ouvinte = new Ouvinte("Cleber", uuid.toString(),
                 "13101994", "Ma", false );

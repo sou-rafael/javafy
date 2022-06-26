@@ -1,6 +1,7 @@
 package interfaces;
 
 import abstracts.User;
+import models.Musica;
 import utils.models.PlayListUtils;
 
 import java.util.ArrayList;
@@ -15,6 +16,6 @@ public interface PlayListCrud<T> {
 
     PlayListUtils read(String id);
 
-    boolean adicionarMusicas(User user, String id, ArrayList musicas);
+    boolean adicionarMusicas(User user, String id, Musica musicas);
 
 }

@@ -2,6 +2,7 @@ package utils.bd;
 
 import abstracts.User;
 import interfaces.PlayListCrud;
+import models.Musica;
 import models.Playlist;
 import utils.models.PlayListUtils;
 
@@ -13,6 +14,13 @@ public class PlayListsBD implements PlayListCrud<Playlist> {
 
     Map<String, PlayListUtils> playlistMap = new HashMap<>();
 
+    public Map<String, PlayListUtils> getPlaylistMap() {
+        return playlistMap;
+    }
+
+    public void setPlaylistMap(Map<String, PlayListUtils> playlistMap) {
+        this.playlistMap = playlistMap;
+    }
 
     @Override
     public boolean criar(Playlist playlist){
@@ -44,8 +52,12 @@ public class PlayListsBD implements PlayListCrud<Playlist> {
     }
 
     @Override
-    public boolean adicionarMusicas(User user, String id, ArrayList musicas) {
-        return false;
+    public boolean adicionarMusicas(User user, String id, Musica musicas) {
+        if(!playlistMap.containsKey(id) ){
+            return false;
+        }
+        playlistMap.get(id).getPlaylist().getListaMusicas().add(musicas);
+        return true;
     }
 
     boolean validarSeEProprietario(Playlist playlist, User user){

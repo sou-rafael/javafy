@@ -1,21 +1,24 @@
 package models;
 
+import interfaces.Informacoes;
+
 import java.util.Objects;
 
 public class Musica {
 
     private String id;
+    private String nomeDaMusica;
     Artista artista;
-    private Integer avaliacao;
     private Double duracao;
     private Integer curtidas;
 
     public Musica() {}
 
-    public Musica(String id, Artista artista, Integer avaliacao, Double duracao, Integer curtidas) {
+
+    public Musica(String id, String nomeDaMusica, Artista artista, Double duracao, Integer curtidas) {
         this.id = id;
+        this.nomeDaMusica = nomeDaMusica;
         this.artista = artista;
-        this.avaliacao = avaliacao;
         this.duracao = duracao;
         this.curtidas = curtidas;
     }
@@ -30,14 +33,20 @@ public class Musica {
         }
     }
 
-    public Integer getAvaliacao() {
-        return avaliacao;
+    public String getNomeDaMusica() {
+        return nomeDaMusica;
     }
 
-    public void setAvaliacao(Integer avaliacao) {
-        if(avaliacao != null){
-            this.avaliacao = avaliacao;
-        }
+    public void setNomeDaMusica(String nomeDaMusica) {
+        this.nomeDaMusica = nomeDaMusica;
+    }
+
+    public Artista getArtista() {
+        return artista;
+    }
+
+    public void setArtista(Artista artista) {
+        this.artista = artista;
     }
 
     public Double getDuracao() {
@@ -75,10 +84,8 @@ public class Musica {
 
     @Override
     public String toString() {
-        return "Musica{id='" + id +
-                ", avaliacao=" + avaliacao +
-                ", duracao=" + duracao +
-                ", curtidas=" + curtidas +
-                "}";
+        return "Nome da musica: " + getNomeDaMusica() +
+                ", Artista: " + getArtista().getNome() +
+                ", Curtidas: " + getCurtidas();
     }
 }

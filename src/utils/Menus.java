@@ -1,18 +1,24 @@
 package utils;
 
+import abstracts.PlayListAbstract;
 import abstracts.User;
+import models.Musica;
 import models.Ouvinte;
 import models.Playlist;
+import utils.bd.AlbunsListaBD;
 import utils.bd.PlayListsBD;
 import utils.models.PlayListUtils;
 
-import java.util.Scanner;
-import java.util.UUID;
+import java.awt.*;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Menus {
     public static Scanner scanner = new Scanner(System.in);
     //public static UUID uuid = UUID.randomUUID();
     public static PlayListsBD playListsBD = new PlayListsBD();
+    public static AlbunsListaBD albunsListaBD = new AlbunsListaBD();
 
     public static void  menuEscolha(){
         System.out.println("-------------------------------------------");
@@ -137,9 +143,24 @@ public class Menus {
             if(playListUtils == null) {
                 System.out.println("Ops! Playlist não encontrada");
             } else {
-                System.out.println(i + " - " + playListUtils.getPlaylist().getNomePlaylist());
+                System.out.println(i + " - " + playListUtils.getPlaylist().getNomePlaylist()
+                        + ", quantidade de musicas " + playListUtils.getPlaylist().getListaMusicas().size());
             }
         }
+    }
+
+    public static ArrayList<Musica> getListMusica(){
+        List<Playlist> playlists = albunsListaBD.getAlbunsListMap().values().stream()
+                .map(PlayListAbstract::getPlaylist).collect(Collectors.toList());
+        List<ArrayList> musicasList = playlists.stream()
+                .map(playlist1 -> playlist1.getListaMusicas()).collect(Collectors.toList());
+        ArrayList<Musica> musicas = new ArrayList<>();
+        for(ArrayList<Musica> mscs: musicasList){
+            for (Musica msc: mscs){
+                musicas.add(msc);
+            }
+        }
+        return musicas;
     }
 
     public static void menuCriarPlayList(Ouvinte ouvinte){
@@ -168,7 +189,30 @@ public class Menus {
         String escolhas  = Menus.scanner.nextLine();
 
         if(escolhas.equals("1")){
+            ArrayList<Musica> musicas = getListMusica();
+            while (true){
+                System.out.println("------------------------Lista Musicas---------------");
+                for (int i = 0; i < musicas.size(); i++) {
+                    System.out.println("id: " + i + "  " + musicas.get(i));
+                }
+                System.out.println("----------------------------------------------------");
+                System.out.println("Adicionar musica id: ");
+                Integer posicao = Menus.scanner.nextInt();
+                Menus.scanner.nextLine();
 
+                if(posicao < 0 || posicao >= musicas.size()){
+                    System.out.println("Ops! Tente novamente");
+                } else {
+                    Musica musica = musicas.get(posicao);
+                    playListsBD.adicionarMusicas(ouvinte, playlist.getId(), musica);
+                    System.out.print("Adicionar mais musicas? [1] - Sim [Qualquer] - Não");
+                    String escolha = Menus.scanner.nextLine();
+                    if(!escolha.equals("1")){
+                        break;
+                    }
+                }
+            }
         }
+
     }
 }

@@ -66,7 +66,10 @@ public class UsuariosTeste {
                 2.3, 1122);
         Musica mscM3 = new Musica(UUID.randomUUID().toString(), "Vilareijo", artistaMarisa,
                 3.3, 144);
-        ArrayList<Musica> musicasMarisa = new ArrayList<>(Arrays.asList(mscM1, mscM2, mscM3));
+        Musica mscM4 = new Musica(UUID.randomUUID().toString(), "Trinta Vilareijo", artistaMarisa,
+                3.6, 154);
+
+        ArrayList<Musica> musicasMarisa = new ArrayList<>(Arrays.asList(mscM1, mscM2, mscM3, mscM4));
         albumMarisa.getListaMusicas().addAll(musicasMarisa);
 
         Menus.albunsListaBD.criar(albumPericles);
@@ -99,6 +102,7 @@ public class UsuariosTeste {
                     Menus.atualizarInformacoes(ouvinte);
                     break;
                 case "2":
+                    Menus.buscarMusica();
                     break;
                 case "3":
                     Menus.listarArtistas(ouvinte);

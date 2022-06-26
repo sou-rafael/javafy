@@ -98,16 +98,12 @@ public class Menus {
         String escolha = Menus.scanner.nextLine();
     }
 
-<<<<<<< HEAD
-=======
     public static void verSeguindo(Ouvinte ouvinte){
         System.out.println("Veja quem está seguindo voce:");
         System.out.println(ouvinte.getSeguindo());
         //criar um populando lista de seguindo
     }
 
-
->>>>>>> 2bf87b4c8ed4e28e34b5e4565d8b29b89d6d0de1
     public static void atualizarInformacoes(Ouvinte ouvinte){
         boolean voltarParaMenuPrincipal = false;
         do {

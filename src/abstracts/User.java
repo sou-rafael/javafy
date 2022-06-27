@@ -1,12 +1,7 @@
 package abstracts;
 
-
 import interfaces.Informacoes;
-import models.Musica;
-import models.Playlist;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class User implements Informacoes {
 

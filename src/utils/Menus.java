@@ -83,24 +83,44 @@ public class Menus {
     }
 
     public static void suasInformacoes(Ouvinte ouvinte){
-        System.out.println(ouvinte);
-        Boolean voltarMenuPrincipal = false;
-        System.out.print("Digite qualquer coisa para voltar: : ");
-
-        String escolha = Menus.scanner.nextLine();
+        System.out.println("----------Informações do usuario----------");
+        System.out.println("Nome: "+ouvinte.getNome());
+        System.out.println("Genero: "+ouvinte.getGenero());
+        System.out.println("Data de nascimento: "+ouvinte.getDataDeNascimento());
+        System.out.println("Quantidade de seguidores: "+ouvinte.getQuantidadeSeguidores());
+        System.out.println("Quantidade de seguindo: "+ouvinte.getQuantidadeSeguindo());
+        System.out.println("-------------------------------------------");
     }
 
     public static void verSeguidores(Ouvinte ouvinte){
-        for (User ovt:ouvinte.getSeguidores()) {
-            ovt.informacoesMinimas();
+        for (int i = 0 ; i < ouvinte.getSeguidores().size(); i++) {
+            System.out.print(" "+ i+ " ");
+            ouvinte.getSeguidores().get(i).informacoesMinimas();
         }
-        System.out.print("Digite qualquer coisa para voltar: ");
+        System.out.println("[1] - Deixar de seguir     [Voltar] - Qualquer coisa ");
         String escolha = Menus.scanner.nextLine();
+        String nome = "";
+        if(!ouvinte.getSeguidores().isEmpty()){
+            if(escolha.equals("1")){
+                System.out.println("Digite o id do seguidor ");
+                escolha = scanner.next();
+                nome = ouvinte.getSeguidores().get(Integer.parseInt(escolha)).getNome();
+                ouvinte.getSeguidores().remove(ouvinte.getSeguidores().get(Integer.parseInt(escolha)));
+                System.out.println("Voce removeu "+ nome);
+            }
+        } else{
+            System.out.println("Você não tem nenhum seguidor ainda");
+            System.out.println("Digite qualquer coisa para sair");
+
+        }
+        escolha = Menus.scanner.nextLine();
     }
 
     public static void verSeguindo(Ouvinte ouvinte){
         System.out.println("Veja quem está seguindo voce:");
-        System.out.println(ouvinte.getSeguindo());
+        for(int i = 0; i < ouvinte.getSeguindo().size(); i++){
+            System.out.println(ouvinte.getSeguindo().get(i).getNome());
+        }
         //criar um populando lista de seguindo
     }
 
@@ -215,7 +235,6 @@ public class Menus {
             escolhaId = Menus.scanner.nextInt();
             Menus.scanner.nextLine();
         }
-
         switch (escolha){
             case "1":
                 if(escolhaId < 0 || escolhaId >= playlists.size() ){
@@ -225,11 +244,9 @@ public class Menus {
                     System.out.println("------------------Edição Playlist----------------------");
                     System.out.println("Nome Playlist: " + playlist.getNomePlaylist());
                     int cont = 0;
-                    for (Playlist playl: playlists){
-                        for (Musica m: playl.getListaMusicas()){
-                            System.out.println("id - " + cont+ " | Musica: " + m.getNomeDaMusica());
-                            cont ++;
-                        }
+                    for(Musica m: playlist.getListaMusicas()){
+                        System.out.println("id - " + cont+ " | Musica: " + m.getNomeDaMusica());
+                        cont ++;
                     }
                     System.out.println("-----------------------------------------------");
                     System.out.println("[1] - Editar nome Playlist" +
@@ -325,12 +342,11 @@ public class Menus {
     }
 
     public static void menuCriarPlayList(Ouvinte ouvinte){
-        UUID uuid = UUID.randomUUID();
         System.out.println("-----------------------------------------------");
         System.out.print("Nome da playlist: ");
         String nomePlayList = Menus.scanner.nextLine();
 
-        Playlist playlist = new Playlist(nomePlayList, uuid.toString(), ouvinte);
+        Playlist playlist = new Playlist(nomePlayList, UUID.randomUUID().toString(), ouvinte);
 
         boolean resposta = playListsBD.criar(playlist);
 

@@ -78,11 +78,9 @@ public class UsuariosView {
 
     public static void main(String[] args) {
         // Iniciando objetos importantes
-        //Ouvinte ouvinte = createOuvinte();
+        Ouvinte ouvinte = createOuvinte();
         inicializarMusicasArtistas();
         UUID uuid = UUID.randomUUID();
-        Ouvinte ouvinte = new Ouvinte("Cleber", uuid.toString(),
-                "13101994", "M", false );
 
         Ouvinte ouvinte2 = new Ouvinte("Juliana", uuid.toString(),
                 "22051998", "F", true );

@@ -1,7 +1,5 @@
 package models;
 
-import interfaces.Informacoes;
-
 import java.util.Objects;
 
 public class Musica {

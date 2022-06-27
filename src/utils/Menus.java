@@ -235,7 +235,6 @@ public class Menus {
             escolhaId = Menus.scanner.nextInt();
             Menus.scanner.nextLine();
         }
-
         switch (escolha){
             case "1":
                 if(escolhaId < 0 || escolhaId >= playlists.size() ){
@@ -245,11 +244,9 @@ public class Menus {
                     System.out.println("------------------Edição Playlist----------------------");
                     System.out.println("Nome Playlist: " + playlist.getNomePlaylist());
                     int cont = 0;
-                    for (Playlist playl: playlists){
-                        for (Musica m: playl.getListaMusicas()){
-                            System.out.println("id - " + cont+ " | Musica: " + m.getNomeDaMusica());
-                            cont ++;
-                        }
+                    for(Musica m: playlist.getListaMusicas()){
+                        System.out.println("id - " + cont+ " | Musica: " + m.getNomeDaMusica());
+                        cont ++;
                     }
                     System.out.println("-----------------------------------------------");
                     System.out.println("[1] - Editar nome Playlist" +
@@ -345,12 +342,11 @@ public class Menus {
     }
 
     public static void menuCriarPlayList(Ouvinte ouvinte){
-        UUID uuid = UUID.randomUUID();
         System.out.println("-----------------------------------------------");
         System.out.print("Nome da playlist: ");
         String nomePlayList = Menus.scanner.nextLine();
 
-        Playlist playlist = new Playlist(nomePlayList, uuid.toString(), ouvinte);
+        Playlist playlist = new Playlist(nomePlayList, UUID.randomUUID().toString(), ouvinte);
 
         boolean resposta = playListsBD.criar(playlist);
 

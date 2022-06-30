@@ -40,5 +40,7 @@ Dentro do pacote view, run UsuarioView
 
 
 ### Modelo relacional - Em CONSTRUÇÃO
+- Notou-se que não era necessário uma tabela para seguidores e seguindo. Ambas respondem para o mesmo fim.
+
 ![HomerWork_2_QUESTAO](https://user-images.githubusercontent.com/66011013/176692097-f2d764d2-2fcb-4860-9e61-a445e693dda7.png)
 

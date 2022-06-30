@@ -37,3 +37,8 @@ Dentro do pacote view, run UsuarioView
 ### Cruds
 - É possível criar, atualizar, deletar e adicionar nas playlist
 - É possível alterar dados do usuário
+
+
+### Modelo relacional - Em CONSTRUÇÃO
+![HomerWork_2_QUESTAO](https://user-images.githubusercontent.com/66011013/176692097-f2d764d2-2fcb-4860-9e61-a445e693dda7.png)
+

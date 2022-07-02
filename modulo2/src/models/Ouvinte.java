@@ -8,10 +8,21 @@ public class Ouvinte extends Usuario {
 
     private Integer idOuvinte;
 
-    public Ouvinte(Integer id_user, String nome, String dataNascimento, String genero,
+    private Usuario usuario;
+
+
+    public Ouvinte(Integer idUser, String nome, String dataNascimento, String genero,
                    String premium, Integer idOuvinte) {
-        super(id_user, nome, dataNascimento, genero, premium);
+        super(idUser, nome, dataNascimento, genero, premium);
         this.idOuvinte = idOuvinte;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Integer getIdOuvinte() {

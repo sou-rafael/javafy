@@ -52,8 +52,11 @@ public class Ouvinte extends Usuario {
 
     @Override
     public String toString() {
-        return "Ouvinte{" +
-                "idOuvinte=" + idOuvinte +
-                '}';
+        return "Ouvinte \n" +
+                "Nome = \n" + getNome()+
+                "Data de Nascimento = \n" + getDataNascimento()+
+                "Genero = \n" + getGenero()+
+                "Usuario premium = \n" +getPremium()
+                ;
     }
 }

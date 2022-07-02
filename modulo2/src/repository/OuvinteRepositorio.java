@@ -1,12 +1,10 @@
 package repository;
 
-import abstracts.Usuario;
 import exceptions.BancoDeDadosException;
 import models.Musica;
 import models.Ouvinte;
 import models.Playlist;
 
-import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,7 @@ import java.util.List;
 public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
 
     @Override
-    public Integer getProximoId(Connection connection) {
+    public Integer getProximoId(Connection connection) throws BancoDeDadosException {
         try{
             String sql = "SELECT seq_id_ouvinte.nextval ouvinteSequence FROM OUVINTE";
             Statement stmt = connection.createStatement();
@@ -24,12 +22,12 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
             }
             return null;
         } catch (SQLException e) {
-            throw new RuntimeException(e.getCause());
+            throw new BancoDeDadosException(e.getCause());
         }
     }
 
     @Override
-    public Ouvinte adicionar(Ouvinte ouvinte) {
+    public Ouvinte adicionar(Ouvinte ouvinte) throws BancoDeDadosException {
 
         Connection con = null;
         try{
@@ -54,7 +52,7 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
 
         }catch (SQLException ex){
             //colocar nossa exception
-            throw new RuntimeException(ex.getCause());
+            throw new BancoDeDadosException(ex.getCause());
         } finally {
             try {
                 if (con != null) {
@@ -68,7 +66,7 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
     }
 
     @Override
-    public boolean remover(Integer idOuvinte) {
+    public boolean remover(Integer idOuvinte) throws BancoDeDadosException {
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
@@ -86,7 +84,7 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
             return res > 0;
         } catch (SQLException ex) {
             //colocar nossa exception
-            throw new RuntimeException(ex.getCause());
+            throw new BancoDeDadosException(ex.getCause());
         } finally {
             try {
                 if (con != null) {
@@ -99,7 +97,7 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
     }
 
     @Override
-    public boolean editar(Integer id, Ouvinte ouvinte) {
+    public boolean editar(Integer id, Ouvinte ouvinte) throws BancoDeDadosException {
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
@@ -157,8 +155,8 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
             System.out.println("editarOuvinte.res=" + res);
 
             return res > 0;
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (SQLException ex) {
+            throw new BancoDeDadosException(ex.getCause());
         } finally {
             try {
                 if (con != null) {
@@ -169,11 +167,10 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
             }
         }
 
-        return false;
     }
 
     @Override
-    public List<Ouvinte> listar() {
+    public List<Ouvinte> listar() throws BancoDeDadosException {
         List<Ouvinte> ouvintes = new ArrayList<>();
         Connection con = null;
         try {
@@ -182,19 +179,19 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
 
             String sql = "SELECT *, " +
                     "            o.NOME AS NOME_PESSOA " +
-                    "       FROM OUVINTE o " +
+                    "       VEM_SER.OUVINTE o " +
                     "  LEFT JOIN USUARIO u ON (o.ID_USUARIO = u.ID_USUARIO) ";
 
             // Executa-se a consulta
             ResultSet res = stmt.executeQuery(sql);
             while (res.next()) {
                 // adcionar esse metodo a classe usuario repository
-                //Ouvinte ouvinte = getOuvinteFromResultSet(res);
-                //ouvintes.add(ouvinte);
+                Ouvinte ouvinte = getOuvinteFromResultSet(res);
+                ouvintes.add(ouvinte);
             }
             return ouvintes;
         } catch (SQLException e) {
-            throw new RuntimeException(e.getCause());
+            throw new BancoDeDadosException(e.getCause());
         } finally {
             try {
                 if (con != null) {
@@ -207,7 +204,7 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
     }
 
     // Só para entender o processo
-    public void getOuvinte(Integer id){
+    public Ouvinte getOuvinte(Integer id){
         Connection con = null;
         try {
             Ouvinte ouvinte = new Ouvinte();
@@ -262,8 +259,26 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-
+        return null;
+    }
+    private Ouvinte getOuvinteFromResultSet(ResultSet res) throws SQLException {
+        Ouvinte ouvinte = new Ouvinte();
+        ouvinte.setIdOuvinte(res.getInt("id_ouvinte"));
+        ouvinte.setIdUser(res.getInt("id_user"));
+        ouvinte.setNome(res.getString("nome_ouvinte"));
+        ouvinte.setGenero(res.getString("genero_ouvinte"));
+        ouvinte.setDataNascimento(String.valueOf(res.getDate("data_nascimento").toLocalDate()));
+        ouvinte.setPremium(res.getString("premium"));
+        return ouvinte;
     }
 
 }

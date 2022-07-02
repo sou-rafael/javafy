@@ -6,16 +6,29 @@ import models.Ouvinte;
 import models.Playlist;
 import service.ListaDeMusicaServices;
 import service.MusicaService;
+import service.OuvinteService;
 import service.PlayListService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+
+import static views.Main.idOuvinte;
 
 public class Menus {
     public static MusicaService musicaService= new MusicaService();
     public static PlayListService playListService= new PlayListService();
     public static ListaDeMusicaServices listaDeMusicaServices = new ListaDeMusicaServices();
+
+    public static OuvinteService ouvinteService = new OuvinteService();
+
+    //formatador apenas de exemplo adequar o formatador ao banco de dados
+    public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    public static Ouvinte ouvinte = new Ouvinte();
+
     // STRINGS STATICAS PARA O PROJETO
     public static Integer escolhaUser = 0;
     public static String mudancasUser = "";
@@ -73,37 +86,79 @@ public class Menus {
         while (usoValido) {
             escolhaUser = Menus.getNumeric();
             switch (escolhaUser) {
-                case 0:
+                case 0 -> {
                     System.out.println(0);
+                    System.out.println("================ EDITAR NOME ==================");
+                    System.out.println("Digite o nome do ouvinte ");
+                    String novoNome = getString();
+                    ouvinte.setNome(novoNome);
+                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
                     usoValido = false;
-                    break;
-                case 1:
+                }
+                case 1 -> {
                     System.out.println(1);
+                    System.out.println("================ EDITAR GENERO ==================");
+                    System.out.println("Digite o genero do ouvinte ");
+                    String novoGenero = getString();
+                    ouvinte.setGenero(novoGenero);
+                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
                     usoValido = false;
-                    break;
-                case 2:
+                }
+                case 2 -> {
                     System.out.println(2);
+                    System.out.println("================ EDITAR DATA DE NASCIMENTO ==================");
+                    ouvinteService.listarOuvintes();
+                    System.out.println("Digite o id do ouvinte ");
+                    System.out.println("Digite a data de nascimento do ouvinte ");
+                    String novaIdade = getString();
+                    ouvinte.setDataNascimento(String.valueOf(LocalDate.parse(novaIdade, formatter)));
+                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
                     usoValido = false;
-                    break;
-                case 3:
+                }
+                case 3 -> {
                     System.out.println(3);
+                    System.out.println("================ EDITAR PLANO ==================");
+                    ouvinteService.listarOuvintes();
+                    System.out.println("Digite o id do ouvinte ");
+                    System.out.println("Digite [1] para premium " +
+                            "\nDigite qualquer outra coisa para não mudar");
+                    String novoPlano = getString();
+                    if (novoPlano.equals("1")) {
+                        ouvinte.setPremium("1");
+                    }
+                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
                     usoValido = false;
-                    break;
-                case 4:
+                }
+                case 4 -> {
                     System.out.println(4);
                     usoValido = false;
-                    break;
-                case 5:
+                }
+                case 5 -> {
                     System.out.println(5);
+                    System.out.println("================ EDITAR OUVINTE ==================");
+                    System.out.println("Digite o nome do ouvinte ");
+                    String novoNomeTodos = getString();
+                    ouvinte.setNome(novoNomeTodos);
+                    System.out.println("Digite a data de nascimento (dd/MM/yyyy)");
+                    String novaData = getString();
+                    ouvinte.setDataNascimento(String.valueOf(LocalDate.parse(novaData, formatter)));
+                    System.out.println("Digite o genero : ");
+                    String novoGenero2 = getString();
+                    ouvinte.setGenero(novoGenero2);
+                    System.out.println("Digite [1] para premium " +
+                            "\nDigite qualquer outra coisa para não mudar");
+                    String novoPlano2 = getString();
+                    if (novoPlano2.equals("1")) {
+                        ouvinte.setPremium("1");
+                    }
+                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
                     usoValido = false;
-                    break;
-                case 6:
+                }
+                case 6 -> {
                     System.out.println(6);
                     usoValido = false;
-                    break;
-                default:
-                    System.out.println(errorSelecionar);
-                    break;
+                }
+                default -> System.out.println(errorSelecionar);
             }
         }
     }
@@ -162,15 +217,15 @@ public class Menus {
         while (usoValido) {
             escolhaUser = Menus.getNumeric();
             switch (escolhaUser) {
-                case 0:
+                case 0 -> {
                     System.out.println("============== PLAYLISTS DO USUARIO ===============");
                     playListService.ListarPlayList(ouvinte);
                     System.out.println();
                     System.out.println("[0] - VER PLAYLIST     [1] - SAIR");
                     escolhaUser = getNumeric();
                     usoValido = false;
-                    break;
-                case 1:
+                }
+                case 1 -> {
                     System.out.println("================= CRIAR PLAYLIST ==================");
                     System.out.print("Nome para playlist: ");
                     String nomePlaylist = getString();
@@ -182,18 +237,14 @@ public class Menus {
                     playListService.adicionarPlaylist(playlist);
 
                     // CHAMAR TELA PARA ADICIONAR MUSICA NA PLAYLIST SÓ SE PLAYLIST FOR CRIADA
-                    if(playlist.getIdPlaylist() != null) {
+                    if (playlist.getIdPlaylist() != null) {
                         addMusicasNaPlayList(playlist);
                     }
                     System.out.println("===================================================");
                     usoValido = false;
-                    break;
-                case 2:
-                    usoValido = false;
-                    break;
-                default:
-                    System.out.println("Opção inválida!!! ");
-                    break;
+                }
+                case 2 -> usoValido = false;
+                default -> System.out.println("Opção inválida!!! ");
             }
         }
 

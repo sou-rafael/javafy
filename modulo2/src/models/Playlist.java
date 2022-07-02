@@ -11,7 +11,13 @@ public class Playlist extends PlayListModel<Ouvinte> {
         super(idPlaylist, nome, proprietario);
     }
 
-    public boolean validarSeMusicaJaEstaNaPlayList(Musica musica) {
-        return getMusicas().contains(musica);
+    public boolean validarSeMusicaJaEstaNaPlayList(Integer idMusica) {
+        for (Musica musica: getMusicas()) {
+            if(musica.getIdMusica().equals(idMusica)) {
+                return true;
+            }
+        }
+        return false;
     }
+
 }

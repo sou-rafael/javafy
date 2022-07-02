@@ -1,9 +1,11 @@
 package repository;
 
 import exceptions.BancoDeDadosException;
+import models.Ouvinte;
 import models.Playlist;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayListRepository implements Repositorio<Integer, Playlist>{
@@ -84,8 +86,38 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
 
     @Override
     public List<Playlist> listar() {
-
-
         return null;
     }
+
+    public List<Playlist> listarPorUsuario(Ouvinte ouvinte) throws BancoDeDadosException {
+        String sql = "SELECT * FROM PLAYLIST p WHERE p.ID_OUVINTE = " + ouvinte.getIdOuvinte();
+        Connection connection = null;
+        List<Playlist> playlists = new ArrayList<>();
+        try {
+            connection = ConexaoBancoDeDados.getConnection();
+            Statement stmt = connection.createStatement();
+            ResultSet resultSet = stmt.executeQuery(sql);
+
+            while (resultSet.next()) {
+                Playlist playlist = new Playlist();
+                playlist.setProprietario(ouvinte);
+                playlist.setIdPlaylist(resultSet.getInt("id_playlist"));
+                playlist.setNome(resultSet.getString("nome"));
+                playlists.add(playlist);
+            }
+            return playlists;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if(connection!=null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 }

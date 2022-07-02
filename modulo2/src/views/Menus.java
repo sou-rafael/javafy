@@ -10,6 +10,7 @@ import service.PlayListService;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Menus {
     public static MusicaService musicaService= new MusicaService();
@@ -146,17 +147,22 @@ public class Menus {
 
     // MENU BIBLIOTECA - ESCOLHA 5
     public static void verBibliotecas() {
+
         System.out.println("==================== BIBLIOTECA ===================");
         System.out.println("[0] - VER SUAS PLAYLISTS     [1] - CRIAR PLAYLIST");
         System.out.println("[2] - VOLTAR");
         System.out.println("===================================================");
 
         boolean usoValido = true;
+        // ESSE OUVINTE SERÁ OBTIDO POR MÉTODO
+        Ouvinte ouvinte = new Ouvinte();
+        ouvinte.setIdOuvinte(1);
+
         while (usoValido) {
             escolhaUser = Menus.getNumeric();
             switch (escolhaUser) {
                 case 0:
-                    break;
+
                 case 1:
                     System.out.println("================= CRIAR PLAYLIST ==================");
                     System.out.print("Nome para playlist: ");
@@ -166,9 +172,6 @@ public class Menus {
                     Playlist playlist = new Playlist();
                     playlist.setNome(nomePlaylist);
 
-                    // ESSE OUVINTE SERÁ OBTIDO POR MÉTODO
-                    Ouvinte ouvinte = new Ouvinte();
-                    ouvinte.setIdOuvinte(1);
                     playlist.setProprietario(ouvinte);
 
                     try {
@@ -203,10 +206,10 @@ public class Menus {
                 // Pegar uma lista de musicas do banco de dados
                 List<Musica> musicas = musicaService.listarMusica();
                 if(musicas == null) {
-                    System.out.println("OPS!!!. Algum error aconteceu");
                     return;
                 }
                 if(!musicas.isEmpty()) {
+
                     System.out.println("=========== LISTA DE MUSICAS ==============\n");
                     for (Musica musica: musicas) {
                         System.out.println("ID: " + musica.getIdMusica() + " | Nome: " + musica.getNome());
@@ -214,16 +217,22 @@ public class Menus {
                     System.out.println("===========================================\n");
 
                     while (true) {
-                        System.out.print("Id musica.");
+                        System.out.print("Entre com o id da musica. ");
                         escolhaUser = getNumeric();
-                        if(escolhaUser < 1 || escolhaUser > musicas.size()){
-                            System.out.println("Id informado inválido!!!!");
-                        } else if(playlist.validarSeMusicaJaEstaNaPlayList(musicas.get(escolhaUser-1))){
+
+                        if(playlist.validarSeMusicaJaEstaNaPlayList(escolhaUser)){
                             System.out.println("OPS! MUSICA JÁ ADICIONADA!");
                             addMusica = false;
                         } else {
-                            listaDeMusicaServices.salvarPlaylist(playlist, musicas.get(escolhaUser-1));
-                            playlist.getMusicas().add(musicas.get(escolhaUser-1));
+                            Musica musica = musicas.stream()
+                                    .filter(m -> m.getIdMusica().equals(escolhaUser))
+                                    .findFirst().orElse(null);
+                            if(musica == null) {
+                                System.out.println("OPS! ID INFORMADO INVÁLIDO");
+                            } else {
+                                listaDeMusicaServices.salvarPlaylist(playlist, musica);
+                                playlist.getMusicas().add(musica);
+                            }
                             break;
                         }
                     }

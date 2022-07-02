@@ -8,7 +8,9 @@ import service.ListaDeMusicaServices;
 import service.MusicaService;
 import service.PlayListService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -164,11 +166,47 @@ public class Menus {
             switch (escolhaUser) {
                 case 0:
                     System.out.println("============== PLAYLISTS DO USUARIO ===============");
-                    playListService.ListarPlayList(ouvinte);
-                    System.out.println();
-                    System.out.println("[0] - VER PLAYLIST     [1] - SAIR");
-                    escolhaUser = getNumeric();
-                    usoValido = false;
+                    List<Playlist> playlists = playListService.ListarPlayList(ouvinte);
+                    if(!playlists.isEmpty()){
+                        System.out.println("[0] - SELECIONAR PLAYLIST     [1] - SAIR");
+                        escolhaUser = getNumeric();
+
+                        if(escolhaUser == 0) {
+                            System.out.print("Digite o id da playlist. ");
+                            escolhaUser = Menus.getNumeric();
+                            Playlist playlist = listaDeMusicaServices.getMusicasWithPlayList(escolhaUser, ouvinte);
+                            if(playlist != null) {
+                                if(!playlist.getMusicas().isEmpty()){
+                                    for (Musica musica: playlist.getMusicas()) {
+                                        System.out.println("| Id Musica: " + musica.getIdMusica()
+                                                + " | Nome da musica: " + musica.getNome() + " | Curtidas: "
+                                                + musica.getCurtidas() + " | Avaliacao: " + musica.getAvaliacao());
+                                    }
+                                    System.out.println("[0] - EDITAR NOME PLAYLIST      [1] - DELETAR MUSICA DA PLAYLIST");
+                                    System.out.println("[1] - SAIR");
+                                    escolhaUser = Menus.getNumeric();
+                                    switch (escolhaUser){
+                                        case 0:
+                                            System.out.println("EDITAR PLAYLIST");
+                                            break;
+                                        case 1:
+                                            System.out.print("Digite o id da musica: ");
+                                            escolhaUser = Menus.getNumeric();
+                                            listaDeMusicaServices.deletarMusicaDaPlayList(playlist, ouvinte, escolhaUser);
+                                            break;
+                                        default:
+                                            usoValido = false;
+                                    }
+                                } else {
+                                    System.out.println("Playlist VAZIA!!!");
+                                }
+                            }else {
+                                System.out.println("OPS! Algum erroa aconteceu!");
+                            }
+
+                        }
+                        usoValido = false;
+                    }
                     break;
                 case 1:
                     System.out.println("================= CRIAR PLAYLIST ==================");
@@ -198,7 +236,7 @@ public class Menus {
         }
 
     }
-
+    // Método para adicionar musicas na playlist
     public static void addMusicasNaPlayList(Playlist playlist){
         boolean addMusica = true;
         while (addMusica){
@@ -208,19 +246,24 @@ public class Menus {
 
             if(escolhaUser == 0) {
                 // Pegar uma lista de musicas do banco de dados
-                boolean temMusicaSalva = musicaService.listarMusica();
-                if(temMusicaSalva) {
-                    System.out.print("Digite o id da musica. ");
-                    escolhaUser = getNumeric();
-                    listaDeMusicaServices.adicionarMusicaNaPlayList(playlist, escolhaUser,
-                            musicaService);
+                List<Musica> musicas = musicaService.listarMusica();
+
+                if (musicas == null || musicas.isEmpty()) {
+                    continue;
                 }
 
+                System.out.print("Digite o id da musica. ");
+                escolhaUser = getNumeric();
+                listaDeMusicaServices.adicionarMusicaNaPlayList(playlist, escolhaUser,
+                        musicaService);
             } else {
-                System.out.println("Sem musicas cadastradas no sistema!");
                 addMusica = false;
             }
         }
+    }
+
+    public static void editarPlayListNome() {
+
     }
 
     // MENU INFORMAÇÕES USUÁRIO - ESCOLHA 6

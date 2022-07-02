@@ -100,7 +100,7 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
         return null;
     }
 
-    public List<Playlist> listarPorUsuario(Ouvinte ouvinte) throws BancoDeDadosException {
+    public List<Playlist> listar(Ouvinte ouvinte) throws BancoDeDadosException {
         String sql = "SELECT * FROM PLAYLIST p WHERE p.ID_OUVINTE = " + ouvinte.getIdOuvinte();
         Connection connection = null;
         List<Playlist> playlists = new ArrayList<>();
@@ -123,6 +123,38 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
             try {
                 if(connection!=null) {
                     connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public Playlist getPlaylistById(Integer id, Ouvinte ouvinte) throws BancoDeDadosException{
+        Connection con = null;
+        Playlist playlist = null;
+        try {
+            String sql = "SELECT * FROM VEM_SER.PLAYLIST P " +
+                    "WHERE P.ID_PLAYLIST = " + id + " AND P.ID_OUVINTE = " + ouvinte.getIdOuvinte();
+            System.out.println(sql);
+            con = ConexaoBancoDeDados.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet resultSet = stmt.executeQuery(sql);
+
+            while (resultSet.next()) {
+                playlist = new Playlist();
+                playlist.setIdPlaylist(resultSet.getInt("id_playlist"));
+                playlist.setProprietario(ouvinte);
+                playlist.setNome(resultSet.getString("nome"));
+            }
+            return playlist;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if(con!=null) {
+                    con.close();
                 }
             } catch (SQLException e) {
                 e.printStackTrace();

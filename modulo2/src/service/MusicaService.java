@@ -4,6 +4,7 @@ import exceptions.BancoDeDadosException;
 import models.Musica;
 import repository.MusicaRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MusicaService {
@@ -17,18 +18,22 @@ public class MusicaService {
 
     }
 
-    public boolean listarMusica() {
+    public List<Musica> lista(){
         try {
-            List<Musica> musicas = musicaRepository.listar();
-            for (Musica musica: musicas) {
-                System.out.println("ID: " + musica.getIdMusica() + " | Nome: " + musica.getNome());
-            }
-            return musicas.size() > 0;
+            return musicaRepository.listar();
 
         } catch (BancoDeDadosException e) {
             System.out.println("OPS! Algum erro aconteceu.");
-            return false;
+            return new ArrayList<>();
         }
+    }
+
+    public List<Musica> listarMusica() {
+            List<Musica> musicas = lista();
+            for (Musica musica: musicas) {
+                System.out.println("ID: " + musica.getIdMusica() + " | Nome: " + musica.getNome());
+            }
+            return musicas;
     }
 
     public Musica getMusica(Integer id) {

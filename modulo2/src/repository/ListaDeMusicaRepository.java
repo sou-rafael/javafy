@@ -2,9 +2,14 @@ package repository;
 
 import exceptions.BancoDeDadosException;
 import models.Musica;
+import models.Ouvinte;
 import models.Playlist;
+import service.MusicaService;
+import service.PlayListService;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListaDeMusicaRepository {
 
@@ -33,9 +38,6 @@ public class ListaDeMusicaRepository {
                 e.printStackTrace();
             }
         }
-
-
-
     };
 
     public boolean getMusicaInPlayList(Integer idPlayList, Integer idMusica) throws BancoDeDadosException {
@@ -52,6 +54,48 @@ public class ListaDeMusicaRepository {
 
     }
 
+    public List<Musica> getMusicaInPlayList(Playlist playlist) throws BancoDeDadosException {
+        String sql = "SELECT l.ID_MUSICA, m.NOME, m.AVALIACAO, m.DURACAO, m.CURTIDAS  FROM LISTADEMUSICAS l " +
+                    "JOIN MUSICA m ON m.ID_MUSICA = l.ID_MUSICA " +
+            "WHERE l.ID_PLAYLIST = " + playlist.getIdPlaylist();
+        ;
+        Connection con = null;
+        List<Musica> musicas = new ArrayList<>();
 
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet resultSet = stmt.executeQuery(sql);
+
+            while (resultSet.next()){
+                Musica musica = new Musica();
+                musica.setIdMusica(resultSet.getInt("id_musica"));
+                musica.setNome(resultSet.getString("nome"));
+                musica.setAvaliacao(resultSet.getInt("avaliacao"));
+                musica.setDuracao(resultSet.getDouble("duracao"));
+                musica.setCurtidas(resultSet.getInt("curtidas"));
+                musicas.add(musica);
+            }
+            return musicas;
+        }catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        }
+    }
+
+    public boolean removerMusicaDaPlayList(Integer idMusica, Playlist playlist) throws BancoDeDadosException {
+        String sql = "DELETE FROM LISTADEMUSICAS l " +
+                "WHERE l.ID_PLAYLIST = " + playlist.getIdPlaylist() + " AND " + " l.ID_MUSICA = " + idMusica ;
+        Connection con = null;
+        try{
+            con = ConexaoBancoDeDados.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            int res = stmt.executeUpdate();
+            System.out.println(res);
+            return res > 0;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        }
+
+    }
 
 }

@@ -1,14 +1,36 @@
 package views;
 
 import abstracts.Usuario;
+import exceptions.BancoDeDadosException;
 import models.Artista;
+import models.Ouvinte;
+import models.Playlist;
+import repository.OuvinteRepositorio;
+import repository.PlayListRepository;
+
+import java.sql.SQLException;
+import java.util.Arrays;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         int escolhaUser;
         boolean continuarNaAplicacao = true;
-        while (continuarNaAplicacao) {
+
+        /*PlayListRepository pr = new PlayListRepository();
+        Playlist playlist = new Playlist(1, "NOVO TESTE CARAI", null);
+        try {
+            pr.editar(1, playlist);
+        } catch (BancoDeDadosException ex) {
+            System.out.println(ex.getMessage());
+        }*/
+
+        OuvinteRepositorio ouvinteRepositorio = new OuvinteRepositorio();
+        Ouvinte ouvinte = new Ouvinte();
+        ouvinteRepositorio.getOuvinte(1);
+
+
+        /*while (continuarNaAplicacao) {
             Menus.menuPrincipal();
             escolhaUser = Menus.getNumeric();
             switch (escolhaUser) {
@@ -41,6 +63,6 @@ public class Main {
                     System.out.println(Menus.errorSelecionar);
                     break;
             }
-        }
+        }*/
     }
 }

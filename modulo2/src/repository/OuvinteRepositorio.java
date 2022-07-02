@@ -1,7 +1,10 @@
 package repository;
 
 import abstracts.Usuario;
+import exceptions.BancoDeDadosException;
+import models.Musica;
 import models.Ouvinte;
+import models.Playlist;
 
 import javax.xml.transform.Result;
 import java.sql.*;
@@ -12,22 +15,17 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
 
     @Override
     public Integer getProximoId(Connection connection) {
-
         try{
             String sql = "SELECT seq_id_ouvinte.nextval ouvinteSequence FROM OUVINTE";
             Statement stmt = connection.createStatement();
             ResultSet result = stmt.executeQuery(sql);
-
             if(result.next()){
                 return result.getInt("ouvinteSequence");
             }
-
             return null;
-
         } catch (SQLException e) {
             throw new RuntimeException(e.getCause());
         }
-
     }
 
     @Override
@@ -108,24 +106,25 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE ouvinte SET \n");
-            Usuario usuario = ouvinte.getUsuario();
-            if (usuario != null) {
-                if (usuario.getIdUser() != null) {
+
+            if (ouvinte != null) {
+                if (ouvinte.getIdUser() != null) {
                     sql.append(" id_usuario = ?,");
                 }
+                if (ouvinte.getGenero() != null) {
+                    sql.append(" genero = ?,");
+                }
+                if (ouvinte.getPremium() != null) {
+                    sql.append(" premium = ?,");
+                }
+                if (ouvinte.getNome() != null) {
+                    sql.append(" nome = ?,");
+                }
+                if (ouvinte.getDataNascimento() != null) {
+                    sql.append(" dataNascimento = ?,");
+                }
             }
-            if (ouvinte.getGenero() != null) {
-                sql.append(" genero = ?,");
-            }
-            if (ouvinte.getPremium() != null) {
-                sql.append(" premium = ?,");
-            }
-            if (ouvinte.getNome() != null) {
-                sql.append(" nome = ?,");
-            }
-            if (ouvinte.getDataNascimento() != null) {
-                sql.append(" dataNascimento = ?,");
-            }
+
 
             sql.deleteCharAt(sql.length() - 1); //remove o ultimo ','
             sql.append(" WHERE id_ouvinte = ? ");
@@ -133,14 +132,13 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
             PreparedStatement stmt = con.prepareStatement(sql.toString());
 
             int index = 1;
-            if (usuario != null) {
-                if (usuario.getIdUser() != null) {
-                    stmt.setInt(index++, usuario.getIdUser());
+            if (ouvinte != null) {
+                if (ouvinte.getIdUser() != null) {
+                    stmt.setInt(index++, ouvinte.getIdUser());
                 }
             }
             if (ouvinte.getGenero() != null) {
-                assert usuario != null;
-                stmt.setString(index++, usuario.getGenero());
+                stmt.setString(index++, ouvinte.getGenero());
             }
             if (ouvinte.getNome() != null) {
                 stmt.setString(index++, ouvinte.getNome());
@@ -208,4 +206,64 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
             }
         }
     }
+
+    // Só para entender o processo
+    public void getOuvinte(Integer id){
+        Connection con = null;
+        try {
+            Ouvinte ouvinte = new Ouvinte();
+            List<Playlist> playlists = new ArrayList<>();
+            List<Musica> musicas = new ArrayList<>();
+
+            String sqlOuvinte = "SELECT * FROM VEM_SER.OUVINTE o \n" +
+                    "JOIN USUARIO u ON u.ID_USER = o.ID_USER \n" +
+                    "WHERE o.ID_OUVINTE  = " + id;
+
+            String sqlPlayListUser = "SELECT * FROM PLAYLIST p  \n" +
+                    "WHERE p.ID_OUVINTE  = " + id;
+
+            String sqlMusicas = "SELECT * FROM LISTADEMUSICAS l  \n" +
+                    "JOIN MUSICA m ON m.ID_MUSICA  = l.ID_MUSICA \n" +
+                    "WHERE l.ID_PLAYLIST  = ";
+
+            con = ConexaoBancoDeDados.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sqlOuvinte);
+
+            ResultSet oSet = stmt.executeQuery();
+
+            while (oSet.next()) {
+                ouvinte.setIdUser(oSet.getInt("id_user"));
+                ouvinte.setIdOuvinte(oSet.getInt("id_ouvinte"));
+                ouvinte.setNome(oSet.getString("nome"));
+                ouvinte.setDataNascimento(oSet.getString("data_nascimento"));
+                ouvinte.setGenero(oSet.getString("genero"));
+                ouvinte.setPremium(oSet.getString("premium"));
+            }
+
+            stmt = con.prepareStatement(sqlPlayListUser);
+            ResultSet playSet = stmt.executeQuery();
+
+            while (playSet.next()) {
+                Playlist playlist = new Playlist();
+                playlist.setProprietario(ouvinte);
+                playlist.setNome(playSet.getString("nome"));
+                playlist.setIdPlaylist(playSet.getInt("id_playlist"));
+
+                sqlMusicas += playlist.getIdPlaylist();
+                stmt = con.prepareStatement(sqlMusicas);
+                ResultSet musicSet = stmt.executeQuery();
+
+                while (musicSet.next()) {
+                    System.out.println("NOME: " + musicSet.getString("nome"));
+                }
+            }
+            System.out.println(ouvinte);
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

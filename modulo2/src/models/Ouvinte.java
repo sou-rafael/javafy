@@ -2,27 +2,21 @@ package models;
 
 import abstracts.Usuario;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Ouvinte extends Usuario {
 
     private Integer idOuvinte;
+    private List<Playlist> playlists = new ArrayList<>();
 
-    private Usuario usuario;
-
+    public Ouvinte() {}
 
     public Ouvinte(Integer idUser, String nome, String dataNascimento, String genero,
                    String premium, Integer idOuvinte) {
         super(idUser, nome, dataNascimento, genero, premium);
         this.idOuvinte = idOuvinte;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 
     public Integer getIdOuvinte() {
@@ -31,6 +25,16 @@ public class Ouvinte extends Usuario {
 
     public void setIdOuvinte(Integer idOuvinte) {
         this.idOuvinte = idOuvinte;
+    }
+
+    public List<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public void setPlaylists(List<Playlist> playlists) {
+        if(playlists != null) {
+            this.playlists = playlists;
+        }
     }
 
     @Override

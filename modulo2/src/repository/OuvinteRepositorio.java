@@ -187,7 +187,6 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
 
             // Executa-se a consulta
             ResultSet res = stmt.executeQuery(sql);
-
             while (res.next()) {
                 // adcionar esse metodo a classe usuario repository
                 //Ouvinte ouvinte = getOuvinteFromResultSet(res);

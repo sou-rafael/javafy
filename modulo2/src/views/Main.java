@@ -17,20 +17,7 @@ public class Main {
         int escolhaUser;
         boolean continuarNaAplicacao = true;
 
-        /*PlayListRepository pr = new PlayListRepository();
-        Playlist playlist = new Playlist(1, "NOVO TESTE CARAI", null);
-        try {
-            pr.editar(1, playlist);
-        } catch (BancoDeDadosException ex) {
-            System.out.println(ex.getMessage());
-        }*/
-
-        OuvinteRepositorio ouvinteRepositorio = new OuvinteRepositorio();
-        Ouvinte ouvinte = new Ouvinte();
-        ouvinteRepositorio.getOuvinte(1);
-
-
-        /*while (continuarNaAplicacao) {
+        while (continuarNaAplicacao) {
             Menus.menuPrincipal();
             escolhaUser = Menus.getNumeric();
             switch (escolhaUser) {
@@ -63,6 +50,6 @@ public class Main {
                     System.out.println(Menus.errorSelecionar);
                     break;
             }
-        }*/
+        }
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PlayListRepository implements Repositorio<Integer, Playlist>{
     @Override
-    public Integer getProximoId(Connection connection) throws SQLException {
+    public Integer getProximoId(Connection connection) throws BancoDeDadosException  {
         try {
             String sql = "SELECT seq_id_playlist.nextval mysequence from DUAL";
             Statement stmt = connection.createStatement();
@@ -24,7 +24,31 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
     }
 
     @Override
-    public Playlist adicionar(Playlist object) {
+    public Playlist adicionar(Playlist object) throws BancoDeDadosException {
+        Connection con = null;
+
+        try {
+            String sql = "INSERT INTO PLAYLIST(ID_PLAYLIST, ID_OUVINTE, NOME)" +
+                    "VALUES(?, ?, ?)";
+
+            con = ConexaoBancoDeDados.getConnection();
+
+            Integer promixoId = getProximoId(con);
+            object.setIdPlaylist(promixoId);
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setInt(1, object.getIdPlaylist());
+            stmt.setInt(2, object.getProprietario().getIdOuvinte());
+            stmt.setString(3, object.getNome());
+            int res = stmt.executeUpdate();
+            System.out.println("Adicionado playlist " + res);
+            return object;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
         return null;
     }
 

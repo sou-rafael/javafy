@@ -1,8 +1,20 @@
 package views;
 
+import exceptions.BancoDeDadosException;
+import models.Musica;
+import models.Ouvinte;
+import models.Playlist;
+import service.ListaDeMusicaServices;
+import service.MusicaService;
+import service.PlayListService;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class Menus {
+    public static MusicaService musicaService= new MusicaService();
+    public static PlayListService playListService= new PlayListService();
+    public static ListaDeMusicaServices listaDeMusicaServices = new ListaDeMusicaServices();
     // STRINGS STATICAS PARA O PROJETO
     public static Integer escolhaUser = 0;
     public static String mudancasUser = "";
@@ -138,7 +150,89 @@ public class Menus {
         System.out.println("[0] - VER SUAS PLAYLISTS     [1] - CRIAR PLAYLIST");
         System.out.println("[2] - VOLTAR");
         System.out.println("===================================================");
-        escolhaUser = Menus.getNumeric();
+
+        boolean usoValido = true;
+        while (usoValido) {
+            escolhaUser = Menus.getNumeric();
+            switch (escolhaUser) {
+                case 0:
+                    break;
+                case 1:
+                    System.out.println("================= CRIAR PLAYLIST ==================");
+                    System.out.print("Nome para playlist: ");
+                    String nomePlaylist = getString();
+
+                    // CRIRA UMA NOVA PLAYLIST
+                    Playlist playlist = new Playlist();
+                    playlist.setNome(nomePlaylist);
+
+                    // ESSE OUVINTE SERÁ OBTIDO POR MÉTODO
+                    Ouvinte ouvinte = new Ouvinte();
+                    ouvinte.setIdOuvinte(1);
+                    playlist.setProprietario(ouvinte);
+
+                    try {
+                        playlist = playListService.adicionarPlaylist(playlist);
+                        // Adicionar musicas na playlist
+                        addMusicasNaPlayList(playlist);
+                        // Para evitar consultas, vamos adicionar logo a playlist do user
+                        ouvinte.getPlaylists().add(playlist);
+                    } catch (BancoDeDadosException e) {
+                        System.out.println("Erro ao adicionar playlist");
+                    }
+                    System.out.println("===================================================");
+                    usoValido = false;
+                    break;
+                case 2:
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    public static void addMusicasNaPlayList(Playlist playlist){
+        boolean addMusica = true;
+        while (addMusica){
+            System.out.println("=========== ADD MUSICA NA PLAYLIST ==============");
+            System.out.println("[0] - ADICIONAR MUSICA     [1] - SAIR");
+            escolhaUser = getNumeric();
+
+            if(escolhaUser == 0) {
+                // Pegar uma lista de musicas do banco de dados
+                List<Musica> musicas = musicaService.listarMusica();
+                if(musicas == null) {
+                    System.out.println("OPS!!!. Algum error aconteceu");
+                    return;
+                }
+                if(!musicas.isEmpty()) {
+                    System.out.println("=========== LISTA DE MUSICAS ==============\n");
+                    for (Musica musica: musicas) {
+                        System.out.println("ID: " + musica.getIdMusica() + " | Nome: " + musica.getNome());
+                    }
+                    System.out.println("===========================================\n");
+
+                    while (true) {
+                        System.out.print("Id musica.");
+                        escolhaUser = getNumeric();
+                        if(escolhaUser < 1 || escolhaUser > musicas.size()){
+                            System.out.println("Id informado inválido!!!!");
+                        } else if(playlist.validarSeMusicaJaEstaNaPlayList(musicas.get(escolhaUser-1))){
+                            System.out.println("OPS! MUSICA JÁ ADICIONADA!");
+                            addMusica = false;
+                        } else {
+                            listaDeMusicaServices.salvarPlaylist(playlist, musicas.get(escolhaUser-1));
+                            playlist.getMusicas().add(musicas.get(escolhaUser-1));
+                            break;
+                        }
+                    }
+                }
+            } else {
+                System.out.println("Sem musicas cadastradas no sistema!");
+                addMusica = false;
+            }
+        }
     }
 
     // MENU INFORMAÇÕES USUÁRIO - ESCOLHA 6

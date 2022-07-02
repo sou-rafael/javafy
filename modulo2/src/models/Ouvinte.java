@@ -6,32 +6,39 @@ import java.util.Objects;
 
 public class Ouvinte extends Usuario {
 
-    private Integer id_ouvinte;
+    private Integer idOuvinte;
 
     public Ouvinte(Integer id_user, String nome, String dataNascimento, String genero,
-                   String premium, Integer id_ouvinte) {
+                   String premium, Integer idOuvinte) {
         super(id_user, nome, dataNascimento, genero, premium);
-        this.id_ouvinte = id_ouvinte;
+        this.idOuvinte = idOuvinte;
     }
 
-    public Integer getId_ouvinte() {
-        return id_ouvinte;
+    public Integer getIdOuvinte() {
+        return idOuvinte;
     }
 
-    public void setId_ouvinte(Integer id_ouvinte) {
-        this.id_ouvinte = id_ouvinte;
+    public void setIdOuvinte(Integer idOuvinte) {
+        this.idOuvinte = idOuvinte;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Ouvinte)) return false;
         Ouvinte ouvinte = (Ouvinte) o;
-        return Objects.equals(id_ouvinte, ouvinte.id_ouvinte);
+        return idOuvinte.equals(ouvinte.idOuvinte);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_ouvinte);
+        return Objects.hash(idOuvinte);
+    }
+
+    @Override
+    public String toString() {
+        return "Ouvinte{" +
+                "idOuvinte=" + idOuvinte +
+                '}';
     }
 }

@@ -8,25 +8,25 @@ import java.util.Objects;
 
 public abstract class PlayListModel<T> {
 
-    private Integer id_playlist;
+    private Integer idPlaylist;
     private String nome;
     private T proprietario;
     private List<Musica> musicas = new ArrayList<>();
 
     public PlayListModel(){}
 
-    public PlayListModel(Integer id_playlist, String nome, T proprietario) {
-        this.id_playlist = id_playlist;
+    public PlayListModel(Integer idPlaylist, String nome, T proprietario) {
+        this.idPlaylist = idPlaylist;
         this.nome = nome;
         this.proprietario = proprietario;
     }
 
-    public Integer getId_playlist() {
-        return id_playlist;
+    public Integer getIdPlaylist() {
+        return idPlaylist;
     }
 
-    public void setId_playlist(Integer id_playlist) {
-        this.id_playlist = id_playlist;
+    public void setIdPlaylist(Integer idPlaylist) {
+        this.idPlaylist = idPlaylist;
     }
 
     public String getNome() {
@@ -50,21 +50,16 @@ public abstract class PlayListModel<T> {
     }
 
     public void setMusicas(List<Musica> musicas) {
-        if(musicas != null) {
-            this.musicas = musicas;
-        }
+        this.musicas = musicas;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PlayListModel<?> that = (PlayListModel<?>) o;
-        return Objects.equals(id_playlist, that.id_playlist);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id_playlist);
+    public String toString() {
+        return "PlayListModel{" +
+                "idPlaylist=" + idPlaylist +
+                ", nome='" + nome + '\'' +
+                ", proprietario=" + proprietario +
+                ", musicas=" + musicas +
+                '}';
     }
 }

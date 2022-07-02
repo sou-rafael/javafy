@@ -7,7 +7,7 @@ public class Playlist extends PlayListModel<Playlist> {
     public Playlist() {
     }
 
-    public Playlist(Integer id_playlist, String nome, Playlist proprietario) {
-        super(id_playlist, nome, proprietario);
+    public Playlist(Integer idPlaylist, String nome, Playlist proprietario) {
+        super(idPlaylist, nome, proprietario);
     }
 }

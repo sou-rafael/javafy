@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public abstract class Usuario {
 
-    private Integer id_user;
+    private Integer idUser;
     private String nome;
     private String dataNascimento;
     private String genero;
@@ -17,20 +17,20 @@ public abstract class Usuario {
 
     public Usuario() {}
 
-    public Usuario(Integer id_user, String nome, String dataNascimento, String genero, String premium) {
-        this.id_user = id_user;
+    public Usuario(Integer idUser, String nome, String dataNascimento, String genero, String premium) {
+        this.idUser = idUser;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.genero = genero;
         this.premium = premium;
     }
 
-    public Integer getId_user() {
-        return id_user;
+    public Integer getIdUser() {
+        return idUser;
     }
 
-    public void setId_user(Integer id_user) {
-        this.id_user = id_user;
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
     }
 
     public String getNome() {
@@ -70,9 +70,7 @@ public abstract class Usuario {
     }
 
     public void setSeguidores(List<Usuario> seguidores) {
-        if(seguidores != null) {
-            this.seguidores = seguidores;
-        }
+        this.seguidores = seguidores;
     }
 
     public List<Usuario> getSeguindo() {
@@ -80,9 +78,19 @@ public abstract class Usuario {
     }
 
     public void setSeguindo(List<Usuario> seguindo) {
-        if(seguindo != null) {
-            this.seguindo = seguindo;
-        }
+        this.seguindo = seguindo;
     }
 
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "idUser=" + idUser +
+                ", nome='" + nome + '\'' +
+                ", dataNascimento='" + dataNascimento + '\'' +
+                ", genero='" + genero + '\'' +
+                ", premium='" + premium + '\'' +
+                ", seguidores=" + seguidores +
+                ", seguindo=" + seguindo +
+                '}';
+    }
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayListRepository implements Repositorio<Integer, Playlist>{
+
     @Override
     public Integer getProximoId(Connection connection) throws BancoDeDadosException  {
         try {
@@ -28,7 +29,6 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
     @Override
     public Playlist adicionar(Playlist object) throws BancoDeDadosException {
         Connection con = null;
-
         try {
             String sql = "INSERT INTO PLAYLIST(ID_PLAYLIST, ID_OUVINTE, NOME)" +
                     "VALUES(?, ?, ?)";
@@ -46,12 +46,18 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
             int res = stmt.executeUpdate();
             System.out.println("Adicionado playlist " + res);
             return object;
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw  new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if(con!=null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-
-
-        return null;
     }
 
     @Override
@@ -63,14 +69,19 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
     public boolean editar(Integer id, Playlist playlist) throws BancoDeDadosException {
         Connection con = null;
         try {
-            String sql = "UPDATE VEM_SER.PLAYLIST SET NOME = ? WHERE ID_PLAYLIST = ?";
+            String sql = "UPDATE VEM_SER.PLAYLIST " +
+                            "SET NOME = ? " +
+                        "WHERE ID_PLAYLIST = ?";
+
             con = ConexaoBancoDeDados.getConnection();
             PreparedStatement  stmt = con.prepareStatement(sql);
 
             stmt.setString(1, playlist.getNome());
             stmt.setInt(2, 1);
+
             int res = stmt.executeUpdate();
             return  res > 0;
+
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
         } finally {

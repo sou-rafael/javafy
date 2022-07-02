@@ -154,6 +154,7 @@ public class Menus {
         System.out.println("===================================================");
 
         boolean usoValido = true;
+
         // ESSE OUVINTE SERÁ OBTIDO POR MÉTODO
         Ouvinte ouvinte = new Ouvinte();
         ouvinte.setIdOuvinte(1);
@@ -162,7 +163,13 @@ public class Menus {
             escolhaUser = Menus.getNumeric();
             switch (escolhaUser) {
                 case 0:
-
+                    System.out.println("============== PLAYLISTS DO USUARIO ===============");
+                    playListService.ListarPlayList(ouvinte);
+                    System.out.println();
+                    System.out.println("[0] - VER PLAYLIST     [1] - SAIR");
+                    escolhaUser = getNumeric();
+                    usoValido = false;
+                    break;
                 case 1:
                     System.out.println("================= CRIAR PLAYLIST ==================");
                     System.out.print("Nome para playlist: ");
@@ -171,24 +178,21 @@ public class Menus {
                     // CRIRA UMA NOVA PLAYLIST
                     Playlist playlist = new Playlist();
                     playlist.setNome(nomePlaylist);
-
                     playlist.setProprietario(ouvinte);
+                    playListService.adicionarPlaylist(playlist);
 
-                    try {
-                        playlist = playListService.adicionarPlaylist(playlist);
-                        // Adicionar musicas na playlist
+                    // CHAMAR TELA PARA ADICIONAR MUSICA NA PLAYLIST SÓ SE PLAYLIST FOR CRIADA
+                    if(playlist.getIdPlaylist() != null) {
                         addMusicasNaPlayList(playlist);
-                        // Para evitar consultas, vamos adicionar logo a playlist do user
-                        ouvinte.getPlaylists().add(playlist);
-                    } catch (BancoDeDadosException e) {
-                        System.out.println("Erro ao adicionar playlist");
                     }
                     System.out.println("===================================================");
                     usoValido = false;
                     break;
                 case 2:
+                    usoValido = false;
                     break;
                 default:
+                    System.out.println("Opção inválida!!! ");
                     break;
             }
         }
@@ -204,39 +208,14 @@ public class Menus {
 
             if(escolhaUser == 0) {
                 // Pegar uma lista de musicas do banco de dados
-                List<Musica> musicas = musicaService.listarMusica();
-                if(musicas == null) {
-                    return;
+                boolean temMusicaSalva = musicaService.listarMusica();
+                if(temMusicaSalva) {
+                    System.out.print("Digite o id da musica. ");
+                    escolhaUser = getNumeric();
+                    listaDeMusicaServices.adicionarMusicaNaPlayList(playlist, escolhaUser,
+                            musicaService);
                 }
-                if(!musicas.isEmpty()) {
 
-                    System.out.println("=========== LISTA DE MUSICAS ==============\n");
-                    for (Musica musica: musicas) {
-                        System.out.println("ID: " + musica.getIdMusica() + " | Nome: " + musica.getNome());
-                    }
-                    System.out.println("===========================================\n");
-
-                    while (true) {
-                        System.out.print("Entre com o id da musica. ");
-                        escolhaUser = getNumeric();
-
-                        if(playlist.validarSeMusicaJaEstaNaPlayList(escolhaUser)){
-                            System.out.println("OPS! MUSICA JÁ ADICIONADA!");
-                            addMusica = false;
-                        } else {
-                            Musica musica = musicas.stream()
-                                    .filter(m -> m.getIdMusica().equals(escolhaUser))
-                                    .findFirst().orElse(null);
-                            if(musica == null) {
-                                System.out.println("OPS! ID INFORMADO INVÁLIDO");
-                            } else {
-                                listaDeMusicaServices.salvarPlaylist(playlist, musica);
-                                playlist.getMusicas().add(musica);
-                            }
-                            break;
-                        }
-                    }
-                }
             } else {
                 System.out.println("Sem musicas cadastradas no sistema!");
                 addMusica = false;

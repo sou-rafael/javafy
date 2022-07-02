@@ -4,6 +4,7 @@ import exceptions.BancoDeDadosException;
 import models.Ouvinte;
 import models.Playlist;
 import repository.PlayListRepository;
+import views.Menus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,18 +20,26 @@ public class PlayListService {
         this.playListRepository = new PlayListRepository();
     }
 
-    public Playlist adicionarPlaylist(Playlist playlist) throws BancoDeDadosException {
-            Playlist playlist1 = playListRepository.adicionar(playlist);
-            return playlist;
+    public void adicionarPlaylist(Playlist playlist){
+            try {
+                playlist = playListRepository.adicionar(playlist);
+                System.out.println("Playlist criada com sucesso");
+            } catch (BancoDeDadosException e) {
+                System.out.println("Error ao criar playlist");
+            }
     }
 
     public void ListarPlayList(Ouvinte ouvinte) {
             try {
-                List<Playlist> playlist= playListRepository.listarPorUsuario(ouvinte);
-
+                List<Playlist> playlists = playListRepository.listarPorUsuario(ouvinte);
+                //ouvinte.getPlaylists().clear();
+                //ouvinte.getPlaylists().addAll(playlists);
+                for(Playlist playlist: playlists){
+                    System.out.format("%1s%8s", "ID: " + playlist.getIdPlaylist(),
+                            " | Nome: " + playlist.getNome() + "\n");
+                }
             } catch (BancoDeDadosException e) {
                 System.out.println("Error ao buscar o banco de dados.");
             }
     }
-
 }

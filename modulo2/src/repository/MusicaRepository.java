@@ -74,4 +74,34 @@ public class MusicaRepository implements Repositorio<Integer, Musica>{
         }
 
     }
+
+    public Musica getMusica(Integer idMusica) throws BancoDeDadosException{
+        Connection con = null;
+        Musica musica = new Musica();
+        try {
+            String sql = "SELECT * FROM MUSICA U WHERE u.id_musica = " + idMusica;
+            con = ConexaoBancoDeDados.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet resultSet = stmt.executeQuery(sql);
+
+            // SE o ID NÃO EXISTE O QUERY RETORNARÁ UMA LISTA DE TUPLE VAZIAS
+            // ASSIM BASTA VER SE EXISTE UM PONTEIRO NA LISTA DE TUPLE,
+            // SIGNIFICA QUE TEM DADOS, LOGO O QUERY FOI FEITO COM SUCESSO
+            if(!resultSet.isBeforeFirst()){
+                return null;
+            }
+
+            while (resultSet.next()) {
+                musica.setIdMusica(resultSet.getInt("id_musica"));
+                musica.setNome(resultSet.getString("nome"));
+                musica.setDuracao(resultSet.getDouble("duracao"));
+                musica.setCurtidas(resultSet.getInt("curtidas"));
+                musica.setAvaliacao(resultSet.getInt("avaliacao"));
+            }
+            return musica;
+
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        }
+    }
 }

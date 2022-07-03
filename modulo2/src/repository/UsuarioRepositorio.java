@@ -7,8 +7,10 @@ import models.Ouvinte;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UsuarioRepositorio {
+public class UsuarioRepositorio implements Repositorio<Integer, Ouvinte> {
 
     public Integer getProximoId(Connection connection) throws BancoDeDadosException {
         try{
@@ -35,14 +37,14 @@ public class UsuarioRepositorio {
 
             String sql = "INSERT INTO USUARIO\n" +
                     "(ID_USER, NOME, DATA_NASCIMENTO, GENERO, PREMIUM)\n" +
-                    "VALUES(?, ?, TO_DATE( ?, 'DD/MM/YYYY' ), ?, ? )\n";
+                    "VALUES(?, ?, ? , ?, ? )\n";
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
 
             stmt.setInt(1, ouvinte.getIdUser());
             stmt.setString(2, ouvinte.getNome());
-            stmt.setString(3, ouvinte.getDataNascimento());
+            stmt.setDate(3, Date.valueOf(ouvinte.getDataNascimento()));
             stmt.setString(4, ouvinte.getGenero());
             stmt.setInt(5, ouvinte.getPremium());
             int res = stmt.executeUpdate();
@@ -69,53 +71,19 @@ public class UsuarioRepositorio {
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE USUARIO SET \n");
-
-            if (ouvinte != null) {
-                if (ouvinte.getIdUser() != null) {
-                    sql.append(" id_user = ?,");
-                }
-                if (ouvinte.getGenero() != null) {
-                    sql.append(" genero = ?,");
-                }
-                if (ouvinte.getPremium() != null) {
-                    sql.append(" premium = ?,");
-                }
-                if (ouvinte.getNome() != null) {
-                    sql.append(" nome = ?,");
-                }
-                if (ouvinte.getDataNascimento() != null) {
-                    sql.append(" data_nascimento = to_date( ?, 'DD/MM/YYYY'),");
-                }
-            }
-
-
-            sql.deleteCharAt(sql.length() - 1); //remove o ultimo ','
+            sql.append(" nome = ?,");
+            sql.append(" genero = ?,");
+            sql.append(" data_nascimento = ?,");
+            sql.append(" premium = ? ");
             sql.append(" WHERE id_user = ? ");
 
             PreparedStatement stmt = con.prepareStatement(sql.toString());
 
-            int index = 1;
-            if (ouvinte != null) {
-                if (ouvinte.getIdUser() != null) {
-                    stmt.setInt(index++, ouvinte.getIdUser());
-                }
-            }
-            if (ouvinte.getGenero() != null) {
-                stmt.setString(index++, ouvinte.getGenero());
-            }
-            if (ouvinte.getNome() != null) {
-                stmt.setString(index++, ouvinte.getNome());
-            }
-            if (ouvinte.getDataNascimento() != null) {
-                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate data = LocalDate.parse(ouvinte.getDataNascimento(), formato);
-                stmt.setDate(index++, Date.valueOf(data));
-            }
-            if (ouvinte.getPremium() != null) {
-                stmt.setInt(index++, ouvinte.getPremium());
-            }
-
-            stmt.setInt(index++, id);
+            stmt.setString(1, ouvinte.getNome());
+            stmt.setString(2, ouvinte.getGenero());
+            stmt.setDate(3, Date.valueOf(ouvinte.getDataNascimento()));
+            stmt.setInt(4,ouvinte.getPremium());
+            stmt.setInt(5, id);
 
             // Executa-se a consulta
             int res = stmt.executeUpdate();
@@ -134,5 +102,59 @@ public class UsuarioRepositorio {
             }
         }
 
+    }
+
+    @Override
+    public Ouvinte adicionar(Ouvinte object) throws SQLException {
+        return null;
+    }
+
+    @Override
+    public boolean remover(Integer id) throws BancoDeDadosException {
+        return false;
+    }
+
+    @Override
+    public List<Ouvinte> listar() throws BancoDeDadosException {
+        List<Ouvinte> ouvintes = new ArrayList<>();
+        Connection con = null;
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+            Statement stmt = con.createStatement();
+
+            String sql = "SELECT *, " +
+                    "            u.NOME AS NOME_OUVINTE " +
+                    "  FROM USUARIO u " +
+                    "  LEFT JOIN OUVINTE o ON (o.ID_USUARIO = u.ID_USUARIO) ";
+
+            // Executa-se a consulta
+            ResultSet res = stmt.executeQuery(sql);
+            while (res.next()) {
+                Ouvinte ouvinte = getOuvinteFromResultSet(res);
+                ouvintes.add(ouvinte);
+            }
+            return ouvintes;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private Ouvinte getOuvinteFromResultSet(ResultSet res) throws SQLException {
+        Ouvinte ouvinte = new Ouvinte();
+        ouvinte.setIdOuvinte(res.getInt("id_ouvinte"));
+        ouvinte.setIdUser(res.getInt("id_user"));
+        ouvinte.setNome(res.getString("nome_ouvinte"));
+        ouvinte.setGenero(res.getString("genero_ouvinte"));
+        ouvinte.setDataNascimento(res.getDate("data_nascimento").toLocalDate());
+        ouvinte.setPremium(res.getInt("premium"));
+        return ouvinte;
     }
 }

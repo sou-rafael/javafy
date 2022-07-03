@@ -12,8 +12,10 @@ import service.OuvinteService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Arrays;
 
+import static views.Menus.formatter;
 import static views.Menus.ouvinte;
 
 public class Main {
@@ -38,6 +40,7 @@ public class Main {
         String nome = Menus.getString();
         System.out.print("Data de nascimento: ");
         String dataNascimento = Menus.getString();
+        LocalDate dataNasc = LocalDate.parse(dataNascimento, formatter);
         System.out.print("Seu genêro: ");
         String genero = Menus.getString();
         Integer isPremium = 2;
@@ -52,7 +55,7 @@ public class Main {
             }
         }
 
-        ouvinte = new Ouvinte(null,nome,dataNascimento,genero, isPremium,
+        ouvinte = new Ouvinte(null,nome,dataNasc,genero, isPremium,
                 null);
         ouvinteService.adicionarOuvinte(ouvinte);
         return ouvinte;

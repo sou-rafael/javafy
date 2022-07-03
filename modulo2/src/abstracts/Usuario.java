@@ -1,15 +1,15 @@
 package abstracts;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Usuario {
 
     private Integer idUser;
     private String nome;
-    private String dataNascimento;
+    private LocalDate dataNascimento;
     private String genero;
     private Integer premium;
     private List<Usuario> seguidores = new ArrayList<>();
@@ -17,7 +17,7 @@ public abstract class Usuario {
 
     public Usuario() {}
 
-    public Usuario(Integer idUser, String nome, String dataNascimento, String genero, Integer premium) {
+    public Usuario(Integer idUser, String nome, LocalDate dataNascimento, String genero, Integer premium) {
         this.idUser = idUser;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -41,11 +41,11 @@ public abstract class Usuario {
         this.nome = nome;
     }
 
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 

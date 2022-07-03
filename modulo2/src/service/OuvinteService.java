@@ -60,7 +60,7 @@ public class OuvinteService {
 
     public void listarOuvintes () {
         try {
-            List<Ouvinte> listarOuvintes = ouvinteRepositorio.listar();
+            List<Ouvinte> listarOuvintes = usuarioRepositorio.listar();
             listarOuvintes.forEach(System.out::println);
         }catch (BancoDeDadosException ex){
             ex.printStackTrace();

@@ -2,6 +2,7 @@ package models;
 
 import abstracts.Usuario;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +14,7 @@ public class Ouvinte extends Usuario {
 
     public Ouvinte() {}
 
-    public Ouvinte(Integer idUser, String nome, String dataNascimento, String genero,
+    public Ouvinte(Integer idUser, String nome, LocalDate dataNascimento, String genero,
                    Integer premium, Integer idOuvinte) {
         super(idUser, nome, dataNascimento, genero, premium);
         this.idOuvinte = idOuvinte;

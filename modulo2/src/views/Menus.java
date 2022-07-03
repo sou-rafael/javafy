@@ -10,6 +10,7 @@ import service.OuvinteService;
 import service.PlayListService;
 
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -90,7 +91,7 @@ public class Menus {
                     System.out.println("Digite o nome do ouvinte ");
                     String novoNome = getString();
                     ouvinte.setNome(novoNome);
-                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 1 -> {
@@ -99,19 +100,18 @@ public class Menus {
                     System.out.println("Digite o genero do ouvinte ");
                     String novoGenero = getString();
                     ouvinte.setGenero(novoGenero);
-                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 2 -> {
                     System.out.println(2);
                     System.out.println("================ EDITAR DATA DE NASCIMENTO ==================");
-                    System.out.println("Digite o id do ouvinte ");
-                    System.out.println("Digite a data de nascimento do ouvinte ");
+                    System.out.println("Digite a data de nascimento (dd/MM/yyyy)");
                     String novaIdade = getString();
                     System.out.println(ouvinte.getDataNascimento());
-                    ouvinte.setDataNascimento(novaIdade);
+                    ouvinte.setDataNascimento((LocalDate.parse(novaIdade, formatter)));
                     System.out.println(ouvinte.getDataNascimento());
-                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 3 -> {
@@ -123,7 +123,7 @@ public class Menus {
                     Integer novoPlano = getNumeric();
                     if (novoPlano == 1) {
                         ouvinte.setPremium(1);
-                        ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
+                        ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     }
                     usoValido = false;
                 }
@@ -139,7 +139,7 @@ public class Menus {
                     ouvinte.setNome(novoNomeTodos);
                     System.out.println("Digite a data de nascimento (dd/MM/yyyy)");
                     String novaData = getString();
-                    ouvinte.setDataNascimento(String.valueOf(LocalDate.parse(novaData, formatter)));
+                    ouvinte.setDataNascimento(LocalDate.parse(novaData, formatter));
                     System.out.println("Digite o genero : ");
                     String novoGenero2 = getString();
                     ouvinte.setGenero(novoGenero2);
@@ -149,7 +149,7 @@ public class Menus {
                     if (novoPlano2 == 1) {
                         ouvinte.setPremium(1);
                     }
-                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 6 -> {

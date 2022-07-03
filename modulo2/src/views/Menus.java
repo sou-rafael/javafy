@@ -1,17 +1,16 @@
 package views;
 
 import exceptions.BancoDeDadosException;
+import models.Album;
 import models.Musica;
 import models.Ouvinte;
 import models.Playlist;
-import service.ListaDeMusicaServices;
-import service.MusicaService;
-import service.OuvinteService;
-import service.PlayListService;
+import service.*;
 
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -330,6 +329,22 @@ public class Menus {
         ouvinteService.consultarOuvinte(ouvinte.getIdOuvinte());
         System.out.println("===================================================");
         escolhaUser = Menus.getNumeric();
+    }
+
+    // MENU ALBUM
+    public static void verAlbum(){
+        AlbumService albumService = new AlbumService();
+        //lsitando todos os albuns
+        System.out.println("Aqui estao os seus albuns:");
+        List<Album> listaAlbuns = new ArrayList<>();
+        albumService.listarAlbum();
+
+        //adicionando
+        System.out.print("Adicione um album\nDigite o id do album: ");
+        Album album = new Album();
+        album.setNome(getString());
+        albumService.adicionarAlbum(album);
+
     }
 
 }

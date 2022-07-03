@@ -50,4 +50,32 @@ public class PlayListService {
         }
     }
 
+    public void editarNomePlaylist(Playlist playlist, String novoNome) {
+        try {
+            String nomeAntigo = playlist.getNome();
+            playlist.setNome(novoNome);
+            boolean editarNomePlaylist = playListRepository.editar(playlist.getIdPlaylist(), playlist);
+            if(editarNomePlaylist) {
+                Menus.imprimirBlue("Nome da playlist editada com sucesso!");
+            } else {
+                playlist.setNome(nomeAntigo);
+                Menus.imprimirRed("Não foi possível editar a playlist!");
+            }
+        } catch (BancoDeDadosException e) {
+            Menus.imprimirRed("Erro ao editar a playlist.");
+        }
+    }
+
+    public void deletarPlaylist(Playlist playlist){
+        try {
+            boolean remover = playListRepository.remover(playlist.getIdPlaylist());
+            if(remover){
+                Menus.imprimirBlue("Playlist deletada com sucesso!");
+            } else {
+                Menus.imprimirRed("Não foi possível deletar playlist.");
+            }
+        } catch (BancoDeDadosException e) {
+            Menus.imprimirRed("Error ao deletar playlist.");
+        }
+    }
 }

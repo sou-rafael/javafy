@@ -106,4 +106,11 @@ public class OuvinteService {
         }
     }
 
+    // Método serve para criar um usuário rápido
+    public void criarUsuarioRapido(){
+        Menus.ouvinte = new Ouvinte(null,"Juliana","13/06/1998","F",
+                0,null);
+
+        adicionarOuvinte(Menus.ouvinte);
+    }
 }

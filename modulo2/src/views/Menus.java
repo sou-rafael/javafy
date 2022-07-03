@@ -8,6 +8,7 @@ import models.Playlist;
 import service.*;
 
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -236,6 +237,10 @@ public class Menus {
                 case 0 -> {
                     System.out.println("============== PLAYLISTS DO USUARIO ===============");
                     List<Playlist> playlists = playListService.ListarPlayList(ouvinte);
+                    if(playlists.isEmpty()){
+                        Menus.imprimirRed("Playlist vazia!! Adicione uma.");
+                    }
+                    System.out.println("===================================================");
                     if(!playlists.isEmpty()){
                         System.out.println("[0] - SELECIONAR PLAYLIST     [1] - SAIR");
                         escolhaUser = getNumeric();
@@ -272,6 +277,7 @@ public class Menus {
         }
 
     }
+
     // Método para adicionar musicas na playlist
     public static void addMusicasNaPlayList(Playlist playlist){
         boolean addMusica = true;
@@ -295,31 +301,41 @@ public class Menus {
             }
         }
     }
+
     // Editar playlist usuário
     public static void editarPlayListUsuario() {
         escolhaUser = Menus.getNumeric("Digite o id da playlist: ");
         Playlist playlist = listaDeMusicaServices.getMusicasWithPlayList(escolhaUser, ouvinte);
         if(playlist != null) {
-            if(!playlist.getMusicas().isEmpty()){
-                for (Musica musica: playlist.getMusicas()) {
-                    musica.imprimirMusica();
+            System.out.println("================================================================");
+            System.out.println("Playlist: " + playlist.getNome() + " | Quantidade de musicas: " + playlist.getMusicas().size());
+            for (Musica musica: playlist.getMusicas()) {
+                musica.imprimirMusica();
+            }
+            System.out.println();
+            System.out.println("================= OPÇOES EDITAR PLAYLIST =======================");
+            System.out.println("[0] - EDITAR NOME PLAYLIST      [1] - DELETAR MUSICA DA PLAYLIST");
+            System.out.println("[2] - DELETAR PLAYLIST          [3] - ADICIONAR MUSICAS         ");
+            System.out.println("[4] - SAIR                      ");
+            System.out.println("================================================================");
+            escolhaUser = Menus.getNumeric();
+            switch (escolhaUser) {
+                case 0 -> {
+                    String novoNomePlayList = getString("Novo nome da playlist: ");
+                    playListService.editarNomePlaylist(playlist, novoNomePlayList);
                 }
-                System.out.println("[0] - EDITAR NOME PLAYLIST      [1] - DELETAR MUSICA DA PLAYLIST");
-                System.out.println("[2] - SAIR");
-                escolhaUser = Menus.getNumeric();
-                switch (escolhaUser) {
-                    case 0 -> System.out.println("EDITAR PLAYLIST");
-                    case 1 -> {
-                        System.out.print("Digite o id da musica: ");
-                        escolhaUser = Menus.getNumeric();
-                        listaDeMusicaServices.deletarMusicaDaPlayList(playlist, ouvinte, escolhaUser);
-                    }
+                case 1 -> {
+                    escolhaUser = Menus.getNumeric("Digite o id da musica: ");
+                    listaDeMusicaServices.deletarMusicaDaPlayList(playlist, ouvinte, escolhaUser);
                 }
-            } else {
-                System.out.println("Playlist VAZIA!!!");
+                case 2 -> {
+                    playListService.deletarPlaylist(playlist);
+                } case 3 -> {
+                    addMusicasNaPlayList(playlist);
+                }
             }
         }else {
-            System.out.println("OPS! Algum erro aconteceu!");
+            Menus.imprimirRed("OPS! Algum erro aconteceu!!!");
         }
     }
 
@@ -327,11 +343,11 @@ public class Menus {
     public static void verInformacoesUser() {
         String ehPremium = ouvinte.getPremium() == 1 ? "Plano premium" : "Plano normal";
         System.out.println("=============== PERFIL DO USUÁRIO =================");
-        System.out.println("Nome: " + ouvinte.getNome() + " |  Gênero: " + ouvinte.getGenero());
-        System.out.println("Data de Nascimento: " + ouvinte.getDataNascimento() + " |  Plano: " + ehPremium);
+        System.out.println("Nome: " + ouvinte.getNome() + "\nGênero: " + ouvinte.getGenero());
+        System.out.println("Data de Nascimento: " + ouvinte.getDataNascimento() + "\nPlano: " + ehPremium);
         System.out.println("Id do usuário: " + ouvinte.getIdUser());
         System.out.println("===================================================");
-        escolhaUser = Menus.getNumeric();
+        Menus.getString("Digite qualquer coisa para sair: ");
     }
 
     // MENU ALBUM

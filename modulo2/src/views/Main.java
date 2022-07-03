@@ -2,32 +2,35 @@ package views;
 
 import exceptions.BancoDeDadosException;
 import models.Ouvinte;
-import repository.ConexaoBancoDeDados;
 import service.OuvinteService;
-import java.sql.Connection;
-import java.sql.SQLException;
+
 
 public class Main {
 
     public static OuvinteService ouvinteService = new OuvinteService();
-
-    static Connection con;
-
-    static {
-        try {
-            con = ConexaoBancoDeDados.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    ;
-
     public static void main(String[] args) throws BancoDeDadosException {
-        // Criar o usuário
-        ouvinteService.criarOuvinte();
 
         int escolhaUser;
+
+        System.out.println("================== INICIANDO APLICAÇÃO ===================");
+        boolean controleIniciarAplicacao = true;
+        while (controleIniciarAplicacao){
+            System.out.println("[1] - CARREGAR USUÁRIO     [2] - CRIAR NOVO USUÁRIO");
+            escolhaUser = Menus.getNumeric();
+            switch (escolhaUser){
+                case 1 -> {
+                    ouvinteService.criarUsuarioRapido();
+                    controleIniciarAplicacao = false;
+                } case 2-> {
+                    ouvinteService.criarOuvinte();
+                    controleIniciarAplicacao = false;
+                }
+                default -> Menus.imprimirRed("Selecione uma opção válida!");
+            }
+        }
+
+        System.out.println("==========================================================");
+
         boolean continuarNaAplicacao = true;
 
         while (continuarNaAplicacao) {

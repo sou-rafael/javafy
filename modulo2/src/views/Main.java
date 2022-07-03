@@ -1,18 +1,68 @@
 package views;
 
+import abstracts.Usuario;
 import exceptions.BancoDeDadosException;
+import models.Artista;
 import models.Ouvinte;
+import models.Playlist;
+import repository.ConexaoBancoDeDados;
+import repository.OuvinteRepositorio;
+import repository.PlayListRepository;
 import service.OuvinteService;
 
+<<<<<<< HEAD
 import java.sql.SQLException;
 import java.time.LocalDate;
 
 import static views.Menus.formatter;
+=======
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Arrays;
+
+>>>>>>> 0c9e48d0466e9b91a499a27f69bac5459b131d8a
 import static views.Menus.ouvinte;
 
 public class Main {
 
     public static OuvinteService ouvinteService = new OuvinteService();
+
+    static Connection con;
+
+    static {
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Ouvinte criarOuvinte () throws BancoDeDadosException {
+        System.out.println("CRIAR CONTA");
+        System.out.print("Nome do usuário: ");
+        String nome = Menus.getString();
+        System.out.print("Data de nascimento: ");
+        String dataNascimento = Menus.getString();
+        System.out.print("Seu genêro: ");
+        String genero = Menus.getString();
+        Integer isPremium = 2;
+        while(true){
+            System.out.print("Conta Premium: [1] - Sim [2] - Não: ");
+            int tipo = Menus.getNumeric();
+            if(tipo < 1 || tipo > 2){
+                System.out.println("OPS! Opção inválida, tente novamente.");
+            } else {
+                isPremium = tipo;
+                break;
+            }
+        }
+
+        ouvinte = new Ouvinte(null,nome,dataNascimento,genero, isPremium,
+                null);
+        ouvinteService.adicionarOuvinte(ouvinte);
+        return ouvinte;
+    }
+
     public static void main(String[] args) throws BancoDeDadosException {
 
         int escolhaUser;

@@ -50,7 +50,7 @@ public class OuvinteService {
         }
     }
 
-    public void editarOuvinte (Integer id, Ouvinte ouvinte){
+    public void editarOuvinte ( Ouvinte ouvinte){
         try {
             boolean editouComSucesso = usuarioRepositorio.editar(ouvinte);
         }catch (BancoDeDadosException ex ){

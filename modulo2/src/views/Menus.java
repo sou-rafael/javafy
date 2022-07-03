@@ -119,28 +119,28 @@ public class Menus {
                     System.out.println("================ EDITAR NOME ==================");
                     String novoNome = getString("Novo nome: ");
                     ouvinte.setNome(novoNome);
-                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte);
                     usoValido = false;
                 }
                 case 1 -> {
                     System.out.println("================ EDITAR DATA DE NASCIMENTO ==================");
                     String novaIdade = getString("Nova data de nascimento: ");
                     ouvinte.setDataNascimento(novaIdade);
-                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte);
                     usoValido = false;
                 }
                 case 2 -> {
                     System.out.println("================ EDITAR GENERO ==================");
                     String novoGenero = getString("Novo Gênero: ");
                     ouvinte.setGenero(novoGenero);
-                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte);
                     usoValido = false;
                 }
                 case 3 -> {
                     System.out.println("================ EDITAR PLANO ==================");
                     Integer isPremium = editarPlanoPremium();
                     ouvinte.setPremium(isPremium);
-                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte);
                     usoValido = false;
                 }
                 case 4 -> {
@@ -152,13 +152,13 @@ public class Menus {
                     System.out.println("================ EDITAR OUVINTE ==================");
                     String novoNome = getString("Novo nome: ");
                     ouvinte.setNome(novoNome);
-                    String novaData = getString("Nova data nascimento (dd/MM/yyyy): ");
-                    ouvinte.setDataNascimento(String.valueOf(LocalDate.parse(novaData, formatter)));
+                    String novaIdade = getString("Nova data de nascimento: (dd/MM/yyyy): ");
+                    ouvinte.setDataNascimento(novaIdade);
                     String novoGenero = getString("Digite o genero : ");
                     ouvinte.setGenero(novoGenero);
                     Integer isPremium = editarPlanoPremium();
                     ouvinte.setPremium(isPremium);
-                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte);
                     usoValido = false;
                 }
                 case 6 -> {
@@ -325,8 +325,11 @@ public class Menus {
 
     // =============== OPÇÕES PARA ESCOLHA 6 - PERFIL DO USUÁRIO ====================
     public static void verInformacoesUser() {
+        String ehPremium = ouvinte.getPremium() == 1 ? "Plano premium" : "Plano normal";
         System.out.println("=============== PERFIL DO USUÁRIO =================");
-        ouvinteService.consultarOuvinte(ouvinte.getIdOuvinte());
+        System.out.println("Nome: " + ouvinte.getNome() + " |  Gênero: " + ouvinte.getGenero());
+        System.out.println("Data de Nascimento: " + ouvinte.getDataNascimento() + " |  Plano: " + ehPremium);
+        System.out.println("Id do usuário: " + ouvinte.getIdUser());
         System.out.println("===================================================");
         escolhaUser = Menus.getNumeric();
     }

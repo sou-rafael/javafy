@@ -44,7 +44,6 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
             stmt.setInt(2, object.getProprietario().getIdOuvinte());
             stmt.setString(3, object.getNome());
             int res = stmt.executeUpdate();
-            System.out.println("Adicionado playlist " + res);
             return object;
 
         } catch (SQLException e) {

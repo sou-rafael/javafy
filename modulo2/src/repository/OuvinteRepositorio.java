@@ -6,8 +6,12 @@ import models.Ouvinte;
 import models.Playlist;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+
+import static views.Menus.formatter;
 
 public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
 
@@ -103,11 +107,11 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
             con = ConexaoBancoDeDados.getConnection();
 
             StringBuilder sql = new StringBuilder();
-            sql.append("UPDATE ouvinte SET \n");
+            sql.append("UPDATE USUARIO SET \n");
 
             if (ouvinte != null) {
                 if (ouvinte.getIdUser() != null) {
-                    sql.append(" id_usuario = ?,");
+                    sql.append(" id_user = ?,");
                 }
                 if (ouvinte.getGenero() != null) {
                     sql.append(" genero = ?,");
@@ -119,13 +123,13 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
                     sql.append(" nome = ?,");
                 }
                 if (ouvinte.getDataNascimento() != null) {
-                    sql.append(" dataNascimento = ?,");
+                    sql.append(" data_nascimento = to_date( ?, 'DD/MM/YYYY'),");
                 }
             }
 
 
             sql.deleteCharAt(sql.length() - 1); //remove o ultimo ','
-            sql.append(" WHERE id_ouvinte = ? ");
+            sql.append(" WHERE id_user = ? ");
 
             PreparedStatement stmt = con.prepareStatement(sql.toString());
 
@@ -142,10 +146,12 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
                 stmt.setString(index++, ouvinte.getNome());
             }
             if (ouvinte.getDataNascimento() != null) {
-                stmt.setString(index++, ouvinte.getDataNascimento());
+                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                LocalDate data = LocalDate.parse(ouvinte.getDataNascimento(), formato);
+                stmt.setDate(index++, Date.valueOf(data));
             }
             if (ouvinte.getPremium() != null) {
-                stmt.setString(index++, ouvinte.getPremium());
+                stmt.setInt(index++, ouvinte.getPremium());
             }
 
             stmt.setInt(index++, id);
@@ -179,13 +185,12 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
 
             String sql = "SELECT *, " +
                     "            o.NOME AS NOME_PESSOA " +
-                    "       VEM_SER.OUVINTE o " +
+                    "  FROM VEM_SER.OUVINTE o " +
                     "  LEFT JOIN USUARIO u ON (o.ID_USUARIO = u.ID_USUARIO) ";
 
             // Executa-se a consulta
             ResultSet res = stmt.executeQuery(sql);
             while (res.next()) {
-                // adcionar esse metodo a classe usuario repository
                 Ouvinte ouvinte = getOuvinteFromResultSet(res);
                 ouvintes.add(ouvinte);
             }
@@ -233,7 +238,7 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
                 ouvinte.setNome(oSet.getString("nome"));
                 ouvinte.setDataNascimento(oSet.getString("data_nascimento"));
                 ouvinte.setGenero(oSet.getString("genero"));
-                ouvinte.setPremium(oSet.getString("premium"));
+                ouvinte.setPremium(oSet.getInt("premium"));
             }
 
             stmt = con.prepareStatement(sqlPlayListUser);
@@ -277,7 +282,7 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
         ouvinte.setNome(res.getString("nome_ouvinte"));
         ouvinte.setGenero(res.getString("genero_ouvinte"));
         ouvinte.setDataNascimento(String.valueOf(res.getDate("data_nascimento").toLocalDate()));
-        ouvinte.setPremium(res.getString("premium"));
+        ouvinte.setPremium(res.getInt("premium"));
         return ouvinte;
     }
 

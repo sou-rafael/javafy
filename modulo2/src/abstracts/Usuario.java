@@ -11,13 +11,13 @@ public abstract class Usuario {
     private String nome;
     private String dataNascimento;
     private String genero;
-    private String premium;
+    private Integer premium;
     private List<Usuario> seguidores = new ArrayList<>();
     private List<Usuario> seguindo = new ArrayList<>();
 
     public Usuario() {}
 
-    public Usuario(Integer idUser, String nome, String dataNascimento, String genero, String premium) {
+    public Usuario(Integer idUser, String nome, String dataNascimento, String genero, Integer premium) {
         this.idUser = idUser;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
@@ -57,11 +57,11 @@ public abstract class Usuario {
         this.genero = genero;
     }
 
-    public String getPremium() {
+    public Integer getPremium() {
         return premium;
     }
 
-    public void setPremium(String premium) {
+    public void setPremium(Integer premium) {
         this.premium = premium;
     }
 

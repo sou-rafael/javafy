@@ -14,13 +14,13 @@ public class Ouvinte extends Usuario {
     public Ouvinte() {}
 
     public Ouvinte(Integer idUser, String nome, String dataNascimento, String genero,
-                   String premium, Integer idOuvinte) {
+                   Integer premium, Integer idOuvinte) {
         super(idUser, nome, dataNascimento, genero, premium);
         this.idOuvinte = idOuvinte;
     }
 
     public Integer getIdOuvinte() {
-        return idOuvinte;
+        return this.idOuvinte;
     }
 
     public void setIdOuvinte(Integer idOuvinte) {
@@ -52,11 +52,11 @@ public class Ouvinte extends Usuario {
 
     @Override
     public String toString() {
-        return "Ouvinte \n" +
-                "Nome = \n" + getNome()+
-                "Data de Nascimento = \n" + getDataNascimento()+
-                "Genero = \n" + getGenero()+
-                "Usuario premium = \n" +getPremium()
+        return "Ouvinte " +
+                "\nNome = " + getNome()+
+                "\nData de Nascimento = " + getDataNascimento()+
+                "\nGenero = " + getGenero()+
+                "\nUsuario premium = " +getPremium()
                 ;
     }
 }

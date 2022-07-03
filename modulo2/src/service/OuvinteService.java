@@ -29,14 +29,12 @@ public class OuvinteService {
             ouvinte = usuarioRepositorio.adicionar(ouvinte);
             if(ouvinte.getIdUser() != null){
                 ouvinte = ouvinteRepositorio.adicionar(ouvinte);
-                System.out.println("Ouvinte adicionado com sucesso! "+ouvinte);
             }
 
 
         }catch (BancoDeDadosException ex){
             ex.printStackTrace();
         } catch (Exception e) {
-            System.out.println("ERRO : "+ e.getMessage());
             e.printStackTrace();
         }
     }
@@ -44,7 +42,6 @@ public class OuvinteService {
     public void removerOuvinte (Integer id, Ouvinte ouvinte){
         try{
             boolean removeuComSucesso = ouvinteRepositorio.remover(id);
-            System.out.println("Ouvinte removido?  "+ removeuComSucesso + " com id = "+id);
 
         } catch (BancoDeDadosException ex){
             ex.printStackTrace();

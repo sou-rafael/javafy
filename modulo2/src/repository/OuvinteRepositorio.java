@@ -249,7 +249,6 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
                 sqlMusicas += playlist.getIdPlaylist();
                 stmt = con.prepareStatement(sqlMusicas);
                 ResultSet musicSet = stmt.executeQuery();
-                System.out.println("NOME DA PLAYLIST: " + playlist.getNome());
                 while (musicSet.next()) {
                     System.out.println("IMPRIMINDO MUSICAS");
                     System.out.println("NOME: " + musicSet.getString("nome"));

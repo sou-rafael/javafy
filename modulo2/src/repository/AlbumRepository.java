@@ -46,7 +46,6 @@ public class AlbumRepository implements Repositorio<Integer, Album> {
             stmt.setString(3, object.getNome());
             stmt.setInt(4, object.getAvaliacao()); // fazer como se fosse um parseString
             int res = stmt.executeUpdate();
-            System.out.println("Adicionado o Album: " + res);
             return object;
 
         } catch (SQLException e) {
@@ -75,7 +74,6 @@ public class AlbumRepository implements Repositorio<Integer, Album> {
             stmt.setInt(1, idAlbumDel);
 
             int res = stmt.executeUpdate();
-            System.out.println("removerAlbumPorId.res=" + res);
 
             return res > 0;
         } catch (SQLException ex) {
@@ -107,11 +105,8 @@ public class AlbumRepository implements Repositorio<Integer, Album> {
             stmt.setInt(2, album.getAvaliacao());
             stmt.setInt(3, id);
 
-            System.out.println(stmt.toString());
-
             //consulta
             int res = stmt.executeUpdate();
-            System.out.println("editarAlbum.res=" + res);
             return res > 0;
 
         } catch (SQLException e) {

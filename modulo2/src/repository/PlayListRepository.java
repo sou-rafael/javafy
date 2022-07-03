@@ -62,7 +62,6 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
     @Override
     public boolean remover(Integer id) throws BancoDeDadosException {
         String sql = "DELETE FROM VEM_SER.PLAYLIST p WHERE p.ID_PLAYLIST = " + id;
-        System.out.println(sql);
         Connection connection = null;
         List<Playlist> playlists = new ArrayList<>();
         try {
@@ -167,7 +166,6 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
             }
             return playlist;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             throw new BancoDeDadosException(e.getCause());
         } finally {
             try {

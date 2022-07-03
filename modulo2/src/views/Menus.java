@@ -1,5 +1,6 @@
 package views;
 
+import enums.Planos;
 import exceptions.BancoDeDadosException;
 import models.*;
 import service.*;
@@ -333,7 +334,7 @@ public class Menus {
                     }
                 }
                 case 1 -> {
-                    if(ouvinte.getPremium().equals(1)){
+                    if(ouvinte.getPremium().equals(Planos.PREMIUM.getEscolha())){
                         System.out.println("================= CRIAR PLAYLIST ==================");
                         String nomePlaylist = getString("Nome para playlist: ");
 
@@ -429,7 +430,7 @@ public class Menus {
 
     // =============== OPÇÕES PARA ESCOLHA 6 - PERFIL DO USUÁRIO ====================
     public static void verInformacoesUser() {
-        String ehPremium = ouvinte.getPremium() == 1 ? "Plano premium" : "Plano normal";
+        String ehPremium = ouvinte.getPremium() == 1 ? String.valueOf(Planos.PREMIUM) : String.valueOf(Planos.BASICO);
         System.out.println("=============== PERFIL DO USUÁRIO =================");
         System.out.println("Nome: " + ouvinte.getNome() + "\nGênero: " + ouvinte.getGenero());
         System.out.println("Data de Nascimento: " + ouvinte.getDataNascimento() + "\nPlano: " + ehPremium);

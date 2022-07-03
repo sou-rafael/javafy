@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Musica {
-    private Integer id_musica;
+    private Integer idMusica;
     private Album album;
     private String nome;
     private Integer avaliacao;
@@ -16,7 +16,7 @@ public class Musica {
 
     public Musica(Integer id_musica, Album album, String nome, Integer avaliacao,
                   Double duracao, Integer curtidas) {
-        this.id_musica = id_musica;
+        this.idMusica = id_musica;
         this.album = album;
         this.nome = nome;
         this.avaliacao = avaliacao;
@@ -24,12 +24,12 @@ public class Musica {
         this.curtidas = curtidas;
     }
 
-    public Integer getId_musica() {
-        return id_musica;
+    public Integer getIdMusica() {
+        return idMusica;
     }
 
-    public void setId_musica(Integer id_musica) {
-        this.id_musica = id_musica;
+    public void setIdMusica(Integer idMusica) {
+        this.idMusica = idMusica;
     }
 
     public Album getAlbum() {
@@ -72,16 +72,33 @@ public class Musica {
         this.curtidas = curtidas;
     }
 
+    public void imprimirMusica(){
+        String leftAlignFormat = "| %-5s | %-30s | %-15s %n";
+        System.out.format(leftAlignFormat, "Id: " + getIdMusica(), "Musica: "
+                + getNome(), "Curtidas: "+ getCurtidas() );
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Musica musica = (Musica) o;
-        return Objects.equals(id_musica, musica.id_musica);
+        if (!(o instanceof Musica musica)) return false;
+        return idMusica.equals(musica.idMusica);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_musica);
+        return Objects.hash(idMusica);
+    }
+
+    @Override
+    public String toString() {
+        return "Musica{" +
+                "idMusica=" + idMusica +
+                ", album=" + album +
+                ", nome='" + nome + '\'' +
+                ", avaliacao=" + avaliacao +
+                ", duracao=" + duracao +
+                ", curtidas=" + curtidas +
+                '}';
     }
 }

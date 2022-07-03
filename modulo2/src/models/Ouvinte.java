@@ -2,36 +2,62 @@ package models;
 
 import abstracts.Usuario;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Ouvinte extends Usuario {
 
-    private Integer id_ouvinte;
+    private Integer idOuvinte;
+    private List<Playlist> playlists = new ArrayList<>();
 
-    public Ouvinte(Integer id_user, String nome, String dataNascimento, String genero,
-                   String premium, Integer id_ouvinte) {
-        super(id_user, nome, dataNascimento, genero, premium);
-        this.id_ouvinte = id_ouvinte;
+    public Ouvinte() {}
+
+    public Ouvinte(Integer idUser, String nome, LocalDate dataNascimento, String genero,
+                   Integer premium, Integer idOuvinte) {
+        super(idUser, nome, dataNascimento, genero, premium);
+        this.idOuvinte = idOuvinte;
     }
 
-    public Integer getId_ouvinte() {
-        return id_ouvinte;
+    public Integer getIdOuvinte() {
+        return this.idOuvinte;
     }
 
-    public void setId_ouvinte(Integer id_ouvinte) {
-        this.id_ouvinte = id_ouvinte;
+    public void setIdOuvinte(Integer idOuvinte) {
+        this.idOuvinte = idOuvinte;
+    }
+
+    public List<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public void setPlaylists(List<Playlist> playlists) {
+        if(playlists != null) {
+            this.playlists = playlists;
+        }
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Ouvinte)) return false;
         Ouvinte ouvinte = (Ouvinte) o;
-        return Objects.equals(id_ouvinte, ouvinte.id_ouvinte);
+        return idOuvinte.equals(ouvinte.idOuvinte);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id_ouvinte);
+        return Objects.hash(idOuvinte);
+    }
+
+    @Override
+    public String toString() {
+        return "Ouvinte " +
+                "\nNome = " + getNome()+
+                "\nData de Nascimento = " + getDataNascimento()+
+                "\nGenero = " + getGenero()+
+                "\nUsuario premium = " +getPremium()
+                ;
     }
 }

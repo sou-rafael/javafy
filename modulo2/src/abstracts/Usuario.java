@@ -1,36 +1,36 @@
 package abstracts;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Usuario {
 
-    private Integer id_user;
+    private Integer idUser;
     private String nome;
-    private String dataNascimento;
+    private LocalDate dataNascimento;
     private String genero;
-    private String premium;
+    private Integer premium;
     private List<Usuario> seguidores = new ArrayList<>();
     private List<Usuario> seguindo = new ArrayList<>();
 
     public Usuario() {}
 
-    public Usuario(Integer id_user, String nome, String dataNascimento, String genero, String premium) {
-        this.id_user = id_user;
+    public Usuario(Integer idUser, String nome, LocalDate dataNascimento, String genero, Integer premium) {
+        this.idUser = idUser;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.genero = genero;
         this.premium = premium;
     }
 
-    public Integer getId_user() {
-        return id_user;
+    public Integer getIdUser() {
+        return idUser;
     }
 
-    public void setId_user(Integer id_user) {
-        this.id_user = id_user;
+    public void setIdUser(Integer idUser) {
+        this.idUser = idUser;
     }
 
     public String getNome() {
@@ -41,11 +41,11 @@ public abstract class Usuario {
         this.nome = nome;
     }
 
-    public String getDataNascimento() {
+    public LocalDate getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(String dataNascimento) {
+    public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
 
@@ -57,11 +57,11 @@ public abstract class Usuario {
         this.genero = genero;
     }
 
-    public String getPremium() {
+    public Integer getPremium() {
         return premium;
     }
 
-    public void setPremium(String premium) {
+    public void setPremium(Integer premium) {
         this.premium = premium;
     }
 
@@ -70,9 +70,7 @@ public abstract class Usuario {
     }
 
     public void setSeguidores(List<Usuario> seguidores) {
-        if(seguidores != null) {
-            this.seguidores = seguidores;
-        }
+        this.seguidores = seguidores;
     }
 
     public List<Usuario> getSeguindo() {
@@ -80,9 +78,26 @@ public abstract class Usuario {
     }
 
     public void setSeguindo(List<Usuario> seguindo) {
-        if(seguindo != null) {
-            this.seguindo = seguindo;
-        }
+        this.seguindo = seguindo;
     }
 
+    public void imprimirInformacoesPersonalizadas(){
+        String leftAlignFormat = "| %-7s | %-25s | %-15s %n";
+        System.out.format(leftAlignFormat, "Id: " + getIdUser(), "Nome: "
+                + getNome(), "Genero: "+ getGenero() );
+
+    }
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "idUser=" + idUser +
+                ", nome='" + nome + '\'' +
+                ", dataNascimento='" + dataNascimento + '\'' +
+                ", genero='" + genero + '\'' +
+                ", premium='" + premium + '\'' +
+                ", seguidores=" + seguidores +
+                ", seguindo=" + seguindo +
+                '}';
+    }
 }

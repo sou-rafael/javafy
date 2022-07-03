@@ -44,7 +44,6 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
             stmt.setInt(2, object.getProprietario().getIdOuvinte());
             stmt.setString(3, object.getNome());
             int res = stmt.executeUpdate();
-            System.out.println("Adicionado playlist " + res);
             return object;
 
         } catch (SQLException e) {
@@ -61,12 +60,31 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
     }
 
     @Override
-    public boolean remover(Integer id) {
-        return false;
+    public boolean remover(Integer id) throws BancoDeDadosException {
+        String sql = "DELETE FROM VEM_SER.PLAYLIST p WHERE p.ID_PLAYLIST = " + id;
+        System.out.println(sql);
+        Connection connection = null;
+        List<Playlist> playlists = new ArrayList<>();
+        try {
+            connection = ConexaoBancoDeDados.getConnection();
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            int result = stmt.executeUpdate();
+            return result > 0;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if(connection!=null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
-    public boolean editar(Integer id, Playlist playlist) throws BancoDeDadosException {
+    public boolean editar(Integer idPlaylist, Playlist playlist) throws BancoDeDadosException {
         Connection con = null;
         try {
             String sql = "UPDATE VEM_SER.PLAYLIST " +
@@ -77,7 +95,7 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
             PreparedStatement  stmt = con.prepareStatement(sql);
 
             stmt.setString(1, playlist.getNome());
-            stmt.setInt(2, 1);
+            stmt.setInt(2, idPlaylist);
 
             int res = stmt.executeUpdate();
             return  res > 0;
@@ -136,7 +154,7 @@ public class PlayListRepository implements Repositorio<Integer, Playlist>{
         try {
             String sql = "SELECT * FROM VEM_SER.PLAYLIST P " +
                     "WHERE P.ID_PLAYLIST = " + id + " AND P.ID_OUVINTE = " + ouvinte.getIdOuvinte();
-            System.out.println(sql);
+
             con = ConexaoBancoDeDados.getConnection();
             Statement stmt = con.createStatement();
             ResultSet resultSet = stmt.executeQuery(sql);

@@ -73,7 +73,7 @@ CREATE TABLE "LISTADEMUSICAS" (
       REFERENCES "MUSICA"("ID_MUSICA"),
   CONSTRAINT "FK_LISTADEMUSICAS.ID_PLAYLIST"
     FOREIGN KEY ("ID_PLAYLIST")
-      REFERENCES "PLAYLIST"("ID_PLAYLIST")
+      REFERENCES "PLAYLIST"("ID_PLAYLIST") ON DELETE CASCADE
 );
 
 
@@ -121,7 +121,7 @@ CREATE SEQUENCE seq_id_musica
 
 --CRINDO USUARIO 
 INSERT INTO USUARIO (ID_USER, NOME, DATA_NASCIMENTO, GENERO, PREMIUM)
-VALUES (seq_id_user.nextval, 'Cleber', TO_DATE('30-06-2022', 'dd-mm-yyyy'), 'M', 1)
+VALUES (seq_id_user.nextval, 'Cleber', TO_DATE('30-06-2022', 'dd-mm-yyyy'), 'M', 1);
 --CRIANDO OUVINTE
 INSERT INTO OUVINTE (ID_USER, ID_OUVINTE)
 VALUES (1, seq_id_ouvinte.nextval);
@@ -156,7 +156,7 @@ INSERT INTO USUARIO (ID_USER, NOME, DATA_NASCIMENTO, GENERO, PREMIUM)
 VALUES (seq_id_user.nextval, 'Marisa Monte', TO_DATE('30-06-2022', 'dd-mm-yyyy'), 'M', 1);
 
 INSERT INTO ARTISTA (ID_USER,ID_ARTISTA,BIO,AVALIACAO)
-VALUES (4, seq_id_artista.nextval, 'Cantora da nação', 5);
+VALUES (4, seq_id_artista.nextval, 'Cantora da naï¿½ï¿½o', 5);
 
 INSERT INTO ALBUM (ID_ALBUM,ID_ARTISTA,NOME,AVALIACAO)
 VALUES (seq_id_album.nextval, 1, 'MM', 5);

@@ -3,6 +3,8 @@ package models;
 import abstracts.PlayListModel;
 
 public class Album extends PlayListModel<Artista> {
+
+    private Integer idAlbum;
     private String biografia;
     private Integer avaliacao;
 
@@ -29,5 +31,13 @@ public class Album extends PlayListModel<Artista> {
 
     public void setAvaliacao(Integer avaliacao) {
         this.avaliacao = avaliacao;
+    }
+
+    public Integer getIdAlbum() {
+        return idAlbum;
+    }
+
+    public void setIdAlbum(Integer idAlbum) {
+        this.idAlbum = idAlbum;
     }
 }

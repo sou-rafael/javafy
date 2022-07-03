@@ -71,6 +71,7 @@ public class UsuarioRepositorio implements Repositorio<Integer, Ouvinte> {
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE USUARIO SET \n");
+
             sql.append(" nome = ?,");
             sql.append(" genero = ?,");
             sql.append(" data_nascimento = ?,");
@@ -85,10 +86,10 @@ public class UsuarioRepositorio implements Repositorio<Integer, Ouvinte> {
             stmt.setInt(4,ouvinte.getPremium());
             stmt.setInt(5, id);
 
-            // Executa-se a consulta
+            assert ouvinte != null;
+
             int res = stmt.executeUpdate();
             System.out.println("editarUsuario.res=" + res);
-
             return res > 0;
         } catch (SQLException ex) {
             throw new BancoDeDadosException(ex.getCause());

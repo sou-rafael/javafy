@@ -224,14 +224,13 @@ public class Menus {
 
     // MENU BIBLIOTECA - ESCOLHA 5
     public static void verBibliotecas() {
-
-        System.out.println("==================== BIBLIOTECA ===================");
-        System.out.println("[0] - VER SUAS PLAYLISTS     [1] - CRIAR PLAYLIST");
-        System.out.println("[2] - VOLTAR");
-        System.out.println("===================================================");
-
         boolean usoValido = true;
         while (usoValido) {
+            System.out.println("==================== BIBLIOTECA ===================");
+            System.out.println("[0] - VER SUAS PLAYLISTS     [1] - CRIAR PLAYLIST");
+            System.out.println("[2] - VOLTAR");
+            System.out.println("===================================================");
+
             escolhaUser = Menus.getNumeric();
             switch (escolhaUser) {
                 case 0 -> {
@@ -248,7 +247,6 @@ public class Menus {
                             editarPlayListUsuario();
                         }
                     }
-                    usoValido = false;
                 }
                 case 1 -> {
                     if(ouvinte.getPremium().equals(1)){
@@ -269,7 +267,6 @@ public class Menus {
                     } else {
                         System.out.println("Usuário deve ser premium para criar playlist.");
                     }
-                    usoValido = false;
                 }
                 case 2 -> usoValido = false;
                 default -> System.out.println("Opção inválida!!! ");
@@ -325,14 +322,21 @@ public class Menus {
                     playListService.editarNomePlaylist(playlist, novoNomePlayList);
                 }
                 case 1 -> {
-                    escolhaUser = Menus.getNumeric("Digite o id da musica: ");
-                    listaDeMusicaServices.deletarMusicaDaPlayList(playlist, ouvinte, escolhaUser);
+                    if(!playlist.getMusicas().isEmpty()){
+                        escolhaUser = Menus.getNumeric("Digite o id da musica: ");
+                        listaDeMusicaServices.deletarMusicaDaPlayList(playlist, ouvinte, escolhaUser);
+                    } else {
+                        Menus.imprimirRed("Playlist sem música!");
+                    }
                 }
                 case 2 -> {
                     playListService.deletarPlaylist(playlist);
-                } case 3 -> {
+                }
+                case 3 -> {
                     addMusicasNaPlayList(playlist);
                 }
+
+                default -> Menus.imprimirRed("Opção inválida!");
             }
         }else {
             Menus.imprimirRed("OPS! Algum erro aconteceu!!!");

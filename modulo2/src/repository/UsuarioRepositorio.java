@@ -62,65 +62,34 @@ public class UsuarioRepositorio {
             }
         }
     }
-    public boolean editar(Integer id, Ouvinte ouvinte) throws BancoDeDadosException {
+    public boolean editar(Ouvinte ouvinte) throws BancoDeDadosException {
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE USUARIO SET \n");
-
-            if (ouvinte != null) {
-                if (ouvinte.getIdUser() != null) {
-                    sql.append(" id_user = ?,");
-                }
-                if (ouvinte.getGenero() != null) {
-                    sql.append(" genero = ?,");
-                }
-                if (ouvinte.getPremium() != null) {
-                    sql.append(" premium = ?,");
-                }
-                if (ouvinte.getNome() != null) {
-                    sql.append(" nome = ?,");
-                }
-                if (ouvinte.getDataNascimento() != null) {
-                    sql.append(" data_nascimento = to_date( ?, 'DD/MM/YYYY'),");
-                }
-            }
-
-
+            sql.append(" genero = ?,");
+            sql.append(" premium = ?,");
+            sql.append(" nome = ? ,");
+            sql.append(" data_nascimento = ? ");
             sql.deleteCharAt(sql.length() - 1); //remove o ultimo ','
             sql.append(" WHERE id_user = ? ");
 
             PreparedStatement stmt = con.prepareStatement(sql.toString());
 
-            int index = 1;
-            if (ouvinte != null) {
-                if (ouvinte.getIdUser() != null) {
-                    stmt.setInt(index++, ouvinte.getIdUser());
-                }
-            }
-            if (ouvinte.getGenero() != null) {
-                stmt.setString(index++, ouvinte.getGenero());
-            }
-            if (ouvinte.getNome() != null) {
-                stmt.setString(index++, ouvinte.getNome());
-            }
-            if (ouvinte.getDataNascimento() != null) {
-                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate data = LocalDate.parse(ouvinte.getDataNascimento(), formato);
-                stmt.setDate(index++, Date.valueOf(data));
-            }
-            if (ouvinte.getPremium() != null) {
-                stmt.setInt(index++, ouvinte.getPremium());
-            }
+            assert ouvinte != null;
 
-            stmt.setInt(index++, id);
+            stmt.setString(1, ouvinte.getGenero());
+            stmt.setInt(2, ouvinte.getPremium());
+            stmt.setString(3, ouvinte.getNome());
 
-            // Executa-se a consulta
+            System.out.println(ouvinte.getDataNascimento());
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate date = LocalDate.parse(ouvinte.getDataNascimento(), formatter);
+            stmt.setDate(4, Date.valueOf(date));
+            stmt.setInt(5, ouvinte.getIdUser());
             int res = stmt.executeUpdate();
-            System.out.println("editarUsuario.res=" + res);
-
             return res > 0;
         } catch (SQLException ex) {
             throw new BancoDeDadosException(ex.getCause());

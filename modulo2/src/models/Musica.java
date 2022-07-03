@@ -73,8 +73,11 @@ public class Musica {
     }
 
     public void imprimirMusica(){
-        System.out.println("| Id Musica: " + getIdMusica() + " | Nome da musica: "
-                + getNome() + " | Curtidas: "+ getCurtidas() + " | Avaliacao: " + getAvaliacao());
+        String leftAlignFormat = "| %-5s | %-30s | %-15s %n";
+        System.out.format(leftAlignFormat, "Id: " + getIdMusica(), "Musica: "
+                + getNome(), "Curtidas: "+ getCurtidas() );
+        /*System.out.println("| Id Musica: " + getIdMusica() + " | Nome da musica: "
+                + getNome() + " | Curtidas: "+ getCurtidas() + " | Avaliacao: " + getAvaliacao());*/
     }
 
     @Override

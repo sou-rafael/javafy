@@ -57,17 +57,29 @@ public class Main {
     }
 
     public static void main(String[] args) throws BancoDeDadosException {
-        int escolhaUser;
-        boolean continuarNaAplicacao = true;
-        //criar usuario crud
-        criarOuvinte();
-        //busca musicas
 
-        //OUVINTE DE TESTE
-        Ouvinte teste_ouvinte = new Ouvinte();
-        teste_ouvinte.setNome("Rafael");
-        teste_ouvinte.setIdOuvinte(0);
-        teste_ouvinte.setPremium(1);
+        int escolhaUser;
+
+        System.out.println("================== INICIANDO APLICAÇÃO ===================");
+        boolean controleIniciarAplicacao = true;
+        while (controleIniciarAplicacao){
+            System.out.println("[1] - CARREGAR USUÁRIO     [2] - CRIAR NOVO USUÁRIO");
+            escolhaUser = Menus.getNumeric();
+            switch (escolhaUser){
+                case 1 -> {
+                    ouvinteService.criarUsuarioRapido();
+                    controleIniciarAplicacao = false;
+                } case 2-> {
+                    ouvinteService.criarOuvinte();
+                    controleIniciarAplicacao = false;
+                }
+                default -> Menus.imprimirRed("Selecione uma opção válida!");
+            }
+        }
+
+        System.out.println("==========================================================");
+
+        boolean continuarNaAplicacao = true;
 
         while (continuarNaAplicacao) {
             Menus.menuPrincipal();

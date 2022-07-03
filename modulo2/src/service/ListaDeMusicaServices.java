@@ -92,4 +92,8 @@ public class ListaDeMusicaServices {
         Menus.imprimirRed("Playlist deve ser do usuário!");
     }
 
+    public void deletarPlaylist(Playlist playlist) {
+
+    }
+
 }

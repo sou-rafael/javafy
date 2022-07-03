@@ -80,8 +80,11 @@ public class Main {
                     System.out.println(Menus.saindoDaAplicacao);
                     continuarNaAplicacao = false;
                 }
+            //REMOVER CASE 8**********************************************************
+                case 8 -> Menus.verAlbum();
                 default -> System.out.println(Menus.errorSelecionar);
             }
         }
+
     }
 }

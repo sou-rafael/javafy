@@ -14,12 +14,12 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Arrays;
 
+import static views.Menus.ouvinte;
+
 public class Main {
 
     public static OuvinteService ouvinteService = new OuvinteService();
-    static Ouvinte ouvinte;
 
-    public static Integer idOuvinte;
     static Connection con;
 
     static {
@@ -40,14 +40,14 @@ public class Main {
         String dataNascimento = Menus.getString();
         System.out.print("Seu genêro: ");
         String genero = Menus.getString();
-        String isPremium = "2";
+        Integer isPremium = 2;
         while(true){
             System.out.print("Conta Premium: [1] - Sim [2] - Não: ");
             int tipo = Menus.getNumeric();
             if(tipo < 1 || tipo > 2){
                 System.out.println("OPS! Opção inválida, tente novamente.");
             } else {
-                isPremium = String.valueOf(tipo);
+                isPremium = tipo;
                 break;
             }
         }
@@ -62,7 +62,7 @@ public class Main {
         int escolhaUser;
         boolean continuarNaAplicacao = true;
         //criar usuario crud
-        //criarOuvinte();
+        criarOuvinte();
         //busca musicas
 
         while (continuarNaAplicacao) {

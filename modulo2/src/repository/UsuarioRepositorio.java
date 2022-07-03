@@ -42,7 +42,7 @@ public class UsuarioRepositorio {
             stmt.setString(2, ouvinte.getNome());
             stmt.setString(3, ouvinte.getDataNascimento());
             stmt.setString(4, ouvinte.getGenero());
-            stmt.setString(5, ouvinte.getPremium());
+            stmt.setInt(5, ouvinte.getPremium());
             int res = stmt.executeUpdate();
             System.out.println("adicionarUsuario.res=" + res);
             return ouvinte;

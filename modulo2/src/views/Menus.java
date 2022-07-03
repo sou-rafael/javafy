@@ -15,8 +15,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
-import static views.Main.idOuvinte;
-
 public class Menus {
     public static MusicaService musicaService= new MusicaService();
     public static PlayListService playListService= new PlayListService();
@@ -92,7 +90,7 @@ public class Menus {
                     System.out.println("Digite o nome do ouvinte ");
                     String novoNome = getString();
                     ouvinte.setNome(novoNome);
-                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 1 -> {
@@ -101,32 +99,32 @@ public class Menus {
                     System.out.println("Digite o genero do ouvinte ");
                     String novoGenero = getString();
                     ouvinte.setGenero(novoGenero);
-                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 2 -> {
                     System.out.println(2);
                     System.out.println("================ EDITAR DATA DE NASCIMENTO ==================");
-                    ouvinteService.listarOuvintes();
                     System.out.println("Digite o id do ouvinte ");
                     System.out.println("Digite a data de nascimento do ouvinte ");
                     String novaIdade = getString();
-                    ouvinte.setDataNascimento(String.valueOf(LocalDate.parse(novaIdade, formatter)));
-                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
+                    System.out.println(ouvinte.getDataNascimento());
+                    ouvinte.setDataNascimento(novaIdade);
+                    System.out.println(ouvinte.getDataNascimento());
+                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 3 -> {
                     System.out.println(3);
                     System.out.println("================ EDITAR PLANO ==================");
-                    ouvinteService.listarOuvintes();
                     System.out.println("Digite o id do ouvinte ");
                     System.out.println("Digite [1] para premium " +
                             "\nDigite qualquer outra coisa para não mudar");
-                    String novoPlano = getString();
-                    if (novoPlano.equals("1")) {
-                        ouvinte.setPremium("1");
+                    Integer novoPlano = getNumeric();
+                    if (novoPlano == 1) {
+                        ouvinte.setPremium(1);
+                        ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     }
-                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
                     usoValido = false;
                 }
                 case 4 -> {
@@ -147,11 +145,11 @@ public class Menus {
                     ouvinte.setGenero(novoGenero2);
                     System.out.println("Digite [1] para premium " +
                             "\nDigite qualquer outra coisa para não mudar");
-                    String novoPlano2 = getString();
-                    if (novoPlano2.equals("1")) {
-                        ouvinte.setPremium("1");
+                    Integer novoPlano2 = getNumeric();
+                    if (novoPlano2 == 1) {
+                        ouvinte.setPremium(1);
                     }
-                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 6 -> {
@@ -238,17 +236,14 @@ public class Menus {
                                     System.out.println("[0] - EDITAR NOME PLAYLIST      [1] - DELETAR MUSICA DA PLAYLIST");
                                     System.out.println("[1] - SAIR");
                                     escolhaUser = Menus.getNumeric();
-                                    switch (escolhaUser){
-                                        case 0:
-                                            System.out.println("EDITAR PLAYLIST");
-                                            break;
-                                        case 1:
+                                    switch (escolhaUser) {
+                                        case 0 -> System.out.println("EDITAR PLAYLIST");
+                                        case 1 -> {
                                             System.out.print("Digite o id da musica: ");
                                             escolhaUser = Menus.getNumeric();
                                             listaDeMusicaServices.deletarMusicaDaPlayList(playlist, ouvinte, escolhaUser);
-                                            break;
-                                        default:
-                                            usoValido = false;
+                                        }
+                                        default -> usoValido = false;
                                     }
                                 } else {
                                     System.out.println("Playlist VAZIA!!!");
@@ -260,7 +255,6 @@ public class Menus {
                         }
                         usoValido = false;
                     }
-                    break;
                 }
                 case 1 -> {
                     System.out.println("================= CRIAR PLAYLIST ==================");
@@ -319,7 +313,7 @@ public class Menus {
     // MENU INFORMAÇÕES USUÁRIO - ESCOLHA 6
     public static void verInformacoesUser() {
         System.out.println("=============== PERFIL DO USUÁRIO =================");
-        // mostrar informações
+        ouvinteService.consultarOuvinte(ouvinte.getIdOuvinte());
         System.out.println("===================================================");
         escolhaUser = Menus.getNumeric();
     }

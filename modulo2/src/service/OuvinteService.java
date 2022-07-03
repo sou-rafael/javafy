@@ -7,6 +7,9 @@ import repository.UsuarioRepositorio;
 
 import java.util.List;
 
+import static views.Menus.ouvinte;
+
+
 public class OuvinteService {
 
     private OuvinteRepositorio ouvinteRepositorio;
@@ -62,9 +65,8 @@ public class OuvinteService {
     }
 
     public void consultarOuvinte (Integer id) {
-
-        Ouvinte ouvinte = ouvinteRepositorio.getOuvinte(id);
-        ouvinte.toString();
+        ouvinteRepositorio.getOuvinte(ouvinte.getIdOuvinte());
+        System.out.println(ouvinte.toString());
 
     }
 

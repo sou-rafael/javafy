@@ -31,7 +31,7 @@ public class ListaDeMusicaServices {
     public boolean verificarSeAMusicaEstaNaPlayList(Musica musica, Playlist playlist) {
         try {
             return listaDeMusicaRepository.
-                    getMusicaInPlayList(playlist.getIdPlaylist(), musica.getIdMusica());
+                    verificaSeMusicaEstaPlayList(playlist.getIdPlaylist(), musica.getIdMusica());
         } catch (BancoDeDadosException e) {
             Menus.imprimirRed("Erro internao.");
             return false;

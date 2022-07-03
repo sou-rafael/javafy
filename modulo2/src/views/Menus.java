@@ -175,13 +175,24 @@ public class Menus {
 
     public static Integer editarPlanoPremium(){
         int isPremium = 0;
+
         while(true){
             Menus.imprimirYellow("Deseja uma conta premium?");
             Integer tipo = Menus.getNumeric("[1] - Sim [0] - Não: ");
-            if(tipo < 0 || tipo > 1){
-                Menus.imprimirRed("OPS! Opção inválida, tente novamente.");
-            } else {
-                isPremium = tipo;
+            System.out.println("BEM AQUI");
+            switch (tipo){
+                case 0 ->{
+                    isPremium = Planos.BASICO.getEscolha();
+                }
+                case 1 -> {
+                    System.out.println("NÃPO SOU PREMIum");
+                    isPremium = Planos.PREMIUM.getEscolha();
+                }
+                default -> {
+                    Menus.imprimirRed("OPS! Opção inválida, tente novamente.");
+                }
+            }
+            if(isPremium == 1 || isPremium == 0){
                 break;
             }
         }

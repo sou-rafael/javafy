@@ -67,17 +67,18 @@ public class OuvinteService {
             String dataNascimento = Menus.getString("Data de nascimento: ");
             String genero = Menus.getString("Seu genêro: ");
             int isPremium = 0;
-            Menus.imprimirYellow("Deseja uma conta premium?");
-            Integer tipo = Menus.getNumeric("[1] - Sim [0] - Não: ");
 
             while(true){
-
+                Menus.imprimirYellow("Deseja uma conta premium?");
+                Integer tipo = Menus.getNumeric("[1] - Sim [0] - Não: ");
+                System.out.println("BEM AQUI");
                 switch (tipo){
-                    case 1 ->{
-                        isPremium = Planos.PREMIUM.getEscolha();
-                    }
-                    case 2 -> {
+                    case 0 ->{
                         isPremium = Planos.BASICO.getEscolha();
+                    }
+                    case 1 -> {
+                        System.out.println("NÃPO SOU PREMIum");
+                        isPremium = Planos.PREMIUM.getEscolha();
                     }
                     default -> {
                         Menus.imprimirRed("OPS! Opção inválida, tente novamente.");

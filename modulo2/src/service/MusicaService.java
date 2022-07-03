@@ -47,4 +47,16 @@ public class MusicaService {
             return null;
         }
     }
+
+    public void filtrarMusica(String nomeDaMusica){
+        try {
+            List<Musica> musicas = musicaRepository.getMusicaFiltro(nomeDaMusica);
+            musicas.forEach(Musica::imprimirMusica);
+
+        } catch (BancoDeDadosException e) {
+            Menus.imprimirRed("Algum erro aconteceu");
+        }
+    }
+
+
 }

@@ -191,11 +191,16 @@ public class Menus {
     // MENU EXPLORAR MUSICA - ESCOLHA 1
     // Para o menu de informações do usuário
     public static void buscarMusica() {
+        musicaService.listarMusica();
         System.out.println("================ EXPLORE MUSICAS ==================");
-        System.out.println("[0] - INFORMAÇÃO - MUSICA   [1] - BUSCAR MUSICA");
-        System.out.println("[2] - TOP 5 MUSICAS         [3] - VOLTAR");
+        System.out.println("[0] - BUSCAR MUSICA       [1] - VOLTAR");
         System.out.println("====================================================");
         escolhaUser = Menus.getNumeric();
+        if(escolhaUser == 0) {
+            String nomeMusica = getString("Busque o nome da musica: ");
+            musicaService.filtrarMusica(nomeMusica);
+            getString("Digite qualquer coisa para sair.");
+        }
     }
 
     // MENU EXPLORAR MUSICA - ESCOLHA 2

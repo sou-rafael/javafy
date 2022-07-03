@@ -32,19 +32,18 @@ public class UsuarioRepositorio {
 
             con = ConexaoBancoDeDados.getConnection();
             Integer idUsuario = this.getProximoId(con);
-            System.out.println(idUsuario);
             ouvinte.setIdUser(idUsuario);
 
             String sql = "INSERT INTO USUARIO\n" +
                     "(ID_USER, NOME, DATA_NASCIMENTO, GENERO, PREMIUM)\n" +
-                    "VALUES(?, ?, TO_DATE( ?, 'DD/MM/YYYY' ), ?, ? )\n";
+                    "VALUES(?, ?, ? , ?, ? )\n";
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
 
             stmt.setInt(1, ouvinte.getIdUser());
             stmt.setString(2, ouvinte.getNome());
-            stmt.setString(3, ouvinte.getDataNascimento());
+            stmt.setDate(3, Date.valueOf(ouvinte.getDataNascimento()));
             stmt.setString(4, ouvinte.getGenero());
             stmt.setInt(5, ouvinte.getPremium());
             int res = stmt.executeUpdate();
@@ -72,27 +71,23 @@ public class UsuarioRepositorio {
 
             StringBuilder sql = new StringBuilder();
             sql.append("UPDATE USUARIO SET \n");
+
+            sql.append(" nome = ?,");
             sql.append(" genero = ?,");
-            sql.append(" premium = ?,");
-            sql.append(" nome = ? ,");
-            sql.append(" data_nascimento = ? ");
-            sql.deleteCharAt(sql.length() - 1); //remove o ultimo ','
+            sql.append(" data_nascimento = ?,");
+            sql.append(" premium = ? ");
             sql.append(" WHERE id_user = ? ");
 
             PreparedStatement stmt = con.prepareStatement(sql.toString());
 
-            assert ouvinte != null;
+            stmt.setString(1, ouvinte.getNome());
+            stmt.setString(2, ouvinte.getGenero());
+            stmt.setDate(3, Date.valueOf(ouvinte.getDataNascimento()));
+            stmt.setInt(4,ouvinte.getPremium());
+            stmt.setInt(5, ouvinte.getIdOuvinte());
 
-            stmt.setString(1, ouvinte.getGenero());
-            stmt.setInt(2, ouvinte.getPremium());
-            stmt.setString(3, ouvinte.getNome());
-
-            System.out.println(ouvinte.getDataNascimento());
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate date = LocalDate.parse(ouvinte.getDataNascimento(), formatter);
-            stmt.setDate(4, Date.valueOf(date));
-            stmt.setInt(5, ouvinte.getIdUser());
             int res = stmt.executeUpdate();
+            System.out.println("editarUsuario.res=" + res);
             return res > 0;
         } catch (SQLException ex) {
             throw new BancoDeDadosException(ex.getCause());
@@ -108,30 +103,40 @@ public class UsuarioRepositorio {
 
     }
 
-    public List<Usuario> getAllUser(Integer idUsuario) throws BancoDeDadosException{
+    public List<Usuario> getAllUsers(Ouvinte ouvinte) throws BancoDeDadosException{
         Connection con = null;
-        String sql = "SELECT * FROM USUARIO u WHERE NOT id_user = " + idUsuario;
-        List<Usuario> usuarios = new ArrayList<>();
+        try{
+            List<Usuario> usuarios = new ArrayList<>();
 
-        try {
             con = ConexaoBancoDeDados.getConnection();
-            Statement statement = con.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
 
-            // Vamos só listar os usuários - Então podemos criar um Ouvinte sem ID
+            String sql = "SELECT * FROM USUARIO u WHERE not ID_USER = " + ouvinte.getIdUser();
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            ResultSet resultSet = stmt.executeQuery();
+
             while (resultSet.next()){
                 Usuario usuario = new Ouvinte();
-                usuario.setIdUser(resultSet.getInt("ID_USER"));
-                usuario.setNome(resultSet.getString("NOME"));
-                usuario.setDataNascimento(resultSet.getString("DATA_NASCIMENTO"));
-                usuario.setGenero(resultSet.getString("GENERO"));
-                usuario.setPremium(resultSet.getInt("PREMIUM"));
+                usuario.setIdUser(resultSet.getInt("id_user"));
+                usuario.setNome(resultSet.getString("nome"));
+                usuario.setGenero(resultSet.getString("genero"));
                 usuarios.add(usuario);
             }
             return usuarios;
 
-        } catch (SQLException e) {
-            throw new BancoDeDadosException(e.getCause());
+        }catch (SQLException ex){
+            //colocar nossa exception
+            throw new BancoDeDadosException(ex.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
+
 }

@@ -1,19 +1,19 @@
 package service;
 
-import abstracts.Usuario;
 import exceptions.BancoDeDadosException;
 import models.Ouvinte;
-import repository.MusicaRepository;
 import repository.OuvinteRepositorio;
 import repository.UsuarioRepositorio;
 import views.Menus;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import static views.Menus.ouvinte;
 
 
 public class OuvinteService {
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //18/10/2020
 
     private OuvinteRepositorio ouvinteRepositorio;
 
@@ -59,21 +59,6 @@ public class OuvinteService {
         }
     }
 
-    public void listarOuvintes () {
-        try {
-            List<Ouvinte> listarOuvintes = ouvinteRepositorio.listar();
-            listarOuvintes.forEach(System.out::println);
-        }catch (BancoDeDadosException ex){
-            ex.printStackTrace();
-        }
-    }
-
-    public void consultarOuvinte (Integer id) {
-        ouvinteRepositorio.getOuvinte(ouvinte.getIdOuvinte());
-        System.out.println(ouvinte.toString());
-
-    }
-
     public void criarOuvinte () {
 
         System.out.println("==================== CRIAR CONTA ====================");
@@ -94,7 +79,7 @@ public class OuvinteService {
                 }
             }
 
-            Menus.ouvinte = new Ouvinte(null,nome,dataNascimento,genero, isPremium,null);
+            Menus.ouvinte = new Ouvinte(null,nome, LocalDate.parse(dataNascimento, formatter),genero, isPremium,null);
 
             adicionarOuvinte(Menus.ouvinte);
 
@@ -105,14 +90,6 @@ public class OuvinteService {
                 Menus.imprimirRed("Erro ao criar a conta");
             }
         }
-    }
-
-    // Método serve para criar um usuário rápido
-    public void criarUsuarioRapido(){
-        Menus.ouvinte = new Ouvinte(null,"Juliana","13/06/1998","F",
-                0,null);
-
-        adicionarOuvinte(Menus.ouvinte);
     }
 
 }

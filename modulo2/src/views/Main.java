@@ -2,14 +2,22 @@ package views;
 
 import exceptions.BancoDeDadosException;
 import models.Ouvinte;
+import repository.ConexaoBancoDeDados;
 import service.OuvinteService;
 
+import java.sql.SQLException;
+
+import java.sql.Connection;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import static views.Menus.ouvinte;
 
 public class Main {
 
-    public static OuvinteService ouvinteService = new OuvinteService();
-    public static void main(String[] args) throws BancoDeDadosException {
 
+    public static void main(String[] args)  {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy"); //18/10/2020
         int escolhaUser;
 
         System.out.println("================== INICIANDO APLICAÇÃO ===================");
@@ -19,11 +27,11 @@ public class Main {
             escolhaUser = Menus.getNumeric();
             switch (escolhaUser){
                 case 1 -> {
-                    Menus.ouvinte = new Ouvinte(1, "Cleber", "30/06/2022", "M", 1, 1 );
+                    Menus.ouvinte = new Ouvinte(1, "Cleber", LocalDate.parse("13/10/1994", formatter) , "M", 1, 1 );
                     //ouvinteService.criarUsuarioRapido();
                     controleIniciarAplicacao = false;
                 } case 2-> {
-                    ouvinteService.criarOuvinte();
+                    Menus.ouvinteService.criarOuvinte();
                     controleIniciarAplicacao = false;
                 }
                 default -> Menus.imprimirRed("Selecione uma opção válida!");

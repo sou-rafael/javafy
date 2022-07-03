@@ -39,7 +39,7 @@ public class SeguidoresService {
 
     public void getAllUsers(Ouvinte ouvinte){
         try {
-            List<Usuario> usuarios = usuarioRepositorio.getAllUser(ouvinte.getIdOuvinte());
+            List<Usuario> usuarios = usuarioRepositorio.getAllUsers(ouvinte);
             System.out.println("------------------------------------------------");
             usuarios.forEach(Usuario::imprimirInformacoesPersonalizadas);
             System.out.println("------------------------------------------------");
@@ -52,7 +52,12 @@ public class SeguidoresService {
 
     public void seguirUser(Ouvinte ouvinte, Integer idSeguindo) {
         try {
-            seguidoresRepository.seguirUsuario(idSeguindo, ouvinte);
+            boolean seguir = seguidoresRepository.seguirUsuario(idSeguindo, ouvinte);
+            if(seguir){
+                Menus.imprimirBlue("Usuário seguido com sucesso");
+            } else {
+                Menus.imprimirRed("Não foi possível seguir o usuário");
+            }
         } catch (BancoDeDadosException e) {
             Menus.imprimirRed("Você já segue o usuário");
         }

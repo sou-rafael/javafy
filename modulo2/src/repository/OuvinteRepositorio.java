@@ -146,11 +146,6 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
             if (ouvinte.getNome() != null) {
                 stmt.setString(index++, ouvinte.getNome());
             }
-            if (ouvinte.getDataNascimento() != null) {
-                DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-                LocalDate data = LocalDate.parse(ouvinte.getDataNascimento(), formato);
-                stmt.setDate(index++, Date.valueOf(data));
-            }
             if (ouvinte.getPremium() != null) {
                 stmt.setInt(index++, ouvinte.getPremium());
             }
@@ -237,7 +232,7 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
                 ouvinte.setIdUser(oSet.getInt("id_user"));
                 ouvinte.setIdOuvinte(oSet.getInt("id_ouvinte"));
                 ouvinte.setNome(oSet.getString("nome"));
-                ouvinte.setDataNascimento(oSet.getString("data_nascimento"));
+                ouvinte.setDataNascimento(oSet.getDate("data_nascimento").toLocalDate());
                 ouvinte.setGenero(oSet.getString("genero"));
                 ouvinte.setPremium(oSet.getInt("premium"));
             }
@@ -283,7 +278,7 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
         ouvinte.setIdUser(res.getInt("id_user"));
         ouvinte.setNome(res.getString("nome_ouvinte"));
         ouvinte.setGenero(res.getString("genero_ouvinte"));
-        ouvinte.setDataNascimento(String.valueOf(res.getDate("data_nascimento").toLocalDate()));
+        ouvinte.setDataNascimento(res.getDate("data_nascimento").toLocalDate());
         ouvinte.setPremium(res.getInt("premium"));
         return ouvinte;
     }

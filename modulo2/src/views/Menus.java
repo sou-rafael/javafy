@@ -1,10 +1,12 @@
 package views;
 
-import models.Album;
-import models.Musica;
-import models.Ouvinte;
-import models.Playlist;
+import exceptions.BancoDeDadosException;
+import models.*;
 import service.*;
+
+
+import java.awt.*;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,11 @@ public class Menus {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public static Ouvinte ouvinte = new Ouvinte();
-
+    //*************************
+    public static AlbumService albumService = new AlbumService();
+    public static Artista artista = new Artista();
+    public static ArtistaService artistaService = new ArtistaService();
+    //*************************
     // STRINGS STATICAS PARA O PROJETO
     public static Integer escolhaUser = 0;
     public static String mudancasUser = "";
@@ -36,6 +42,7 @@ public class Menus {
     public static final String mensagemErrorNumberFormat = ANSI_RED + "Ops!!! A escolha deve ser número. Tente novamente." + ANSI_RESET;
     public static final String errorSelecionar = ANSI_RED + "Ops!!! Opção não disponível." + ANSI_RESET;
     public static final String saindoDaAplicacao = ANSI_BLUE + "Saindo da aplicacao...." + ANSI_RESET;
+
     public static Integer getNumeric() {
         int escolha = 0;
         while (true) {
@@ -101,8 +108,8 @@ public class Menus {
     // Para o menu de informações do usuário - ESCOLHA 0
     public static void verEditarInformacoes() {
         System.out.println("================ ATUALIZAR USUÁRIO =================");
-        System.out.println("[0] - EDITAR NOME           [1] - EDITAR NASCIMENTO");
-        System.out.println("[2] - EDITAR GÊNERO         [3] - EDITAR PLANO");
+        System.out.println("[0] - EDITAR NOME           [1] - EDITAR GÊNERO");
+        System.out.println("[2] - EDITAR NASCIMENTO     [3] - EDITAR PLANO");
         System.out.println("[5] - EDITAR TUDO           [6] - VOLTAR");
         System.out.println("====================================================");
 
@@ -121,7 +128,7 @@ public class Menus {
                 case 1 -> {
                     System.out.println("================ EDITAR DATA DE NASCIMENTO ==================");
                     String novaIdade = getString("Nova data de nascimento: ");
-                    ouvinte.setDataNascimento(novaIdade);
+                    ouvinte.setDataNascimento((LocalDate.parse(novaIdade, formatter)));
                     ouvinteService.editarOuvinte(ouvinte);
                     usoValido = false;
                 }
@@ -149,7 +156,7 @@ public class Menus {
                     String novoNome = getString("Novo nome: ");
                     ouvinte.setNome(novoNome);
                     String novaIdade = getString("Nova data de nascimento: (dd/MM/yyyy): ");
-                    ouvinte.setDataNascimento(novaIdade);
+                    ouvinte.setDataNascimento(LocalDate.parse(novaIdade, formatter));
                     String novoGenero = getString("Digite o genero : ");
                     ouvinte.setGenero(novoGenero);
                     Integer isPremium = editarPlanoPremium();
@@ -191,14 +198,63 @@ public class Menus {
     }
 
     // MENU EXPLORAR MUSICA - ESCOLHA 2
+//**********************************************************************************************************************
     public static void verArtista() {
         System.out.println("================ EXPLORAR ARTISTAS ==================");
         System.out.println("[0] - INFORMAÇÕES DO ARTISTA    [1] - BUSCAR ALBUNS");
         System.out.println("[2] - TOP 5 ARTISTAS            [3] - VOLTAR");
         System.out.println("=====================================================");
         escolhaUser = Menus.getNumeric();
-    }
 
+        //ARTISTA DE TESTE -- falta criarArtista()
+        //artista.setIdArtista(1);
+        System.out.println("artista setado manualmente id = 1");
+        //artista.setNome("U2");
+        //artista.setAvaliacao(5);
+
+        boolean usoValido = true;
+        while(usoValido){
+            switch(escolhaUser){
+                case 0 ->{
+                    System.out.println(0);
+                    System.out.println("============== INFORMACOES DO ARTISTA ===============");
+                    //listar todos os artistas para passar a informacao pelo id_artista
+                    System.out.println("Esses sao os artistas cadastrados:");
+                    artistaService.listarArtistas();
+                    System.out.print("digite o ID do artista que voce quer informacoes: ");
+                    escolhaUser = Menus.getNumeric();
+//FALTA IMPLEMENTAR BUSCA DO ARTISTA PELO ID
+                    System.out.println(artista.toString());
+
+                    usoValido = false;
+                }
+                case 1 ->{
+                    //ANTIGO BUSCAR ALBUM
+                    System.out.println(0);
+                    System.out.println("================= LISTAR ALBUNS =====================");
+                    albumService.listarAlbum(); // listando todos os albuns...
+
+                    //criar metodo buscarAlbum(id_artista)? -- Repository e Service
+
+                    usoValido = false;
+                }
+                case 2 ->{
+                    // procurar entender melhor a regra de negocio para implementar
+                    System.out.println(2);
+                    System.out.println("================= TOP 5 ARTISTAS =====================");
+
+                    usoValido = false;
+                }
+                case 3 ->{
+                    // sair
+                    System.out.println(3);
+                    usoValido = false;
+
+                }
+            }
+        }
+    }
+//*************************************************************************************************************************
     // MENU SEGUIDORES - ESCOLHA 3
     public static void verSeguidores() {
         System.out.println("================== SEGUIDORES ======================");

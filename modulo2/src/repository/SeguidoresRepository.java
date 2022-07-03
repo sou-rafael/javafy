@@ -30,7 +30,7 @@ public class SeguidoresRepository {
                 Usuario usuario = new Ouvinte();
                 usuario.setIdUser(resultSet.getInt("ID_USER"));
                 usuario.setNome(resultSet.getString("NOME"));
-                usuario.setDataNascimento(resultSet.getString("DATA_NASCIMENTO"));
+                //usuario.setDataNascimento(resultSet.getString("DATA_NASCIMENTO"));
                 usuario.setGenero(resultSet.getString("GENERO"));
                 usuario.setPremium(resultSet.getInt("PREMIUM"));
                 usuarios.add(usuario);
@@ -62,7 +62,7 @@ public class SeguidoresRepository {
                 Usuario usuario = new Ouvinte();
                 usuario.setIdUser(resultSet.getInt("ID_USER"));
                 usuario.setNome(resultSet.getString("NOME"));
-                usuario.setDataNascimento(resultSet.getString("DATA_NASCIMENTO"));
+                //usuario.setDataNascimento(resultSet.getString("DATA_NASCIMENTO"));
                 usuario.setGenero(resultSet.getString("GENERO"));
                 usuario.setPremium(resultSet.getInt("PREMIUM"));
                 usuarios.add(usuario);
@@ -89,7 +89,6 @@ public class SeguidoresRepository {
             stmt.setInt(2, idUsuarioParaSeguir);
 
             int res = stmt.executeUpdate();
-            System.out.println("RES " + res);
             return res > 0;
 
         } catch (SQLException e) {

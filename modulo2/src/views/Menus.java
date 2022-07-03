@@ -206,11 +206,6 @@ public class Menus {
         System.out.println("=====================================================");
         escolhaUser = Menus.getNumeric();
 
-        //ARTISTA DE TESTE -- falta criarArtista()
-        //artista.setIdArtista(1);
-        System.out.println("artista setado manualmente id = 1");
-        //artista.setNome("U2");
-        //artista.setAvaliacao(5);
 
         boolean usoValido = true;
         while(usoValido){
@@ -262,8 +257,32 @@ public class Menus {
         System.out.println("[2] - VOLTAR");
         System.out.println("====================================================");
         escolhaUser = Menus.getNumeric();
-    }
+        switch (escolhaUser) {
+            case 0 -> {
+                // QUEM SAO SEUS SEGUIDORES
+                seguidoresService.getAllUsers(ouvinte);
+                System.out.println("================= INFORMACOES =================");
+                System.out.println("");
+                seguidoresService.seguirUser(ouvinte, escolhaUser);
 
+            }
+            case 1 -> {
+                seguidoresService.getAllSeguindo(ouvinte);
+                System.out.println("============ VER PLAYLIST/ALBUNS ================");
+                System.out.println("[0] - DEIXAR DE SEGUIR O USUÁRIO    [1] - VOLTAR");
+                escolhaUser = Menus.getNumeric();
+                if(escolhaUser == 0) {
+                    escolhaUser = Menus.getNumeric("Deixar de seguir usuario (selecione id): ");
+                    seguidoresService.deixarDeSeguirUsuario(ouvinte, escolhaUser);
+                }
+            }
+            case 2 -> {
+                seguidoresService.getAllSeguidores(ouvinte);
+                Menus.getString("Digite algo para sair. ");
+            }
+        }
+    }
+//**********************************************************************************
     // MENU SEGUINDO - ESCOLHA 4
     public static void verSeguindo() {
         System.out.println("==================== USUÁRIOS ======================");

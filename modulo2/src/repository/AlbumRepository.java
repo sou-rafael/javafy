@@ -40,7 +40,6 @@ public class AlbumRepository implements Repositorio<Integer, Album> {
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
-
             stmt.setInt(1, object.getIdAlbum());
             stmt.setInt(2, object.getProprietario().getIdArtista());
             stmt.setString(3, object.getNome());

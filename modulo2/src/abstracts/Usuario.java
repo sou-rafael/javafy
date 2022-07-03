@@ -81,6 +81,13 @@ public abstract class Usuario {
         this.seguindo = seguindo;
     }
 
+    public void imprimirInformacoesPersonalizadas(){
+        String leftAlignFormat = "| %-7s | %-25s | %-15s %n";
+        System.out.format(leftAlignFormat, "Id: " + getIdUser(), "Nome: "
+                + getNome(), "Genero: "+ getGenero() );
+
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +

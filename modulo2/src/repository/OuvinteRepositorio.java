@@ -276,6 +276,7 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
         }
         return null;
     }
+
     private Ouvinte getOuvinteFromResultSet(ResultSet res) throws SQLException {
         Ouvinte ouvinte = new Ouvinte();
         ouvinte.setIdOuvinte(res.getInt("id_ouvinte"));

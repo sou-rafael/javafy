@@ -1,15 +1,10 @@
 package views;
 
-import exceptions.BancoDeDadosException;
 import models.Album;
 import models.Musica;
 import models.Ouvinte;
 import models.Playlist;
 import service.*;
-
-
-import java.awt.*;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +15,7 @@ public class Menus {
     public static MusicaService musicaService= new MusicaService();
     public static PlayListService playListService= new PlayListService();
     public static ListaDeMusicaServices listaDeMusicaServices = new ListaDeMusicaServices();
-
+    public static SeguidoresService seguidoresService = new SeguidoresService();
     public static OuvinteService ouvinteService = new OuvinteService();
 
     //formatador apenas de exemplo adequar o formatador ao banco de dados
@@ -215,11 +210,44 @@ public class Menus {
 
     // MENU SEGUINDO - ESCOLHA 4
     public static void verSeguindo() {
-        System.out.println("==================== SEGUINDO ======================");
-        System.out.println("[0] - INFORMAÇÕES    [1] - VER PLAYLISTS/ALBUNS");
-        System.out.println("[2] - VOLTAR");
+        System.out.println("==================== USUÁRIOS ======================");
+        System.out.println("[0] - VER LISTA DE USUÁRIOS    [1] - VER SEGUINDO");
+        System.out.println("[2] - VER SEGUIDORES           [3] - VOLTAR");
         System.out.println("====================================================");
         escolhaUser = Menus.getNumeric();
+        switch (escolhaUser) {
+            case 0 -> {
+                seguidoresService.getAllUsers(ouvinte);
+                System.out.println("===================== OPÇÕES ======================");
+                System.out.println("[0] - SEGUIR USUÁRIO    [1] - VOLTAR");
+                escolhaUser = Menus.getNumeric();
+                if(escolhaUser == 0) {
+                    escolhaUser = Menus.getNumeric("Seguir usuario (selecione id): ");
+                    seguidoresService.seguirUser(ouvinte, escolhaUser);
+                }
+            }
+            case 1 -> {
+                seguidoresService.getAllSeguindo(ouvinte);
+                System.out.println("===================== OPÇÕES ======================");
+                System.out.println("[0] - DEIXAR DE SEGUIR O USUÁRIO    [1] - VOLTAR");
+                escolhaUser = Menus.getNumeric();
+                if(escolhaUser == 0) {
+                    escolhaUser = Menus.getNumeric("Deixar de seguir usuario (selecione id): ");
+                    seguidoresService.deixarDeSeguirUsuario(ouvinte, escolhaUser);
+                }
+            }
+            case 2 -> {
+                seguidoresService.getAllSeguidores(ouvinte);
+                Menus.getString("Digite algo para sair. ");
+            }
+        }
+
+//        System.out.println("==================== SEGUINDO ======================");
+//        System.out.println("[0] - INFORMAÇÕES    [1] - VER PLAYLISTS/ALBUNS");
+//        System.out.println("[2] - VOLTAR");
+//        System.out.println("====================================================");
+//        escolhaUser = Menus.getNumeric();
+
     }
 
     // MENU BIBLIOTECA - ESCOLHA 5

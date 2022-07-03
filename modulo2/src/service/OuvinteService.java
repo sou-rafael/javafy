@@ -1,5 +1,6 @@
 package service;
 
+import abstracts.Usuario;
 import exceptions.BancoDeDadosException;
 import models.Ouvinte;
 import repository.MusicaRepository;
@@ -113,4 +114,5 @@ public class OuvinteService {
 
         adicionarOuvinte(Menus.ouvinte);
     }
+
 }

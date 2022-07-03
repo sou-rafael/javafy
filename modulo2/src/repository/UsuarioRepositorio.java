@@ -7,6 +7,8 @@ import models.Ouvinte;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsuarioRepositorio {
 
@@ -62,6 +64,7 @@ public class UsuarioRepositorio {
             }
         }
     }
+
     public boolean editar(Ouvinte ouvinte) throws BancoDeDadosException {
         Connection con = null;
         try {
@@ -103,5 +106,32 @@ public class UsuarioRepositorio {
             }
         }
 
+    }
+
+    public List<Usuario> getAllUser(Integer idUsuario) throws BancoDeDadosException{
+        Connection con = null;
+        String sql = "SELECT * FROM USUARIO u WHERE NOT id_user = " + idUsuario;
+        List<Usuario> usuarios = new ArrayList<>();
+
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+
+            // Vamos só listar os usuários - Então podemos criar um Ouvinte sem ID
+            while (resultSet.next()){
+                Usuario usuario = new Ouvinte();
+                usuario.setIdUser(resultSet.getInt("ID_USER"));
+                usuario.setNome(resultSet.getString("NOME"));
+                usuario.setDataNascimento(resultSet.getString("DATA_NASCIMENTO"));
+                usuario.setGenero(resultSet.getString("GENERO"));
+                usuario.setPremium(resultSet.getInt("PREMIUM"));
+                usuarios.add(usuario);
+            }
+            return usuarios;
+
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        }
     }
 }

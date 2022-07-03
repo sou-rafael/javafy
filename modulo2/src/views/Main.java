@@ -19,7 +19,8 @@ public class Main {
             escolhaUser = Menus.getNumeric();
             switch (escolhaUser){
                 case 1 -> {
-                    ouvinteService.criarUsuarioRapido();
+                    Menus.ouvinte = new Ouvinte(1, "Cleber", "30/06/2022", "M", 1, 1 );
+                    //ouvinteService.criarUsuarioRapido();
                     controleIniciarAplicacao = false;
                 } case 2-> {
                     ouvinteService.criarOuvinte();

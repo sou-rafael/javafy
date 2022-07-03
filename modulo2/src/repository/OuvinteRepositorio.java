@@ -123,7 +123,7 @@ public class OuvinteRepositorio implements Repositorio<Integer, Ouvinte>{
                     sql.append(" nome = ?,");
                 }
                 if (ouvinte.getDataNascimento() != null) {
-                    sql.append(" data_nascimento = ?,");
+                    sql.append(" data_nascimento = to_date( ?, 'DD/MM/YYYY'),");
                 }
             }
 

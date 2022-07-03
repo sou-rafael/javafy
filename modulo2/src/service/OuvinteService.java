@@ -2,6 +2,7 @@ package service;
 
 import exceptions.BancoDeDadosException;
 import models.Ouvinte;
+import repository.MusicaRepository;
 import repository.OuvinteRepositorio;
 import repository.UsuarioRepositorio;
 
@@ -13,6 +14,8 @@ import static views.Menus.ouvinte;
 public class OuvinteService {
 
     private OuvinteRepositorio ouvinteRepositorio;
+
+    private UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
 
     public OuvinteService () {
         ouvinteRepositorio = new OuvinteRepositorio();
@@ -48,7 +51,7 @@ public class OuvinteService {
 
     public void editarOuvinte (Integer id, Ouvinte ouvinte){
         try {
-            boolean editouComSucesso = ouvinteRepositorio.editar(id,ouvinte);
+            boolean editouComSucesso = usuarioRepositorio.editar(id,ouvinte);
             System.out.println("Ouvinte editado? "+ editouComSucesso + " com id = "+id);
         }catch (BancoDeDadosException ex ){
             ex.printStackTrace();

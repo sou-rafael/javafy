@@ -15,7 +15,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Scanner;
 
-import static views.Main.idOuvinte;
 
 public class Menus {
     public static MusicaService musicaService= new MusicaService();
@@ -42,6 +41,7 @@ public class Menus {
     public static final String mensagemErrorNumberFormat = ANSI_RED + "Ops!!! A escolha deve ser número. Tente novamente." + ANSI_RESET;
     public static final String errorSelecionar = ANSI_RED + "Ops!!! Opção não disponível." + ANSI_RESET;
     public static final String saindoDaAplicacao = ANSI_BLUE + "Saindo da aplicacao...." + ANSI_RESET;
+
     public static Integer getNumeric() {
         int escolha = 0;
         while (true) {
@@ -123,7 +123,7 @@ public class Menus {
                     System.out.println("Digite o nome do ouvinte ");
                     String novoNome = getString();
                     ouvinte.setNome(novoNome);
-                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 1 -> {
@@ -132,7 +132,7 @@ public class Menus {
                     System.out.println("Digite o genero do ouvinte ");
                     String novoGenero = getString();
                     ouvinte.setGenero(novoGenero);
-                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 2 -> {
@@ -142,8 +142,10 @@ public class Menus {
                     System.out.println("Digite o id do ouvinte ");
                     System.out.println("Digite a data de nascimento do ouvinte ");
                     String novaIdade = getString();
-                    ouvinte.setDataNascimento(String.valueOf(LocalDate.parse(novaIdade, formatter)));
-                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
+                    System.out.println(ouvinte.getDataNascimento());
+                    ouvinte.setDataNascimento(novaIdade);
+                    System.out.println(ouvinte.getDataNascimento());
+                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 3 -> {
@@ -153,11 +155,12 @@ public class Menus {
                     System.out.println("Digite o id do ouvinte ");
                     System.out.println("Digite [1] para premium " +
                             "\nDigite qualquer outra coisa para não mudar");
-                    String novoPlano = getString();
-                    if (novoPlano.equals("1")) {
-                        ouvinte.setPremium("1");
+                    Integer novoPlano = getNumeric();
+                    if (novoPlano == 1) {
+                        ouvinte.setPremium(1);
+                        ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     }
-                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 4 -> {
@@ -178,11 +181,11 @@ public class Menus {
                     ouvinte.setGenero(novoGenero2);
                     System.out.println("Digite [1] para premium " +
                             "\nDigite qualquer outra coisa para não mudar");
-                    String novoPlano2 = getString();
-                    if (novoPlano2.equals("1")) {
-                        ouvinte.setPremium("1");
+                    Integer novoPlano2 = getNumeric();
+                    if (novoPlano2 == 1) {
+                        ouvinte.setPremium(1);
                     }
-                    ouvinteService.editarOuvinte(idOuvinte, ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 6 -> {
@@ -231,7 +234,7 @@ public class Menus {
         escolhaUser = Menus.getNumeric();
     }
 
-    // =============== OPÇÕES PARA ESCOLHA 5 - MENU BIBLIOTECA ====================
+    // MENU BIBLIOTECA - ESCOLHA 5
     public static void verBibliotecas() {
 
         System.out.println("==================== BIBLIOTECA ===================");
@@ -242,7 +245,7 @@ public class Menus {
         // ESSE OUVINTE SERÁ OBTIDO POR MÉTODO
         Ouvinte ouvinte = new Ouvinte();
         ouvinte.setIdOuvinte(1);
-        ouvinte.setPremium("1");
+        ouvinte.setPremium(1);
         boolean usoValido = true;
         while (usoValido) {
             escolhaUser = Menus.getNumeric();
@@ -284,6 +287,7 @@ public class Menus {
                 default -> System.out.println("Opção inválida!!! ");
             }
         }
+
     }
     // Método para adicionar musicas na playlist
     public static void addMusicasNaPlayList(Playlist playlist){
@@ -292,9 +296,11 @@ public class Menus {
             System.out.println("=========== ADD MUSICA NA PLAYLIST ==============");
             System.out.println("[0] - ADICIONAR MUSICA     [1] - SAIR");
             escolhaUser = getNumeric();
+
             if(escolhaUser == 0) {
                 // Pegar uma lista de musicas do banco de dados
                 List<Musica> musicas = musicaService.listarMusica();
+
                 if (musicas == null || musicas.isEmpty()) {
                     continue;
                 }
@@ -337,7 +343,7 @@ public class Menus {
     // =============== OPÇÕES PARA ESCOLHA 6 - PERFIL DO USUÁRIO ====================
     public static void verInformacoesUser() {
         System.out.println("=============== PERFIL DO USUÁRIO =================");
-        // mostrar informações
+        ouvinteService.consultarOuvinte(ouvinte.getIdOuvinte());
         System.out.println("===================================================");
         escolhaUser = Menus.getNumeric();
     }

@@ -1,5 +1,6 @@
 package service;
 
+import enums.Planos;
 import exceptions.BancoDeDadosException;
 import models.Ouvinte;
 import repository.OuvinteRepositorio;
@@ -25,11 +26,10 @@ public class OuvinteService {
 
     public void adicionarOuvinte (Ouvinte ouvinte){
         try{
-            UsuarioRepositorio usuarioRepositorio = new UsuarioRepositorio();
-            ouvinte = usuarioRepositorio.criarUsuario(ouvinte);
+            ouvinte = usuarioRepositorio.adicionar(ouvinte);
             if(ouvinte.getIdUser() != null){
-                Ouvinte ouvinteAdicionado = ouvinteRepositorio.adicionar(ouvinte);
-                System.out.println("Ouvinte adicionado com sucesso! "+ouvinteAdicionado);
+                ouvinte = ouvinteRepositorio.adicionar(ouvinte);
+                System.out.println("Ouvinte adicionado com sucesso! "+ouvinte);
             }
 
 
@@ -67,22 +67,29 @@ public class OuvinteService {
             String dataNascimento = Menus.getString("Data de nascimento: ");
             String genero = Menus.getString("Seu genêro: ");
             int isPremium = 0;
+            Menus.imprimirYellow("Deseja uma conta premium?");
+            Integer tipo = Menus.getNumeric("[1] - Sim [0] - Não: ");
 
             while(true){
-                Menus.imprimirYellow("Deseja uma conta premium?");
-                Integer tipo = Menus.getNumeric("[1] - Sim [0] - Não: ");
-                if(tipo < 0 || tipo > 1){
-                    Menus.imprimirRed("OPS! Opção inválida, tente novamente.");
-                } else {
-                    isPremium = tipo;
+
+                switch (tipo){
+                    case 1 ->{
+                        isPremium = Planos.PREMIUM.getEscolha();
+                    }
+                    case 2 -> {
+                        isPremium = Planos.BASICO.getEscolha();
+                    }
+                    default -> {
+                        Menus.imprimirRed("OPS! Opção inválida, tente novamente.");
+                    }
+                }
+                if(isPremium == 1 || isPremium == 0){
                     break;
                 }
             }
 
             Menus.ouvinte = new Ouvinte(null,nome, LocalDate.parse(dataNascimento, formatter),genero, isPremium,null);
-
             adicionarOuvinte(Menus.ouvinte);
-
             if(Menus.ouvinte.getIdOuvinte() != null){
                 Menus.imprimirBlue("Conta criada com sucesso.");
                 break;

@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsuarioRepositorio {
+public class UsuarioRepositorio implements Repositorio<Integer, Ouvinte>{
 
     public Integer getProximoId(Connection connection) throws BancoDeDadosException {
         try{
@@ -26,20 +26,18 @@ public class UsuarioRepositorio {
         }
     }
 
-    public Ouvinte criarUsuario (Ouvinte ouvinte) throws BancoDeDadosException {
+    public Ouvinte adicionar (Ouvinte ouvinte) throws BancoDeDadosException {
         Connection con = null;
         try{
-
             con = ConexaoBancoDeDados.getConnection();
             Integer idUsuario = this.getProximoId(con);
             ouvinte.setIdUser(idUsuario);
 
             String sql = "INSERT INTO USUARIO\n" +
                     "(ID_USER, NOME, DATA_NASCIMENTO, GENERO, PREMIUM)\n" +
-                    "VALUES(?, ?, ? , ?, ? )\n";
+                    "VALUES(?, ?, ? , ?, ? )";
 
             PreparedStatement stmt = con.prepareStatement(sql);
-
 
             stmt.setInt(1, ouvinte.getIdUser());
             stmt.setString(2, ouvinte.getNome());
@@ -47,7 +45,7 @@ public class UsuarioRepositorio {
             stmt.setString(4, ouvinte.getGenero());
             stmt.setInt(5, ouvinte.getPremium());
             int res = stmt.executeUpdate();
-            System.out.println("adicionarUsuario.res=" + res);
+            //System.out.println("adicionarUsuario.res=" + res);
             return ouvinte;
 
         }catch (SQLException ex){
@@ -87,7 +85,7 @@ public class UsuarioRepositorio {
             stmt.setInt(5, ouvinte.getIdOuvinte());
 
             int res = stmt.executeUpdate();
-            System.out.println("editarUsuario.res=" + res);
+            //System.out.println("editarUsuario.res=" + res);
             return res > 0;
         } catch (SQLException ex) {
             throw new BancoDeDadosException(ex.getCause());
@@ -139,4 +137,18 @@ public class UsuarioRepositorio {
         }
     }
 
+    @Override
+    public boolean remover(Integer id) throws BancoDeDadosException {
+        return false;
+    }
+
+    @Override
+    public boolean editar(Integer id, Ouvinte ouvinte) throws BancoDeDadosException {
+        return false;
+    }
+
+    @Override
+    public List<Ouvinte> listar() throws BancoDeDadosException {
+        return null;
+    }
 }

@@ -23,7 +23,7 @@ public class Menus {
     //formatador apenas de exemplo adequar o formatador ao banco de dados
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public static Ouvinte ouvinte = new Ouvinte();
+    public static Ouvinte ouvinte;
     //*************************
     public static AlbumService albumService = new AlbumService();
     public static Artista artista = new Artista();

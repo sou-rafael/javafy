@@ -1,10 +1,7 @@
 package views;
 
 import exceptions.BancoDeDadosException;
-import models.Album;
-import models.Musica;
-import models.Ouvinte;
-import models.Playlist;
+import models.*;
 import service.*;
 
 
@@ -26,7 +23,11 @@ public class Menus {
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     public static Ouvinte ouvinte = new Ouvinte();
-
+    //*************************
+    public static AlbumService albumService = new AlbumService();
+    public static Artista artista = new Artista();
+    public static ArtistaService artistaService = new ArtistaService();
+    //*************************
     // STRINGS STATICAS PARA O PROJETO
     public static Integer escolhaUser = 0;
     public static String mudancasUser = "";
@@ -207,14 +208,63 @@ public class Menus {
     }
 
     // MENU EXPLORAR MUSICA - ESCOLHA 2
+//**********************************************************************************************************************
     public static void verArtista() {
         System.out.println("================ EXPLORAR ARTISTAS ==================");
-        System.out.println("[0] - INFORMAÇÕES DO ARTISTA    [1] - BUSCAR ALBUNS");
+        System.out.println("[0] - INFORMAÇÕES DO ARTISTA    [1] - LISTAR ALBUNS");
         System.out.println("[2] - TOP 5 ARTISTAS            [3] - VOLTAR");
         System.out.println("=====================================================");
         escolhaUser = Menus.getNumeric();
-    }
 
+        //ARTISTA DE TESTE -- falta criarArtista()
+        //artista.setIdArtista(1);
+        System.out.println("artista setado manualmente id = 1");
+        //artista.setNome("U2");
+        //artista.setAvaliacao(5);
+
+        boolean usoValido = true;
+        while(usoValido){
+            switch(escolhaUser){
+                case 0 ->{
+                    System.out.println(0);
+                    System.out.println("============== INFORMACOES DO ARTISTA ===============");
+                    //listar todos os artistas para passar a informacao pelo id_artista
+                    System.out.println("Esses sao os artistas cadastrados:");
+                    artistaService.listarArtistas();
+                    System.out.print("digite o ID do artista que voce quer informacoes: ");
+                    escolhaUser = Menus.getNumeric();
+//FALTA IMPLEMENTAR BUSCA DO ARTISTA PELO ID
+                    System.out.println(artista.toString());
+
+                    usoValido = false;
+                }
+                case 1 ->{
+                    //ANTIGO BUSCAR ALBUM
+                    System.out.println(0);
+                    System.out.println("================= LISTAR ALBUNS =====================");
+                    albumService.listarAlbum(); // listando todos os albuns...
+
+                    //criar metodo buscarAlbum(id_artista)? -- Repository e Service
+
+                    usoValido = false;
+                }
+                case 2 ->{
+                    // procurar entender melhor a regra de negocio para implementar
+                    System.out.println(2);
+                    System.out.println("================= TOP 5 ARTISTAS =====================");
+
+                    usoValido = false;
+                }
+                case 3 ->{
+                    // sair
+                    System.out.println(3);
+                    usoValido = false;
+
+                }
+            }
+        }
+    }
+//*************************************************************************************************************************
     // MENU SEGUIDORES - ESCOLHA 3
     public static void verSeguidores() {
         System.out.println("================== SEGUIDORES ======================");

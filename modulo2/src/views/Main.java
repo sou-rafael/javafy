@@ -30,8 +30,6 @@ public class Main {
         }
     }
 
-    ;
-
     public static Ouvinte criarOuvinte () throws BancoDeDadosException {
         System.out.println("CRIAR CONTA");
         System.out.print("Nome do usuário: ");
@@ -64,6 +62,12 @@ public class Main {
         //criar usuario crud
         criarOuvinte();
         //busca musicas
+
+        //OUVINTE DE TESTE
+        Ouvinte teste_ouvinte = new Ouvinte();
+        teste_ouvinte.setNome("Rafael");
+        teste_ouvinte.setIdOuvinte(0);
+        teste_ouvinte.setPremium(1);
 
         while (continuarNaAplicacao) {
             Menus.menuPrincipal();

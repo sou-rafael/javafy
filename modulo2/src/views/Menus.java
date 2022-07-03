@@ -108,8 +108,8 @@ public class Menus {
     // Para o menu de informações do usuário - ESCOLHA 0
     public static void verEditarInformacoes() {
         System.out.println("================ ATUALIZAR USUÁRIO =================");
-        System.out.println("[0] - EDITAR NOME           [1] - EDITAR GÊNERO");
-        System.out.println("[2] - EDITAR NASCIMENTO     [3] - EDITAR PLANO");
+        System.out.println("[0] - EDITAR NOME           [1] - EDITAR NASCIMENTO  ");
+        System.out.println("[2] - EDITAR GENÊRO         [3] - EDITAR PLANO");
         System.out.println("[5] - EDITAR TUDO           [6] - VOLTAR");
         System.out.println("====================================================");
 

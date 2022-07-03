@@ -41,7 +41,6 @@ public class Menus {
     public static final String mensagemErrorNumberFormat = ANSI_RED + "Ops!!! A escolha deve ser número. Tente novamente." + ANSI_RESET;
     public static final String errorSelecionar = ANSI_RED + "Ops!!! Opção não disponível." + ANSI_RESET;
     public static final String saindoDaAplicacao = ANSI_BLUE + "Saindo da aplicacao...." + ANSI_RESET;
-
     public static Integer getNumeric() {
         int escolha = 0;
         while (true) {
@@ -88,7 +87,7 @@ public class Menus {
         System.out.println(ANSI_RED + texto + ANSI_RESET);
     }
 
-    public static void imprimirYello(String texto) {
+    public static void imprimirYellow(String texto) {
         System.out.println(ANSI_YELLOW + texto + ANSI_RESET);
     }
 
@@ -118,48 +117,30 @@ public class Menus {
             escolhaUser = Menus.getNumeric();
             switch (escolhaUser) {
                 case 0 -> {
-                    System.out.println(0);
                     System.out.println("================ EDITAR NOME ==================");
-                    System.out.println("Digite o nome do ouvinte ");
-                    String novoNome = getString();
+                    String novoNome = getString("Novo nome: ");
                     ouvinte.setNome(novoNome);
                     ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 1 -> {
-                    System.out.println(1);
-                    System.out.println("================ EDITAR GENERO ==================");
-                    System.out.println("Digite o genero do ouvinte ");
-                    String novoGenero = getString();
-                    ouvinte.setGenero(novoGenero);
+                    System.out.println("================ EDITAR DATA DE NASCIMENTO ==================");
+                    String novaIdade = getString("Nova data de nascimento: ");
+                    ouvinte.setDataNascimento(novaIdade);
                     ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 2 -> {
-                    System.out.println(2);
-                    System.out.println("================ EDITAR DATA DE NASCIMENTO ==================");
-                    ouvinteService.listarOuvintes();
-                    System.out.println("Digite o id do ouvinte ");
-                    System.out.println("Digite a data de nascimento do ouvinte ");
-                    String novaIdade = getString();
-                    System.out.println(ouvinte.getDataNascimento());
-                    ouvinte.setDataNascimento(novaIdade);
-                    System.out.println(ouvinte.getDataNascimento());
+                    System.out.println("================ EDITAR GENERO ==================");
+                    String novoGenero = getString("Novo Gênero: ");
+                    ouvinte.setGenero(novoGenero);
                     ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 3 -> {
-                    System.out.println(3);
                     System.out.println("================ EDITAR PLANO ==================");
-                    ouvinteService.listarOuvintes();
-                    System.out.println("Digite o id do ouvinte ");
-                    System.out.println("Digite [1] para premium " +
-                            "\nDigite qualquer outra coisa para não mudar");
-                    Integer novoPlano = getNumeric();
-                    if (novoPlano == 1) {
-                        ouvinte.setPremium(1);
-                        ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
-                    }
+                    Integer isPremium = editarPlanoPremium();
+                    ouvinte.setPremium(isPremium);
                     ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
@@ -170,31 +151,38 @@ public class Menus {
                 case 5 -> {
                     System.out.println(5);
                     System.out.println("================ EDITAR OUVINTE ==================");
-                    System.out.println("Digite o nome do ouvinte ");
-                    String novoNomeTodos = getString();
-                    ouvinte.setNome(novoNomeTodos);
-                    System.out.println("Digite a data de nascimento (dd/MM/yyyy)");
-                    String novaData = getString();
+                    String novoNome = getString("Novo nome: ");
+                    ouvinte.setNome(novoNome);
+                    String novaData = getString("Nova data nascimento (dd/MM/yyyy): ");
                     ouvinte.setDataNascimento(String.valueOf(LocalDate.parse(novaData, formatter)));
-                    System.out.println("Digite o genero : ");
-                    String novoGenero2 = getString();
-                    ouvinte.setGenero(novoGenero2);
-                    System.out.println("Digite [1] para premium " +
-                            "\nDigite qualquer outra coisa para não mudar");
-                    Integer novoPlano2 = getNumeric();
-                    if (novoPlano2 == 1) {
-                        ouvinte.setPremium(1);
-                    }
+                    String novoGenero = getString("Digite o genero : ");
+                    ouvinte.setGenero(novoGenero);
+                    Integer isPremium = editarPlanoPremium();
+                    ouvinte.setPremium(isPremium);
                     ouvinteService.editarOuvinte(ouvinte.getIdOuvinte(), ouvinte);
                     usoValido = false;
                 }
                 case 6 -> {
-                    System.out.println(6);
                     usoValido = false;
                 }
                 default -> System.out.println(errorSelecionar);
             }
         }
+    }
+
+    public static Integer editarPlanoPremium(){
+        int isPremium = 0;
+        while(true){
+            Menus.imprimirYellow("Deseja uma conta premium?");
+            Integer tipo = Menus.getNumeric("[1] - Sim [0] - Não: ");
+            if(tipo < 0 || tipo > 1){
+                Menus.imprimirRed("OPS! Opção inválida, tente novamente.");
+            } else {
+                isPremium = tipo;
+                break;
+            }
+        }
+        return isPremium;
     }
 
     // MENU EXPLORAR MUSICA - ESCOLHA 1
@@ -242,10 +230,6 @@ public class Menus {
         System.out.println("[2] - VOLTAR");
         System.out.println("===================================================");
 
-        // ESSE OUVINTE SERÁ OBTIDO POR MÉTODO
-        Ouvinte ouvinte = new Ouvinte();
-        ouvinte.setIdOuvinte(1);
-        ouvinte.setPremium(1);
         boolean usoValido = true;
         while (usoValido) {
             escolhaUser = Menus.getNumeric();
@@ -263,7 +247,7 @@ public class Menus {
                     usoValido = false;
                 }
                 case 1 -> {
-                    if(ouvinte.getPremium().equals("1")){
+                    if(ouvinte.getPremium().equals(1)){
                         System.out.println("================= CRIAR PLAYLIST ==================");
                         String nomePlaylist = getString("Nome para playlist: ");
 

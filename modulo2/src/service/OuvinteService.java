@@ -5,6 +5,7 @@ import models.Ouvinte;
 import repository.MusicaRepository;
 import repository.OuvinteRepositorio;
 import repository.UsuarioRepositorio;
+import views.Menus;
 
 import java.util.List;
 
@@ -51,8 +52,7 @@ public class OuvinteService {
 
     public void editarOuvinte (Integer id, Ouvinte ouvinte){
         try {
-            boolean editouComSucesso = usuarioRepositorio.editar(id,ouvinte);
-            System.out.println("Ouvinte editado? "+ editouComSucesso + " com id = "+id);
+            boolean editouComSucesso = usuarioRepositorio.editar(ouvinte);
         }catch (BancoDeDadosException ex ){
             ex.printStackTrace();
         }
@@ -71,6 +71,39 @@ public class OuvinteService {
         ouvinteRepositorio.getOuvinte(ouvinte.getIdOuvinte());
         System.out.println(ouvinte.toString());
 
+    }
+
+    public void criarOuvinte () {
+
+        System.out.println("==================== CRIAR CONTA ====================");
+        while (true) {
+            String nome = Menus.getString("Nome do usuário: ");
+            String dataNascimento = Menus.getString("Data de nascimento: ");
+            String genero = Menus.getString("Seu genêro: ");
+            int isPremium = 0;
+
+            while(true){
+                Menus.imprimirYellow("Deseja uma conta premium?");
+                Integer tipo = Menus.getNumeric("[1] - Sim [0] - Não: ");
+                if(tipo < 0 || tipo > 1){
+                    Menus.imprimirRed("OPS! Opção inválida, tente novamente.");
+                } else {
+                    isPremium = tipo;
+                    break;
+                }
+            }
+
+            Menus.ouvinte = new Ouvinte(null,nome,dataNascimento,genero, isPremium,null);
+
+            adicionarOuvinte(Menus.ouvinte);
+
+            if(Menus.ouvinte.getIdOuvinte() != null){
+                Menus.imprimirBlue("Conta criada com sucesso.");
+                break;
+            }  else {
+                Menus.imprimirRed("Erro ao criar a conta");
+            }
+        }
     }
 
 }

@@ -1,20 +1,11 @@
 package views;
 
-import abstracts.Usuario;
 import exceptions.BancoDeDadosException;
-import models.Artista;
 import models.Ouvinte;
-import models.Playlist;
 import repository.ConexaoBancoDeDados;
-import repository.OuvinteRepositorio;
-import repository.PlayListRepository;
 import service.OuvinteService;
-
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
-
-import static views.Menus.ouvinte;
 
 public class Main {
 
@@ -32,38 +23,12 @@ public class Main {
 
     ;
 
-    public static Ouvinte criarOuvinte () throws BancoDeDadosException {
-        System.out.println("CRIAR CONTA");
-        System.out.print("Nome do usuário: ");
-        String nome = Menus.getString();
-        System.out.print("Data de nascimento: ");
-        String dataNascimento = Menus.getString();
-        System.out.print("Seu genêro: ");
-        String genero = Menus.getString();
-        Integer isPremium = 2;
-        while(true){
-            System.out.print("Conta Premium: [1] - Sim [2] - Não: ");
-            int tipo = Menus.getNumeric();
-            if(tipo < 1 || tipo > 2){
-                System.out.println("OPS! Opção inválida, tente novamente.");
-            } else {
-                isPremium = tipo;
-                break;
-            }
-        }
-
-        ouvinte = new Ouvinte(null,nome,dataNascimento,genero, isPremium,
-                null);
-        ouvinteService.adicionarOuvinte(ouvinte);
-        return ouvinte;
-    }
-
     public static void main(String[] args) throws BancoDeDadosException {
+        // Criar o usuário
+        ouvinteService.criarOuvinte();
+
         int escolhaUser;
         boolean continuarNaAplicacao = true;
-        //criar usuario crud
-        criarOuvinte();
-        //busca musicas
 
         while (continuarNaAplicacao) {
             Menus.menuPrincipal();

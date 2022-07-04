@@ -62,7 +62,7 @@ public class UsuarioRepositorio implements Repositorio<Integer, Ouvinte>{
         }
     }
 
-    public boolean editar(Ouvinte ouvinte) throws BancoDeDadosException {
+    public boolean editar(Integer id, Ouvinte ouvinte) throws BancoDeDadosException {
         Connection con = null;
         try {
             con = ConexaoBancoDeDados.getConnection();
@@ -139,16 +139,77 @@ public class UsuarioRepositorio implements Repositorio<Integer, Ouvinte>{
 
     @Override
     public boolean remover(Integer id) throws BancoDeDadosException {
-        return false;
-    }
+        Connection con = null;
+        try {
+            con = ConexaoBancoDeDados.getConnection();
 
-    @Override
-    public boolean editar(Integer id, Ouvinte ouvinte) throws BancoDeDadosException {
-        return false;
+            String sql = "DELETE FROM OUVINTE WHERE ID_OUVINTE = ?";
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            stmt.setInt(1, id);
+
+            // Executa-se a consulta
+            int res = stmt.executeUpdate();
+            System.out.println("removerUsuarioPorId.res=" + res);
+
+            return res > 0;
+        } catch (SQLException ex) {
+            //colocar nossa exception
+            throw new BancoDeDadosException(ex.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public List<Ouvinte> listar() throws BancoDeDadosException {
-        return null;
+        List<Ouvinte> ouvintes = new ArrayList<>();
+        Connection con = null;
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+            Statement stmt = con.createStatement();
+
+            String sql = "SELECT  u.NOME AS NOME_PESSOA" +
+                    "            ,u.DATA_NASCIMENTO" +
+                    "            ,u.PREMIUM " +
+                    "  FROM VEM_SER.USUARIO u " +
+                    "  LEFT JOIN OUVINTE o ON (o.ID_USUARIO = u.ID_USUARIO) ";
+
+            // Executa-se a consulta
+            ResultSet res = stmt.executeQuery(sql);
+            while (res.next()) {
+                Ouvinte ouvinte = getUsuarioFromResultSet(res);
+                ouvintes.add(ouvinte);
+            }
+            return ouvintes;
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private Ouvinte getUsuarioFromResultSet(ResultSet res) throws SQLException {
+        Ouvinte ouvinte = new Ouvinte();
+        ouvinte.setIdOuvinte(res.getInt("id_ouvinte"));
+        ouvinte.setIdUser(res.getInt("id_user"));
+        ouvinte.setNome(res.getString("nome"));
+        ouvinte.setGenero(res.getString("genero"));
+        ouvinte.setDataNascimento(res.getDate("data_nascimento").toLocalDate());
+        ouvinte.setPremium(res.getInt("premium"));
+        return ouvinte;
     }
 }

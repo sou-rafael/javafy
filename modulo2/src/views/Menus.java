@@ -123,28 +123,28 @@ public class Menus {
                     System.out.println("================ EDITAR NOME ==================");
                     String novoNome = getString("Novo nome: ");
                     ouvinte.setNome(novoNome);
-                    ouvinteService.editarOuvinte(ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 1 -> {
                     System.out.println("================ EDITAR DATA DE NASCIMENTO ==================");
                     String novaIdade = getString("Nova data de nascimento: ");
                     ouvinte.setDataNascimento((LocalDate.parse(novaIdade, formatter)));
-                    ouvinteService.editarOuvinte(ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 2 -> {
                     System.out.println("================ EDITAR GENERO ==================");
                     String novoGenero = getString("Novo Gênero: ");
                     ouvinte.setGenero(novoGenero);
-                    ouvinteService.editarOuvinte(ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 3 -> {
                     System.out.println("================ EDITAR PLANO ==================");
                     Integer isPremium = editarPlanoPremium();
                     ouvinte.setPremium(isPremium);
-                    ouvinteService.editarOuvinte(ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 4 -> {
@@ -162,7 +162,7 @@ public class Menus {
                     ouvinte.setGenero(novoGenero);
                     Integer isPremium = editarPlanoPremium();
                     ouvinte.setPremium(isPremium);
-                    ouvinteService.editarOuvinte(ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 6 -> {
@@ -296,6 +296,7 @@ public class Menus {
                 escolhaUser = Menus.getNumeric();
                 if(escolhaUser == 0) {
                     escolhaUser = Menus.getNumeric("Seguir usuario (selecione id): ");
+                    ouvinteService.listarOuvintes();
                     seguidoresService.seguirUser(ouvinte, escolhaUser);
                 }
             }

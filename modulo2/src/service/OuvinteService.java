@@ -51,10 +51,20 @@ public class OuvinteService {
         }
     }
 
-    public void editarOuvinte ( Ouvinte ouvinte){
+    public void editarOuvinte (Integer id, Ouvinte ouvinte){
         try {
-            boolean editouComSucesso = usuarioRepositorio.editar(ouvinte);
+            boolean editouComSucesso = usuarioRepositorio.editar(id,ouvinte);
         }catch (BancoDeDadosException ex ){
+            ex.printStackTrace();
+        }
+    }
+
+    public void listarOuvintes () {
+        try{
+            List <Ouvinte> ouvintes = usuarioRepositorio.listar();
+            ouvintes.forEach(System.out::println);
+
+        }catch (BancoDeDadosException ex){
             ex.printStackTrace();
         }
     }

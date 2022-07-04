@@ -1,5 +1,6 @@
 package views;
 
+import enums.Planos;
 import exceptions.BancoDeDadosException;
 import models.*;
 import service.*;
@@ -23,7 +24,7 @@ public class Menus {
     //formatador apenas de exemplo adequar o formatador ao banco de dados
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public static Ouvinte ouvinte = new Ouvinte();
+    public static Ouvinte ouvinte;
     //*************************
     public static AlbumService albumService = new AlbumService();
     public static Artista artista = new Artista();
@@ -174,13 +175,24 @@ public class Menus {
 
     public static Integer editarPlanoPremium(){
         int isPremium = 0;
+
         while(true){
             Menus.imprimirYellow("Deseja uma conta premium?");
             Integer tipo = Menus.getNumeric("[1] - Sim [0] - Não: ");
-            if(tipo < 0 || tipo > 1){
-                Menus.imprimirRed("OPS! Opção inválida, tente novamente.");
-            } else {
-                isPremium = tipo;
+            System.out.println("BEM AQUI");
+            switch (tipo){
+                case 0 ->{
+                    isPremium = Planos.BASICO.getEscolha();
+                }
+                case 1 -> {
+                    System.out.println("NÃPO SOU PREMIum");
+                    isPremium = Planos.PREMIUM.getEscolha();
+                }
+                default -> {
+                    Menus.imprimirRed("OPS! Opção inválida, tente novamente.");
+                }
+            }
+            if(isPremium == 1 || isPremium == 0){
                 break;
             }
         }
@@ -190,11 +202,16 @@ public class Menus {
     // MENU EXPLORAR MUSICA - ESCOLHA 1
     // Para o menu de informações do usuário
     public static void buscarMusica() {
+        musicaService.listarMusica();
         System.out.println("================ EXPLORE MUSICAS ==================");
-        System.out.println("[0] - INFORMAÇÃO - MUSICA   [1] - BUSCAR MUSICA");
-        System.out.println("[2] - TOP 5 MUSICAS         [3] - VOLTAR");
+        System.out.println("[0] - BUSCAR MUSICA       [1] - VOLTAR");
         System.out.println("====================================================");
         escolhaUser = Menus.getNumeric();
+        if(escolhaUser == 0) {
+            String nomeMusica = getString("Busque o nome da musica: ");
+            musicaService.filtrarMusica(nomeMusica);
+            getString("Digite qualquer coisa para sair.");
+        }
     }
 
     // MENU EXPLORAR MUSICA - ESCOLHA 2
@@ -352,7 +369,7 @@ public class Menus {
                     }
                 }
                 case 1 -> {
-                    if(ouvinte.getPremium().equals(1)){
+                    if(ouvinte.getPremium().equals(Planos.PREMIUM.getEscolha())){
                         System.out.println("================= CRIAR PLAYLIST ==================");
                         String nomePlaylist = getString("Nome para playlist: ");
 
@@ -448,7 +465,7 @@ public class Menus {
 
     // =============== OPÇÕES PARA ESCOLHA 6 - PERFIL DO USUÁRIO ====================
     public static void verInformacoesUser() {
-        String ehPremium = ouvinte.getPremium() == 1 ? "Plano premium" : "Plano normal";
+        String ehPremium = ouvinte.getPremium() == 1 ? String.valueOf(Planos.PREMIUM) : String.valueOf(Planos.BASICO);
         System.out.println("=============== PERFIL DO USUÁRIO =================");
         System.out.println("Nome: " + ouvinte.getNome() + "\nGênero: " + ouvinte.getGenero());
         System.out.println("Data de Nascimento: " + ouvinte.getDataNascimento() + "\nPlano: " + ehPremium);

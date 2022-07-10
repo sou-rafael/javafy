@@ -4,9 +4,7 @@ import exceptions.BancoDeDadosException;
 import models.Ouvinte;
 import models.Playlist;
 import repository.PlayListRepository;
-import views.Menus;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PlayListService {

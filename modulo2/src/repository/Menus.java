@@ -123,28 +123,28 @@ public class Menus {
                     System.out.println("================ EDITAR NOME ==================");
                     String novoNome = getString("Novo nome: ");
                     ouvinte.setNome(novoNome);
-                    ouvinteService.editarOuvinte(ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 1 -> {
                     System.out.println("================ EDITAR DATA DE NASCIMENTO ==================");
                     String novaIdade = getString("Nova data de nascimento: ");
                     ouvinte.setDataNascimento((LocalDate.parse(novaIdade, formatter)));
-                    ouvinteService.editarOuvinte(ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 2 -> {
                     System.out.println("================ EDITAR GENERO ==================");
                     String novoGenero = getString("Novo Gênero: ");
                     ouvinte.setGenero(novoGenero);
-                    ouvinteService.editarOuvinte(ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 3 -> {
                     System.out.println("================ EDITAR PLANO ==================");
                     Integer isPremium = editarPlanoPremium();
                     ouvinte.setPremium(isPremium);
-                    ouvinteService.editarOuvinte(ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 4 -> {
@@ -162,7 +162,7 @@ public class Menus {
                     ouvinte.setGenero(novoGenero);
                     Integer isPremium = editarPlanoPremium();
                     ouvinte.setPremium(isPremium);
-                    ouvinteService.editarOuvinte(ouvinte);
+                    ouvinteService.editarOuvinte(ouvinte.getIdUser(), ouvinte);
                     usoValido = false;
                 }
                 case 6 -> {
@@ -223,11 +223,6 @@ public class Menus {
         System.out.println("=====================================================");
         escolhaUser = Menus.getNumeric();
 
-        //ARTISTA DE TESTE -- falta criarArtista()
-        //artista.setIdArtista(1);
-        System.out.println("artista setado manualmente id = 1");
-        //artista.setNome("U2");
-        //artista.setAvaliacao(5);
 
         boolean usoValido = true;
         while(usoValido){
@@ -279,8 +274,32 @@ public class Menus {
         System.out.println("[2] - VOLTAR");
         System.out.println("====================================================");
         escolhaUser = Menus.getNumeric();
-    }
+        switch (escolhaUser) {
+            case 0 -> {
+                // QUEM SAO SEUS SEGUIDORES
+                seguidoresService.getAllUsers(ouvinte);
+                System.out.println("================= INFORMACOES =================");
+                System.out.println("");
+                seguidoresService.seguirUser(ouvinte, escolhaUser);
 
+            }
+            case 1 -> {
+                seguidoresService.getAllSeguindo(ouvinte);
+                System.out.println("============ VER PLAYLIST/ALBUNS ================");
+                System.out.println("[0] - DEIXAR DE SEGUIR O USUÁRIO    [1] - VOLTAR");
+                escolhaUser = Menus.getNumeric();
+                if(escolhaUser == 0) {
+                    escolhaUser = Menus.getNumeric("Deixar de seguir usuario (selecione id): ");
+                    seguidoresService.deixarDeSeguirUsuario(ouvinte, escolhaUser);
+                }
+            }
+            case 2 -> {
+                seguidoresService.getAllSeguidores(ouvinte);
+                Menus.getString("Digite algo para sair. ");
+            }
+        }
+    }
+//**********************************************************************************
     // MENU SEGUINDO - ESCOLHA 4
     public static void verSeguindo() {
         System.out.println("==================== USUÁRIOS ======================");
@@ -296,6 +315,7 @@ public class Menus {
                 escolhaUser = Menus.getNumeric();
                 if(escolhaUser == 0) {
                     escolhaUser = Menus.getNumeric("Seguir usuario (selecione id): ");
+                    ouvinteService.listarOuvintes();
                     seguidoresService.seguirUser(ouvinte, escolhaUser);
                 }
             }

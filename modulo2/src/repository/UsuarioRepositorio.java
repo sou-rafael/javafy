@@ -5,8 +5,12 @@ import exceptions.BancoDeDadosException;
 import models.Ouvinte;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
-public class UsuarioRepositorio {
+public class UsuarioRepositorio implements Repositorio<Integer, Ouvinte>{
 
     public Integer getProximoId(Connection connection) throws BancoDeDadosException {
         try{
@@ -22,29 +26,26 @@ public class UsuarioRepositorio {
         }
     }
 
-    public Ouvinte criarUsuario (Ouvinte ouvinte) throws BancoDeDadosException {
+    public Ouvinte adicionar (Ouvinte ouvinte) throws BancoDeDadosException {
         Connection con = null;
         try{
-
             con = ConexaoBancoDeDados.getConnection();
             Integer idUsuario = this.getProximoId(con);
-            System.out.println(idUsuario);
             ouvinte.setIdUser(idUsuario);
 
             String sql = "INSERT INTO USUARIO\n" +
                     "(ID_USER, NOME, DATA_NASCIMENTO, GENERO, PREMIUM)\n" +
-                    "VALUES(?, ?, ?, ?, ?)\n";
+                    "VALUES(?, ?, ? , ?, ? )";
 
             PreparedStatement stmt = con.prepareStatement(sql);
 
-
             stmt.setInt(1, ouvinte.getIdUser());
             stmt.setString(2, ouvinte.getNome());
-            stmt.setString(3, ouvinte.getDataNascimento());
+            stmt.setDate(3, Date.valueOf(ouvinte.getDataNascimento()));
             stmt.setString(4, ouvinte.getGenero());
-            stmt.setString(5, ouvinte.getPremium());
+            stmt.setInt(5, ouvinte.getPremium());
             int res = stmt.executeUpdate();
-            System.out.println("adicionarUsuario.res=" + res);
+            //System.out.println("adicionarUsuario.res=" + res);
             return ouvinte;
 
         }catch (SQLException ex){
@@ -59,5 +60,95 @@ public class UsuarioRepositorio {
                 e.printStackTrace();
             }
         }
+    }
+
+    public boolean editar(Ouvinte ouvinte) throws BancoDeDadosException {
+        Connection con = null;
+        try {
+            con = ConexaoBancoDeDados.getConnection();
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("UPDATE USUARIO SET \n");
+
+            sql.append(" nome = ?,");
+            sql.append(" genero = ?,");
+            sql.append(" data_nascimento = ?,");
+            sql.append(" premium = ? ");
+            sql.append(" WHERE id_user = ? ");
+
+            PreparedStatement stmt = con.prepareStatement(sql.toString());
+
+            stmt.setString(1, ouvinte.getNome());
+            stmt.setString(2, ouvinte.getGenero());
+            stmt.setDate(3, Date.valueOf(ouvinte.getDataNascimento()));
+            stmt.setInt(4,ouvinte.getPremium());
+            stmt.setInt(5, ouvinte.getIdOuvinte());
+
+            int res = stmt.executeUpdate();
+            //System.out.println("editarUsuario.res=" + res);
+            return res > 0;
+        } catch (SQLException ex) {
+            throw new BancoDeDadosException(ex.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public List<Usuario> getAllUsers(Ouvinte ouvinte) throws BancoDeDadosException{
+        Connection con = null;
+        try{
+            List<Usuario> usuarios = new ArrayList<>();
+
+            con = ConexaoBancoDeDados.getConnection();
+
+            String sql = "SELECT * FROM USUARIO u WHERE not ID_USER = " + ouvinte.getIdUser();
+
+            PreparedStatement stmt = con.prepareStatement(sql);
+
+            ResultSet resultSet = stmt.executeQuery();
+
+            while (resultSet.next()){
+                Usuario usuario = new Ouvinte();
+                usuario.setIdUser(resultSet.getInt("id_user"));
+                usuario.setNome(resultSet.getString("nome"));
+                usuario.setGenero(resultSet.getString("genero"));
+                usuarios.add(usuario);
+            }
+            return usuarios;
+
+        }catch (SQLException ex){
+            //colocar nossa exception
+            throw new BancoDeDadosException(ex.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public boolean remover(Integer id) throws BancoDeDadosException {
+        return false;
+    }
+
+    @Override
+    public boolean editar(Integer id, Ouvinte ouvinte) throws BancoDeDadosException {
+        return false;
+    }
+
+    @Override
+    public List<Ouvinte> listar() throws BancoDeDadosException {
+        return null;
     }
 }

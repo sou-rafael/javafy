@@ -20,4 +20,8 @@ public class Playlist extends PlayListModel<Ouvinte> {
         return false;
     }
 
+    public void imprimirPlayList(){
+        System.out.format("%-6s %-1s", "ID: " + getIdPlaylist(), " | Nome: " + getNome() + "\n");
+    }
+
 }

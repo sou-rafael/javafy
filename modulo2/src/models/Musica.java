@@ -72,11 +72,16 @@ public class Musica {
         this.curtidas = curtidas;
     }
 
+    public void imprimirMusica(){
+        String leftAlignFormat = "| %-5s | %-30s | %-15s %n";
+        System.out.format(leftAlignFormat, "Id: " + getIdMusica(), "Musica: "
+                + getNome(), "Curtidas: "+ getCurtidas() );
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Musica)) return false;
-        Musica musica = (Musica) o;
+        if (!(o instanceof Musica musica)) return false;
         return idMusica.equals(musica.idMusica);
     }
 

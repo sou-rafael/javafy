@@ -102,6 +102,53 @@ public class MusicaRepository implements Repositorio<Integer, Musica>{
 
         } catch (SQLException e) {
             throw new BancoDeDadosException(e.getCause());
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
+
+    public List<Musica> getMusicaFiltro(String filtro) throws BancoDeDadosException{
+        Connection con = null;
+        List<Musica> musicas = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM MUSICA M WHERE UPPER(M.nome) like '" + filtro.toUpperCase() + "%'";
+            con = ConexaoBancoDeDados.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet resultSet = stmt.executeQuery(sql);
+
+            if(!resultSet.isBeforeFirst()){
+                return null;
+            }
+
+            while (resultSet.next()) {
+                Musica musica = new Musica();
+                musica.setIdMusica(resultSet.getInt("id_musica"));
+                musica.setNome(resultSet.getString("nome"));
+                musica.setAvaliacao(resultSet.getInt("avaliacao"));
+                musica.setCurtidas(resultSet.getInt("curtidas"));
+                musica.setDuracao(resultSet.getDouble("duracao"));
+                musicas.add(musica);
+            }
+            return musicas;
+
+        } catch (SQLException e) {
+            throw new BancoDeDadosException(e.getCause());
+        }finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 }

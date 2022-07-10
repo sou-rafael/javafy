@@ -2,6 +2,7 @@ package models;
 
 import abstracts.Usuario;
 
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Artista extends Usuario {
@@ -12,8 +13,8 @@ public class Artista extends Usuario {
 
     public Artista() {}
 
-    public Artista(Integer id_user, String nome, String dataNascimento, String genero,
-                   String premium, Integer id_artista, String bio, Integer avaliacao) {
+    public Artista(Integer id_user, String nome, LocalDate dataNascimento, String genero,
+                   Integer premium, Integer id_artista, String bio, Integer avaliacao) {
         super(id_user, nome, dataNascimento, genero, premium);
         this.idArtista = id_artista;
         this.bio = bio;

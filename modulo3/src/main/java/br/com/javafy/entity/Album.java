@@ -8,11 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Musica {
-    private Integer idMusica;
-    private Album album;
-    private String nome;
+public class Album extends PlayListModel<Artista>{
+    private Integer idAlbum;
+    private String biografia;
     private Integer avaliacao;
-    private Double duracao;
-    private Integer curtidas;
 }

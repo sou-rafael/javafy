@@ -2,10 +2,7 @@ package br.com.javafy.entity;
 
 import lombok.*;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,16 +14,22 @@ import java.util.List;
 @EqualsAndHashCode
 @ToString
 public abstract class Usuario {
-
+    @NotNull
+    @Size(min = 1, max = 9)
     private Integer idUser;
+
     @NotBlank(message = "Nome não pode ser nulo")
     private String nome;
+
     @NotNull
     @Past
     private LocalDate dataNascimento;
 
+    @Size(min = 1, max = 20)
     private String genero;
+
     @NotNull
+    @Size(min = 1, max = 1)
     private Integer premium;
 
     @Email

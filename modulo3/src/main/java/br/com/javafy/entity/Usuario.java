@@ -33,7 +33,7 @@ public abstract class Usuario {
     @NotBlank(message = "Email é obrigatorio")
     private String email;
 
-    private List<Usuario> seguidores = new ArrayList<>();
-    private List<Usuario> seguindo = new ArrayList<>();
+    //private List<Usuario> seguidores = new ArrayList<>();
+    //private List<Usuario> seguindo = new ArrayList<>();
 
 }

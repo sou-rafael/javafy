@@ -1,10 +1,5 @@
 package br.com.javafy.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-@NoArgsConstructor
-@AllArgsConstructor
 public class PlayList extends PlayListModel<Ouvinte> {
     public boolean validarSeMusicaJaEstaNaPlayList(Integer idMusica) {
         for (Musica musica : getMusicas()) {
